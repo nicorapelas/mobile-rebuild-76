@@ -1,0 +1,36 @@
+{
+  "name": "mobile-rebuild",
+  "version": "1.0.0",
+  "main": "expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@expo-google-fonts/source-sans-pro": "^0.2.3",
+    "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-community/datetimepicker": "^3.5.2",
+    "@react-native-community/hooks": "^3.0.0",
+    "@use-expo/font": "^2.0.0",
+    "axios": "^1.7.2",
+    "expo": "~51.0.20",
+    "expo-constants": "^16.0.2",
+    "expo-font": "^12.0.7",
+    "expo-status-bar": "~1.12.1",
+    "moment": "^2.30.1",
+    "react": "18.2.0",
+    "react-native": "^0.74.3",
+    "react-native-elements": "^3.4.3",
+    "react-native-gesture-handler": "^2.16.2",
+    "react-native-keyboard-spacer": "^0.4.1",
+    "uninstall": "^0.0.0",
+    "uuid": "^3.4.0",
+    "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0"
+  },
+  "private": true
+}
