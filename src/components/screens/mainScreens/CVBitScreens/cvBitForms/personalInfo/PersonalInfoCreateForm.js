@@ -1,24 +1,28 @@
 import React, { useContext, useState, useEffect } from 'react'
 import {
   View,
+  KeyboardAvoidingView,
   StyleSheet,
-  CheckBox,
   Text,
   TextInput,
   TouchableOpacity,
   Switch,
   Platform,
   ScrollView,
+  Keyboard,
 } from 'react-native'
-import { MaterialIcons, Ionicons } from '@expo/vector-icons'
+import Checkbox from 'expo-checkbox'
+import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons'
+import { useKeyboard } from '@react-native-community/hooks'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
 
-import FormHintModal from '../../../../common/modals/FormHintModal'
-import LoaderFullScreen from '../../../../common/LoaderFullScreen'
-// import OptionsModal from '../optionsModal/OptionsModal'
-import { Context as PersonalInfoContext } from '../../../../../context/PersonalInfoContext'
-import { Context as UniversalContext } from '../../../../../context/UniversalContext'
+import FormHintModal from '../../../../../common/modals/FormHintModal'
+import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
+import OptionsModal from '../../../../../common/modals/OptionsModal'
+import { Context as PersonalInfoContext } from '../../../../../../context/PersonalInfoContext'
+import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
+import { Context as NavContext } from '../../../../../../context/NavContext'
 
 const PersonalInfoCreateForm = ({
   incomingDateOfBirth,
@@ -88,6 +92,8 @@ const PersonalInfoCreateForm = ({
     clearErrors,
   } = useContext(PersonalInfoContext)
 
+  const { setCVBitScreenSelected } = useContext(NavContext)
+
   useEffect(() => {
     if (incomingDateOfBirth) {
       const parsedBirthday = new Date(
@@ -110,6 +116,8 @@ const PersonalInfoCreateForm = ({
     if (incomingSaCitizen === false) setSaCitizen(false)
     if (saCitizen === undefined || saCitizen === true) setSaCitizen(true)
   }, [incomingSaCitizen, saCitizen])
+
+  const keyboard = useKeyboard()
 
   const errorHeading = () => {
     if (!error) return null
@@ -138,6 +146,29 @@ const PersonalInfoCreateForm = ({
     clearErrors(null)
   }
 
+  const cancelButton = () => {
+    return (
+      <TouchableOpacity
+        style={styles.addButtonContainer}
+        onPress={() => {
+          setCVBitScreenSelected('personalInformation')
+          Keyboard.dismiss()
+        }}
+      >
+        <AntDesign name="back" style={styles.cancelButtonIcon} />
+        <Text
+          style={
+            Platform.OS === 'ios'
+              ? styles.addButtonTextIos
+              : styles.addButtonText
+          }
+        >
+          cancel
+        </Text>
+      </TouchableOpacity>
+    )
+  }
+
   const renderGenderPicker = () => {
     if (!genderInputShow) return null
     return (
@@ -145,8 +176,7 @@ const PersonalInfoCreateForm = ({
         {optionPickerShow ? null : (
           <Text style={styles.inputHeader}>Gender</Text>
         )}
-        {/* <OptionsModal bit="gender" incomingValue={gender} /> */}
-
+        <OptionsModal bit="gender" incomingValue={gender} />
         {optionPickerShow ? null : (
           <View style={styles.nextBackButtonsBed}>
             <TouchableOpacity
@@ -262,9 +292,9 @@ const PersonalInfoCreateForm = ({
               }
               onPress={() => setDatePickerOpen(false)}
             >
-              <Ionicons
+              <AntDesign
                 style={styles.pickerBackButtonIcon}
-                name="ios-checkmark-circle-outline"
+                name="checkcircleo"
               />
               <Text style={styles.pickerBackButtonText}>done</Text>
             </TouchableOpacity>
@@ -369,6 +399,7 @@ const PersonalInfoCreateForm = ({
           <Text style={styles.error}>{error}</Text>
         )}
         <View style={styles.nextBackButtonsBed}>
+          {cancelButton()}
           <TouchableOpacity
             style={styles.addButtonContainer}
             onPress={() => fullNameInputNext()}
@@ -531,163 +562,36 @@ const PersonalInfoCreateForm = ({
               select license code
             </Text>
             <View style={styles.licenseCodecheckContainer}>
-              <CheckBox
-                onPress={() => {
-                  setLicenseCode('A')
-                  setA(true)
-                  setA1(false)
-                  setB(false)
-                  setC1(false)
-                  setC(false)
-                  setEB(false)
-                  setEC1(false)
-                  setEC(false)
-                }}
-                center
-                title="A"
-                iconRight
-                checked={A}
-                textStyle={styles.licenseCodeCheckText}
-                containerStyle={styles.licenseCodecheck}
-              />
-              <CheckBox
-                onPress={() => {
-                  setLicenseCode('A1')
-                  setA(false)
-                  setA1(true)
-                  setB(false)
-                  setC1(false)
-                  setC(false)
-                  setEB(false)
-                  setEC1(false)
-                  setEC(false)
-                }}
-                center
-                title="A1"
-                iconRight
-                checked={A1}
-                textStyle={styles.licenseCodeCheckText}
-                containerStyle={styles.licenseCodecheck}
-              />
-              <CheckBox
-                onPress={() => {
-                  setLicenseCode('B')
-                  setA(false)
-                  setA1(false)
-                  setB(true)
-                  setC1(false)
-                  setC(false)
-                  setEB(false)
-                  setEC1(false)
-                  setEC(false)
-                }}
-                center
-                title="B"
-                iconRight
-                checked={B}
-                textStyle={styles.licenseCodeCheckText}
-                containerStyle={styles.licenseCodecheck}
-              />
+              <View style={styles.licenseCodecheck}>
+                <Text style={styles.licenseCodeCheckText}>A</Text>
+                <Checkbox
+                  color="#278ACD"
+                  disabled={false}
+                  value={licenseCode}
+                  onValueChange={(newValue) => setLicenseCode(newValue)}
+                />
+              </View>
+              <View style={styles.licenseCodecheck}>
+                <Text style={styles.licenseCodeCheckText}>A1</Text>
+                <Checkbox
+                  color="#278ACD"
+                  disabled={false}
+                  value={licenseCode}
+                  onValueChange={(newValue) => setLicenseCode(newValue)}
+                />
+              </View>
+              <View style={styles.licenseCodecheck}>
+                <Text style={styles.licenseCodeCheckText}>B</Text>
+                <Checkbox
+                  color="#278ACD"
+                  disabled={false}
+                  value={licenseCode}
+                  onValueChange={(newValue) => setLicenseCode(newValue)}
+                />
+              </View>
             </View>
-            <View style={styles.licenseCodecheckContainer}>
-              <CheckBox
-                onPress={() => {
-                  setLicenseCode('C1')
-                  setA(false)
-                  setA1(false)
-                  setB(false)
-                  setC1(true)
-                  setC(false)
-                  setEB(false)
-                  setEC1(false)
-                  setEC(false)
-                }}
-                center
-                title="C1"
-                iconRight
-                checked={C1}
-                textStyle={styles.licenseCodeCheckText}
-                containerStyle={styles.licenseCodecheck}
-              />
-              <CheckBox
-                onPress={() => {
-                  setLicenseCode('C')
-                  setA(false)
-                  setA1(false)
-                  setB(false)
-                  setC1(false)
-                  setC(true)
-                  setEB(false)
-                  setEC1(false)
-                  setEC(false)
-                }}
-                center
-                title="C"
-                iconRight
-                checked={C}
-                textStyle={styles.licenseCodeCheckText}
-                containerStyle={styles.licenseCodecheck}
-              />
-              <CheckBox
-                onPress={() => {
-                  setLicenseCode('EB')
-                  setA(false)
-                  setA1(false)
-                  setB(false)
-                  setC1(false)
-                  setC(false)
-                  setEB(true)
-                  setEC1(false)
-                  setEC(false)
-                }}
-                center
-                title="EB"
-                iconRight
-                checked={EB}
-                textStyle={styles.licenseCodeCheckText}
-                containerStyle={styles.licenseCodecheck}
-              />
-            </View>
-            <View style={styles.licenseCodecheckContainer}>
-              <CheckBox
-                onPress={() => {
-                  setLicenseCode('EC1')
-                  setA(false)
-                  setA1(false)
-                  setB(false)
-                  setC1(false)
-                  setC(false)
-                  setEB(false)
-                  setEC1(true)
-                  setEC(false)
-                }}
-                center
-                title="EC1"
-                iconRight
-                checked={EC1}
-                textStyle={styles.licenseCodeCheckText}
-                containerStyle={styles.licenseCodecheck}
-              />
-              <CheckBox
-                onPress={() => {
-                  setLicenseCode('EC')
-                  setA(false)
-                  setA1(false)
-                  setB(false)
-                  setC1(false)
-                  setC(false)
-                  setEB(false)
-                  setEC1(false)
-                  setEC(true)
-                }}
-                center
-                title="EC"
-                iconRight
-                checked={EC}
-                textStyle={styles.licenseCodeCheckText}
-                containerStyle={styles.licenseCodecheck}
-              />
-            </View>
+            <View style={styles.licenseCodecheckContainer}></View>
+            <View style={styles.licenseCodecheckContainer}></View>
             <View style={styles.nextBackButtonsBed}>
               <TouchableOpacity
                 style={styles.addButtonContainer}
@@ -847,7 +751,14 @@ const PersonalInfoCreateForm = ({
   const renderContent = () => {
     if (loading || loading === null) return <LoaderFullScreen />
     return (
-      <View style={styles.bed}>
+      <KeyboardAvoidingView
+        style={
+          Platform.OS === 'ios' && keyboard.keyboardShown === false
+            ? styles.bedIos
+            : styles.bedAndroid
+        }
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         {errorHeading()}
         <ScrollView
           contentContainerStyle={{
@@ -859,7 +770,7 @@ const PersonalInfoCreateForm = ({
           {renderPreview()}
           {renderForm()}
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 
@@ -867,10 +778,16 @@ const PersonalInfoCreateForm = ({
 }
 
 const styles = StyleSheet.create({
-  bed: {
+  bedIos: {
     backgroundColor: '#232936',
-    flex: 1,
     width: '100%',
+    flex: 1,
+    marginTop: -100,
+  },
+  bedAndroid: {
+    backgroundColor: '#232936',
+    width: '100%',
+    flex: 1,
   },
   inputHeader: {
     color: '#ffff',
@@ -1012,10 +929,24 @@ const styles = StyleSheet.create({
   },
   licenseCodecheck: {
     backgroundColor: '#232936',
+    flexDirection: 'row',
+    justifyContent: 'center',
     width: '20%',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#ffff',
+    paddingVertical: 10,
+    marginHorizontal: 5,
   },
   licenseCodeCheckText: {
     color: '#ffff',
+    fontSize: 17,
+    paddingRight: 7,
+  },
+  cancelButtonIcon: {
+    color: '#ffff',
+    fontSize: 18,
+    paddingRight: 5,
   },
   addButtonContainer: {
     backgroundColor: '#278ACD',
@@ -1044,6 +975,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 30,
     height: 40,
+  },
+  addButtonTextIos: {
+    color: '#ffff',
+    fontSize: 18,
   },
   addButtonIcon: {
     color: '#ffff',

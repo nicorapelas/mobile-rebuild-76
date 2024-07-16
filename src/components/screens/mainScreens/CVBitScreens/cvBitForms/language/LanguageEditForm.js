@@ -18,17 +18,17 @@ import {
   Octicons,
 } from '@expo/vector-icons'
 
-import LoaderFullScreen from '../../../../common/LoaderFullScreen'
-import RadioProficiencyButton from '../../../../common/RadioProficiencyButton'
-import FormHintModal from '../../../../common/modals/FormHintModal'
-import ProficiencyOne from '../../../../common/proficiencyDots/ProficiencyOne'
-import ProficiencyTwo from '../../../../common/proficiencyDots/ProficiencyTwo'
-import ProficiencyThree from '../../../../common/proficiencyDots/ProficiencyThree'
-import ProficiencyFour from '../../../../common/proficiencyDots/ProficiencyFour'
-import ProficiencyFive from '../../../../common/proficiencyDots/ProficiencyFive'
-import { Context as LanguageContext } from '../../../../../context/LanguageContext'
-import { Context as UniversalContext } from '../../../../../context/UniversalContext'
-import { Context as NavContext } from '../../../../../context/NavContext'
+import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
+import RadioProficiencyButton from '../../../../../common/RadioProficiencyButton'
+import FormHintModal from '../../../../../common/modals/FormHintModal'
+import ProficiencyOne from '../../../../../common/proficiencyDots/ProficiencyOne'
+import ProficiencyTwo from '../../../../../common/proficiencyDots/ProficiencyTwo'
+import ProficiencyThree from '../../../../../common/proficiencyDots/ProficiencyThree'
+import ProficiencyFour from '../../../../../common/proficiencyDots/ProficiencyFour'
+import ProficiencyFive from '../../../../../common/proficiencyDots/ProficiencyFive'
+import { Context as LanguageContext } from '../../../../../../context/LanguageContext'
+import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
+import { Context as NavContext } from '../../../../../../context/NavContext'
 
 const LanguageEditForm = () => {
   const [saveButtonShow, setSaveButtonShow] = useState(false)

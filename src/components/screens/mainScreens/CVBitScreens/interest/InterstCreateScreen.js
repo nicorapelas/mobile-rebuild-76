@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import { Context as InterestContext } from '../../../../../context/InterestContext'
-import InterestCreateForm from '../cvBitForms/InterestCreateForm'
+import InterestCreateForm from '../cvBitForms/interest/InterestCreateForm'
 
 const InterestCreateScreen = () => {
   const {

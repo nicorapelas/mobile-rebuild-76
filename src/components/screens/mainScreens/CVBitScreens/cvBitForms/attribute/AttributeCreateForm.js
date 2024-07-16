@@ -18,21 +18,21 @@ import {
 } from '@expo/vector-icons'
 
 import uuid from 'uuid/v4'
-import LoaderFullScreen from '../../../../common/LoaderFullScreen'
-import FormHintModal from '../../../../common/modals/FormHintModal'
-import { Context as InterestContext } from '../../../../../context/InterestContext'
-import { Context as UniversalContext } from '../../../../../context/UniversalContext'
-import { Context as NavContext } from '../../../../../context/NavContext'
+import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
+import FormHintModal from '../../../../../common/modals/FormHintModal'
+import { Context as AttributeContext } from '../../../../../../context/AttributeContext'
+import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
+import { Context as NavContext } from '../../../../../../context/NavContext'
 
-const InterestCreateForm = ({ bit }) => {
-  const [interest, setInterest] = useState(null)
-  const [interestArray, setInterestArray] = useState([])
+const AttributeCreateForm = ({ bit }) => {
+  const [attribute, setAttribute] = useState(null)
+  const [attributeArray, setAttributeArray] = useState([])
 
   const {
-    state: { loading, error, interests },
-    createInterest,
-    clearInterestErrors,
-  } = useContext(InterestContext)
+    state: { loading, error, attributes },
+    createAttribute,
+    clearAttributeErrors,
+  } = useContext(AttributeContext)
 
   const {
     state: { tipSelected, userPlanformOS },
@@ -43,11 +43,11 @@ const InterestCreateForm = ({ bit }) => {
   const { setCVBitScreenSelected } = useContext(NavContext)
 
   useEffect(() => {
-    addIncomingInterests()
-  }, [interests])
+    addIncomingAttributes()
+  }, [attributes])
 
   useEffect(() => {
-    addTipSelectedInterest()
+    addTipSelectedAttribute()
   }, [tipSelected])
 
   useEffect(() => {
@@ -56,49 +56,52 @@ const InterestCreateForm = ({ bit }) => {
 
   const keyboard = useKeyboard()
 
-  const addInterest = () => {
-    if (!interest || !interest.replace(/\s/g, '').length) {
+  const addAttribute = () => {
+    if (!attribute || !attribute.replace(/\s/g, '').length) {
       return null
     } else {
-      const queryUnique = interestArray.filter((int) => {
-        return int.interest === interest
+      const queryUnique = attributeArray.filter((att) => {
+        return att.attribute === attribute
       })
       if (queryUnique.length !== 0) {
         return null
       } else {
-        return setInterestArray([...interestArray, { interest, key: uuid() }])
+        return setAttributeArray([
+          ...attributeArray,
+          { attribute, key: uuid() },
+        ])
       }
     }
   }
 
-  const addIncomingInterests = () => {
-    if (!interests || interests.length < 1) return null
-    interests.map((int) => {
-      setInterestArray((interestArray) => [
-        ...interestArray,
-        { interest: int.interest, key: uuid() },
+  const addIncomingAttributes = () => {
+    if (!attributes || attributes.length < 1) return null
+    attributes.map((att) => {
+      setAttributeArray((attributeArray) => [
+        ...attributeArray,
+        { attribute: att.attribute, key: uuid() },
       ])
     })
   }
 
-  const addTipSelectedInterest = () => {
+  const addTipSelectedAttribute = () => {
     if (!tipSelected) return null
-    const queryUnique = interestArray.filter((int) => {
-      return int.interest === interest
+    const queryUnique = attributeArray.filter((att) => {
+      return att.attribute === attribute
     })
     if (queryUnique.length !== 0) {
       return null
     } else {
-      return setInterestArray([
-        ...interestArray,
-        { interest: tipSelected, key: uuid() },
+      return setAttributeArray([
+        ...attributeArray,
+        { attribute: tipSelected, key: uuid() },
       ])
     }
   }
 
   const removeArrayItem = (key) => {
-    const newArray = interestArray.filter((int) => int.key !== key)
-    setInterestArray(newArray)
+    const newArray = attributeArray.filter((att) => att.key !== key)
+    setAttributeArray(newArray)
   }
 
   const errorHeading = () => {
@@ -110,17 +113,17 @@ const InterestCreateForm = ({ bit }) => {
     )
   }
 
-  const renderInterestArray = () => {
-    if (!interestArray || interestArray.length < 1) return null
-    return interestArray.map((int) => {
+  const renderAttributeArray = () => {
+    if (!attributeArray || attributeArray.length < 1) return null
+    return attributeArray.map((att) => {
       return (
-        <View style={styles.itemListBed} key={int.key}>
-          <Text style={styles.itemList}>{int.interest}</Text>
+        <View style={styles.itemListBed} key={att.key}>
+          <Text style={styles.itemList}>{att.attribute}</Text>
           <TouchableOpacity style={styles.deleteButton}>
             <MaterialCommunityIcons
               style={styles.deleteButtonIcon}
               name="delete"
-              onPress={() => removeArrayItem(int.key)}
+              onPress={() => removeArrayItem(att.key)}
             />
           </TouchableOpacity>
         </View>
@@ -129,9 +132,9 @@ const InterestCreateForm = ({ bit }) => {
   }
 
   const handleSave = () => {
-    createInterest(interestArray)
+    createAttribute(attributeArray)
     tipSelectReset()
-    setCVBitScreenSelected('interest')
+    setCVBitScreenSelected('attribute')
   }
 
   const cancelButton = () => {
@@ -139,7 +142,7 @@ const InterestCreateForm = ({ bit }) => {
       <TouchableOpacity
         style={styles.addButtonContainer}
         onPress={() => {
-          setCVBitScreenSelected('interest')
+          setCVBitScreenSelected('attribute')
           Keyboard.dismiss()
         }}
       >
@@ -158,7 +161,7 @@ const InterestCreateForm = ({ bit }) => {
   }
 
   const renderDoneSaveButton = () => {
-    if (!interestArray || interestArray.length < 1) return null
+    if (!attributeArray || attributeArray.length < 1) return null
     if (keyboard.keyboardShown) {
       return (
         <>
@@ -167,8 +170,8 @@ const InterestCreateForm = ({ bit }) => {
             <TouchableOpacity
               style={styles.addButtonContainer}
               onPress={() => {
-                addInterest()
-                setInterest(null)
+                addAttribute()
+                setAttribute(null)
                 Keyboard.dismiss()
               }}
             >
@@ -186,8 +189,8 @@ const InterestCreateForm = ({ bit }) => {
             <TouchableOpacity
               style={styles.addButtonContainer}
               onPress={() => {
-                addInterest()
-                setInterest(null)
+                addAttribute()
+                setAttribute(null)
               }}
             >
               <AntDesign name="plus" style={styles.addButtonIcon} />
@@ -230,36 +233,36 @@ const InterestCreateForm = ({ bit }) => {
     if (loading) return <LoaderFullScreen />
     return (
       <View style={styles.formBed}>
-        <Text style={styles.inputHeading}>Interest</Text>
+        <Text style={styles.inputHeading}>Attribute</Text>
         <TextInput
           style={styles.input}
           maxLength={25}
           onSubmitEditing={() => {
-            addInterest()
-            setInterest(null)
+            addAttribute()
+            setAttribute(null)
           }}
           returnKeyLabel="add"
           blurOnSubmit={false}
           textAlign="center"
-          placeholder="interest"
-          value={interest}
-          onChangeText={setInterest}
+          placeholder="attribute"
+          value={attribute}
+          onChangeText={setAttribute}
           onFocus={() => {
             tipSelectReset()
-            clearInterestErrors()
+            clearAttributeErrors()
           }}
           autoCorrect={true}
           autoFocus={!error ? true : false}
         />
         {!error ? (
           <Text style={styles.maxCharactersNote}>
-            max 25 characters ({!interest ? '0' : interest.length}
+            max 25 characters ({!attribute ? '0' : attribute.length}
             /25)
           </Text>
         ) : (
           <Text style={styles.error}>{error}</Text>
         )}
-        {!interestArray || interestArray.length < 1 ? cancelButton() : null}
+        {!attributeArray || attributeArray.length < 1 ? cancelButton() : null}
         {renderDoneSaveButton()}
         <FormHintModal bit={bit} />
       </View>
@@ -280,7 +283,7 @@ const InterestCreateForm = ({ bit }) => {
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
         keyboardShouldPersistTaps="always"
       >
-        {renderInterestArray()}
+        {renderAttributeArray()}
         {renderForm()}
       </ScrollView>
     </KeyboardAvoidingView>
@@ -405,4 +408,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default InterestCreateForm
+export default AttributeCreateForm

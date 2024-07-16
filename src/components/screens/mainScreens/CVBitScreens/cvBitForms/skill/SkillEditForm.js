@@ -8,49 +8,46 @@ import {
   TouchableOpacity,
   Keyboard,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native'
+import { useKeyboard } from '@react-native-community/hooks'
 import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons'
 
-import LoaderFullScreen from '../../../../common/LoaderFullScreen'
-import RadioProficiencyButton from '../../../../common/RadioProficiencyButton'
-import FormHintModal from '../../../../common/modals/FormHintModal'
-import { Context as SkillContext } from '../../../../../context/SkillContext'
-import { Context as NavContext } from '../../../../../context/NavContext'
-import { Context as UniversalContext } from '../../../../../context/UniversalContext'
+import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
+import RadioProficiencyButton from '../../../../../common/RadioProficiencyButton'
+import FormHintModal from '../../../../../common/modals/FormHintModal'
+import { Context as SkillContext } from '../../../../../../context/SkillContext'
+import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
+import { Context as NavContext } from '../../../../../../context/NavContext'
 
-const SkillCreateEditForm = ({ navigation, formType, id, incomingSkill }) => {
+const SkillEditForm = () => {
   const [skill, setSkill] = useState(null)
   const [proficiencyInputShow, setProficiencyInputShow] = useState(false)
 
   const {
-    state: { CVBitScreenSelected },
-    setCVBitScreenSelected,
-  } = useContext(NavContext)
-
-  const {
-    state: { loading, error },
-    createSkill,
+    state: { loading, error, skillToEdit },
     editSkill,
     addError,
     clearSkillErrors,
   } = useContext(SkillContext)
   const {
     state: { proficiency },
-    buildCV,
-    toggleHideNavLinks,
   } = useContext(UniversalContext)
 
-  useEffect(() => {
-    if (error) toggleHideNavLinks(false)
-  }, [error])
+  const { setCVBitScreenSelected } = useContext(NavContext)
 
   useEffect(() => {
     if (error) setProficiencyInputShow(false)
   }, [error])
 
   useEffect(() => {
-    if (incomingSkill) setSkill(incomingSkill)
-  }, [incomingSkill])
+    if (skillToEdit) {
+      const { skill } = skillToEdit
+      setSkill(skill)
+    }
+  }, [skillToEdit])
+
+  const keyboard = useKeyboard()
 
   const errorHeading = () => {
     if (!error) return null
@@ -58,6 +55,25 @@ const SkillCreateEditForm = ({ navigation, formType, id, incomingSkill }) => {
       <View style={styles.errorHeadingBed}>
         <Text style={styles.errorHeadingText}>please attend to errors</Text>
       </View>
+    )
+  }
+
+  const skillInputNext = () => {
+    if (!skill || skill.length < 1 || !skill.replace(/\s/g, '').length) {
+      addError(`'Skill' is required`)
+      Keyboard.dismiss()
+    } else {
+      setProficiencyInputShow(true)
+    }
+  }
+
+  const renderProficiencyInput = () => {
+    if (!proficiencyInputShow) return null
+    return (
+      <>
+        <Text style={styles.heading}>How good are you at {skill}?</Text>
+        <RadioProficiencyButton bit="skill" />
+      </>
     )
   }
 
@@ -84,23 +100,10 @@ const SkillCreateEditForm = ({ navigation, formType, id, incomingSkill }) => {
     )
   }
 
-  const skillInputNext = () => {
-    if (!skill || skill.length < 1 || !skill.replace(/\s/g, '').length) {
-      addError(`'Skill' is required`)
-      Keyboard.dismiss()
-    } else {
-      setProficiencyInputShow(true)
-    }
-  }
-
-  const renderProficiencyInput = () => {
-    if (!proficiencyInputShow) return null
-    return (
-      <>
-        <Text style={styles.heading}>How good are you at {skill}?</Text>
-        <RadioProficiencyButton bit="skill" />
-      </>
-    )
+  const handlePressEdit = () => {
+    const { _id } = skillToEdit
+    editSkill({ id: _id }, { skill, proficiency })
+    setCVBitScreenSelected('skill')
   }
 
   const renderButtons = () => {
@@ -151,19 +154,7 @@ const SkillCreateEditForm = ({ navigation, formType, id, incomingSkill }) => {
         ) : (
           <TouchableOpacity
             style={styles.addButtonContainer}
-            onPress={() => {
-              toggleHideNavLinks(true)
-              {
-                formType === 'create'
-                  ? createSkill({ skill, proficiency })
-                  : editSkill(id, { skill, proficiency }, () => {
-                      toggleHideNavLinks(false)
-                      navigation.navigate('Skill')
-                    })
-              }
-              buildCV()
-              setSkill(null)
-            }}
+            onPress={handlePressEdit}
           >
             <MaterialIcons style={styles.addButtonIcon} name="add-circle" />
             <Text
@@ -219,25 +210,36 @@ const SkillCreateEditForm = ({ navigation, formType, id, incomingSkill }) => {
   }
 
   return (
-    <>
-      <View style={styles.bed}>
-        {errorHeading()}
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
-          keyboardShouldPersistTaps="always"
-        >
-          {renderForm()}
-        </ScrollView>
-      </View>
-    </>
+    <KeyboardAvoidingView
+      style={
+        Platform.OS === 'ios' && keyboard.keyboardShown === false
+          ? styles.bedIos
+          : styles.bedAndroid
+      }
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      {errorHeading()}
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        keyboardShouldPersistTaps="always"
+      >
+        {renderForm()}
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
-  bed: {
+  bedIos: {
     backgroundColor: '#232936',
-    flex: 1,
     width: '100%',
+    flex: 1,
+    marginTop: -100,
+  },
+  bedAndroid: {
+    backgroundColor: '#232936',
+    width: '100%',
+    flex: 1,
   },
   formBed: {
     flexDirection: 'column',
@@ -304,11 +306,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 5,
   },
-  cancelButtonIcon: {
-    color: '#ffff',
-    fontSize: 18,
-    paddingRight: 5,
-  },
   addButtonContainer: {
     backgroundColor: '#278ACD',
     borderColor: '#ffff',
@@ -336,6 +333,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 4,
   },
+  cancelButtonIcon: {
+    color: '#ffff',
+    fontSize: 18,
+    paddingRight: 5,
+  },
   nextBackButtonsBed: {
     flexDirection: 'row',
     alignSelf: 'center',
@@ -347,4 +349,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SkillCreateEditForm
+export default SkillEditForm

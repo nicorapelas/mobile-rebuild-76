@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import { Context as AttributeContext } from '../../../../../context/AttributeContext'
-import AttributeCreateForm from '../cvBitForms/AttributeCreateForm'
+import AttributeCreateForm from '../cvBitForms/attribute/AttributeCreateForm'
 
 const AttributeCreateScreen = () => {
   const {

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import { Context as LanguageContext } from '../../../../../context/LanguageContext'
-import LanguageEditForm from '../cvBitForms/LanguageEditForm'
+import LanguageEditForm from '../cvBitForms/language/LanguageEditForm'
 
-const LanguageCreateScreen = () => {
+const LanguageEditScreen = () => {
   const {
     state: { loading },
   } = useContext(LanguageContext)
@@ -16,4 +16,4 @@ const LanguageCreateScreen = () => {
   return renderContent()
 }
 
-export default LanguageCreateScreen
+export default LanguageEditScreen

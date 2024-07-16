@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import { Context as LanguageContext } from '../../../../../context/LanguageContext'
-import LanguageCreateForm from '../cvBitForms/LanguageCreateForm'
+import LanguageCreateForm from '../cvBitForms/language/LanguageCreateForm'
 
 const LanguageCreateScreen = () => {
   const {

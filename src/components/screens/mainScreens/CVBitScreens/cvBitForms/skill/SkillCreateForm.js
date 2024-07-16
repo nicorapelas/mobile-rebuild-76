@@ -13,25 +13,26 @@ import {
 import { useKeyboard } from '@react-native-community/hooks'
 import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons'
 
-import LoaderFullScreen from '../../../../common/LoaderFullScreen'
-import RadioProficiencyButton from '../../../../common/RadioProficiencyButton'
-import FormHintModal from '../../../../common/modals/FormHintModal'
-import { Context as SkillContext } from '../../../../../context/SkillContext'
-import { Context as UniversalContext } from '../../../../../context/UniversalContext'
-import { Context as NavContext } from '../../../../../context/NavContext'
+import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
+import RadioProficiencyButton from '../../../../../common/RadioProficiencyButton'
+import FormHintModal from '../../../../../common/modals/FormHintModal'
+import { Context as SkillContext } from '../../../../../../context/SkillContext'
+import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
+import { Context as NavContext } from '../../../../../../context/NavContext'
 
-const SkillEditForm = () => {
+const SkillCreateForm = () => {
   const [skill, setSkill] = useState(null)
   const [proficiencyInputShow, setProficiencyInputShow] = useState(false)
 
   const {
-    state: { loading, error, skillToEdit },
-    editSkill,
+    state: { loading, error },
+    createSkill,
     addError,
     clearSkillErrors,
   } = useContext(SkillContext)
   const {
     state: { proficiency },
+    tipSelectReset,
   } = useContext(UniversalContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
@@ -39,13 +40,6 @@ const SkillEditForm = () => {
   useEffect(() => {
     if (error) setProficiencyInputShow(false)
   }, [error])
-
-  useEffect(() => {
-    if (skillToEdit) {
-      const { skill } = skillToEdit
-      setSkill(skill)
-    }
-  }, [skillToEdit])
 
   const keyboard = useKeyboard()
 
@@ -77,6 +71,12 @@ const SkillEditForm = () => {
     )
   }
 
+  const handlePressSave = () => {
+    createSkill({ skill, proficiency })
+    tipSelectReset()
+    setCVBitScreenSelected('skill')
+  }
+
   const cancelButton = () => {
     return (
       <TouchableOpacity
@@ -98,12 +98,6 @@ const SkillEditForm = () => {
         </Text>
       </TouchableOpacity>
     )
-  }
-
-  const handlePressEdit = () => {
-    const { _id } = skillToEdit
-    editSkill({ id: _id }, { skill, proficiency })
-    setCVBitScreenSelected('skill')
   }
 
   const renderButtons = () => {
@@ -154,7 +148,7 @@ const SkillEditForm = () => {
         ) : (
           <TouchableOpacity
             style={styles.addButtonContainer}
-            onPress={handlePressEdit}
+            onPress={handlePressSave}
           >
             <MaterialIcons style={styles.addButtonIcon} name="add-circle" />
             <Text
@@ -349,4 +343,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SkillEditForm
+export default SkillCreateForm

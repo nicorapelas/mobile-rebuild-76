@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import SkillEditForm from '../cvBitForms/SkillEditForm'
+import SkillEditForm from '../cvBitForms/skill/SkillEditForm'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import { Context as skillContext } from '../../../../../context/SkillContext'
 

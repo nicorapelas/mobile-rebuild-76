@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import { Context as SkillContext } from '../../../../../context/SkillContext'
-import SkillCreateForm from '../cvBitForms/SkillCreateForm'
+import SkillCreateForm from '../cvBitForms/skill/SkillCreateForm'
 
 const SkillCreateScreen = () => {
   const {
