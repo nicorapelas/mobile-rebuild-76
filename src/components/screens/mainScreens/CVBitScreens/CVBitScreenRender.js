@@ -14,6 +14,7 @@ import LanguageCreateScreen from './language/LanguageCreateScreen'
 import LanguageEditScreen from './language/LanguageEditScreen'
 import PersonalInfoScreen from './personalInfo/PersonalInfoScreen'
 import PersonalInfoCreateScreen from './personalInfo/PersonalInfoCreateScreen'
+import PersonalInfoEditScreen from './personalInfo/PersonalInfoEditScreen'
 import { Context as NavContext } from '../../../../context/NavContext'
 
 const CVBitScreenRender = () => {
@@ -51,6 +52,8 @@ const CVBitScreenRender = () => {
         return <PersonalInfoScreen />
       case 'personalInfoCreate':
         return <PersonalInfoCreateScreen />
+      case 'personalInformationEdit':
+        return <PersonalInfoEditScreen />
       default:
         break
     }

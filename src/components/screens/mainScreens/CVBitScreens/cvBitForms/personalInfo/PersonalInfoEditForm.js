@@ -24,42 +24,21 @@ import { Context as PersonalInfoContext } from '../../../../../../context/Person
 import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../../context/NavContext'
 
-const PersonalInfoCreateForm = ({
-  incomingDateOfBirth,
-  incomingDriversLicense,
-  incomingFullName,
-  incomingGender,
-  incomingIdNumber,
-  incomingLicenseCode,
-  incomingNationality,
-  incomingPpNumber,
-  incomingSaCitizen,
-}) => {
-  const [fullName, setFullName] = useState(
-    incomingFullName ? incomingFullName : null
-  )
-
+const PersonalInfoEditForm = () => {
+  const [dateOfBirthCount, setDateOfBirthCount] = useState(0)
+  const [fullName, setFullName] = useState(null)
   const [dateOfBirth, setDateOfBirth] = useState(new Date())
-
-  const [gender, setGender] = useState(incomingGender ? incomingGender : null)
+  const [gender, setGender] = useState(null)
+  const [driversLicense, setDriversLicense] = useState(false)
   const [saCitizen, setSaCitizen] = useState(true)
-
-  const [idNumber, setIdNumber] = useState(
-    incomingIdNumber ? incomingIdNumber : null
-  )
-  const [nationality, setNationality] = useState(
-    incomingNationality ? incomingNationality : null
-  )
-  const [ppNumber, setPpNumber] = useState(
-    incomingPpNumber ? incomingPpNumber : null
-  )
-
+  const [idNumber, setIdNumber] = useState(null)
+  const [nationality, setNationality] = useState(null)
+  const [ppNumber, setPpNumber] = useState(null)
   const [fullNameInputShow, setFullNameInputShow] = useState(true)
   const [idInputShow, setIdInputShow] = useState(false)
   const [licenseInputShow, setLicenseInputShow] = useState(false)
   const [dateOfBirthInputShow, setDateOfBirthInputShow] = useState(false)
   const [genderInputShow, setGenderInputShow] = useState(false)
-
   const [datePickerOpen, setDatePickerOpen] = useState(false)
   const [dummyDateShow, setDummyDateShow] = useState(false)
   const [saveButtonShow, setSaveButtonShow] = useState(false)
@@ -71,36 +50,52 @@ const PersonalInfoCreateForm = ({
   } = useContext(UniversalContext)
 
   const {
-    state: { loading, error, driversLicense, licenseCode },
-    createPersonalInfo,
+    state: { loading, error, licenseCode, personalInfoToEdit },
+    editPersonalInfo,
     addError,
     clearErrors,
+    setLicenseCode,
   } = useContext(PersonalInfoContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
 
   useEffect(() => {
-    if (incomingDateOfBirth) {
-      const parsedBirthday = new Date(
-        moment(incomingDateOfBirth).format('YYYY-MM-DD')
-      )
+    const {
+      fullName,
+      dateOfBirth,
+      driversLicense,
+      gender,
+      idNumber,
+      licenseCode: incomingLicenseCode,
+      nationality,
+      ppNumber,
+      saCitizen,
+    } = personalInfoToEdit
+    if (fullName) setFullName(fullName)
+    if (driversLicense) setDriversLicense(driversLicense)
+    if (dateOfBirth) setDateOfBirth(dateOfBirth)
+    if (gender) setGender(gender)
+    if (saCitizen) setSaCitizen(saCitizen)
+    if (idNumber) setIdNumber(idNumber)
+    if (incomingLicenseCode) setLicenseCode(incomingLicenseCode)
+    if (nationality) setNationality(nationality)
+    if (ppNumber) setPpNumber(ppNumber)
+  }, [personalInfoToEdit])
+
+  useEffect(() => {
+    if (dateOfBirth && dateOfBirthCount < 1) {
+      const parsedBirthday = new Date(moment(dateOfBirth).format('YYYY-MM-DD'))
       setDateOfBirth(parsedBirthday)
-      setDummyDateShow(true)
+      setDateOfBirthCount(1)
+      // setDummyDateShow(true)
     }
-  }, [])
+  }, [dateOfBirth, dateOfBirthCount])
 
   useEffect(() => {
-    if (optionsModalSelectedOption) setGender(optionsModalSelectedOption)
+    if (optionsModalSelectedOption) {
+      setGender(optionsModalSelectedOption)
+    }
   }, [optionsModalSelectedOption])
-
-  useEffect(() => {
-    if (error) toggleHideNavLinks(false)
-  }, [error])
-
-  useEffect(() => {
-    if (incomingSaCitizen === false) setSaCitizen(false)
-    if (saCitizen === undefined || saCitizen === true) setSaCitizen(true)
-  }, [incomingSaCitizen, saCitizen])
 
   const keyboard = useKeyboard()
 
@@ -492,7 +487,7 @@ const PersonalInfoCreateForm = ({
   }
 
   const handlePressSave = (data) => {
-    createPersonalInfo(data)
+    editPersonalInfo(data)
     setCVBitScreenSelected('personalInformation')
   }
 
@@ -895,4 +890,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PersonalInfoCreateForm
+export default PersonalInfoEditForm

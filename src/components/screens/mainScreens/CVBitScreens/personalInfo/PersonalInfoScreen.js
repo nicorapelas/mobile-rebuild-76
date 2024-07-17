@@ -29,8 +29,15 @@ const PersonalInfoScreen = () => {
   const { showDeleteModal } = useContext(UniversalContext)
   const {
     state: { loading, personalInfo },
+    setPersonalInfoToEdit,
   } = useContext(PersonalInfoContext)
-  console.log(`personalInfo:`, personalInfo)
+
+  const { setCVBitScreenSelected } = useContext(NavContext)
+
+  const handlePressEdit = () => {
+    setPersonalInfoToEdit(personalInfo[0])
+    setCVBitScreenSelected('personalInformationEdit')
+  }
 
   const renderContent = () => {
     if (loading || personalInfo === null) return <LoaderFullScreen />
@@ -133,7 +140,7 @@ const PersonalInfoScreen = () => {
         <View style={styles.buttonBed}>
           <TouchableOpacity
             style={styles.editButtonBed}
-            onPress={() => console.log(`edit personal info`)}
+            onPress={handlePressEdit}
           >
             <MaterialCommunityIcons style={styles.actionButton} name="pencil" />
           </TouchableOpacity>

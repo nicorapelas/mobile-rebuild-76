@@ -17,7 +17,7 @@ const PersonalInfoContext = (state, action) => {
       return {
         ...state,
         personalInfoStatus: action.payload,
-        loading: false
+        loading: false,
       }
     case 'FETCH_ALL':
       return { ...state, personalInfo: action.payload, loading: false }
@@ -27,17 +27,23 @@ const PersonalInfoContext = (state, action) => {
       return { ...state, viewHeadingSample: action.payload }
     case 'CREATE':
       return { ...state, personalInfo: action.payload, loading: false }
+    case 'SET_PERSONAL_INFO_TO_EDIT':
+      return { ...state, personalInfoToEdit: action.payload }
     case 'EDIT':
       return { ...state, [action.payload._id]: action.payload, loading: false }
     case 'DELETE':
       return _.omit(state, action.payload)
+    case 'SET_DRIVERS_LICENSE':
+      return { ...state, driversLicense: action.payload }
+    case 'SET_LICENSE_CODE':
+      return { ...state, licenseCode: action.payload }
     default:
       return state
   }
 }
 
 // Actions
-const fetchPersonalInfoSample = dispatch => async () => {
+const fetchPersonalInfoSample = (dispatch) => async () => {
   try {
     const response = await ngrokApi.get('/api/personal-info/sample')
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
@@ -48,7 +54,7 @@ const fetchPersonalInfoSample = dispatch => async () => {
   }
 }
 
-const fetchPersonalInfoStatus = dispatch => async () => {
+const fetchPersonalInfoStatus = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/personal-info/status')
@@ -60,7 +66,7 @@ const fetchPersonalInfoStatus = dispatch => async () => {
   }
 }
 
-const fetchPersonalInfo = dispatch => async () => {
+const fetchPersonalInfo = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/personal-info')
@@ -72,7 +78,7 @@ const fetchPersonalInfo = dispatch => async () => {
   }
 }
 
-const fetchViewHeading = dispatch => async () => {
+const fetchViewHeading = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/personal-info/view-heading')
@@ -84,7 +90,7 @@ const fetchViewHeading = dispatch => async () => {
   }
 }
 
-const fetchViewHeadingSample = dispatch => async () => {
+const fetchViewHeadingSample = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get(
@@ -98,7 +104,7 @@ const fetchViewHeadingSample = dispatch => async () => {
   }
 }
 
-const createPersonalInfo = dispatch => async (formValues, callback) => {
+const createPersonalInfo = (dispatch) => async (formValues) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/api/personal-info', formValues)
@@ -107,16 +113,19 @@ const createPersonalInfo = dispatch => async (formValues, callback) => {
       return
     }
     dispatch({ type: 'CREATE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
 
-const editPersonalInfo = dispatch => async (id, formValues, callback) => {
+const setPersonalInfoToEdit = (dispatch) => (data) => {
+  dispatch({ type: 'SET_PERSONAL_INFO_TO_EDIT', payload: data })
+  return
+}
+
+const editPersonalInfo = (dispatch) => async (id, formValues, callback) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.patch(
@@ -133,7 +142,7 @@ const editPersonalInfo = dispatch => async (id, formValues, callback) => {
   }
 }
 
-const deletePersonalInfo = dispatch => async (id, callback) => {
+const deletePersonalInfo = (dispatch) => async (id, callback) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.delete(`/api/personal-info/${id}`)
@@ -147,13 +156,23 @@ const deletePersonalInfo = dispatch => async (id, callback) => {
   }
 }
 
-const addError = dispatch => error => {
+const addError = (dispatch) => (error) => {
   dispatch({ type: 'ADD_ERROR', payload: error.error })
   return
 }
 
-const clearErrors = dispatch => () => {
+const clearErrors = (dispatch) => () => {
   dispatch({ type: 'CLEAR_ERRORS' })
+  return
+}
+
+const setDirversLicense = (dispatch) => (data) => {
+  dispatch({ type: 'SET_DRIVERS_LICENSE', payload: data })
+  return
+}
+
+const setLicenseCode = (dispatch) => (data) => {
+  dispatch({ type: 'SET_LICENSE_CODE', payload: data })
   return
 }
 
@@ -166,10 +185,13 @@ export const { Context, Provider } = createDataContext(
     fetchViewHeading,
     fetchViewHeadingSample,
     createPersonalInfo,
+    setPersonalInfoToEdit,
     editPersonalInfo,
     deletePersonalInfo,
     addError,
-    clearErrors
+    clearErrors,
+    setDirversLicense,
+    setLicenseCode,
   },
   // Initial state
   {
@@ -179,6 +201,9 @@ export const { Context, Provider } = createDataContext(
     viewHeading: null,
     viewHeadingSample: null,
     loading: null,
-    error: null
+    error: null,
+    driversLicense: null,
+    licenseCode: null,
+    personalInfoToEdit: null,
   }
 )
