@@ -20,17 +20,16 @@ import FormHintModal from '../../../../../common/modals/FormHintModal'
 import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
 import OptionsModal from '../../../../../common/modals/OptionsModal'
 import DriversLicenseInput from './DriversLicenseInput'
+import FormCancelButton from '../../../../../common/FormCancelButton'
 import { Context as PersonalInfoContext } from '../../../../../../context/PersonalInfoContext'
 import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../../context/NavContext'
 
 const PersonalInfoCreateForm = ({
   incomingDateOfBirth,
-  incomingDriversLicense,
   incomingFullName,
   incomingGender,
   incomingIdNumber,
-  incomingLicenseCode,
   incomingNationality,
   incomingPpNumber,
   incomingSaCitizen,
@@ -126,29 +125,6 @@ const PersonalInfoCreateForm = ({
     setDatePickerOpen(false)
     setDateOfBirth(currentDate)
     clearErrors()
-  }
-
-  const cancelButton = () => {
-    return (
-      <TouchableOpacity
-        style={styles.addButtonContainer}
-        onPress={() => {
-          setCVBitScreenSelected('personalInformation')
-          Keyboard.dismiss()
-        }}
-      >
-        <AntDesign name="back" style={styles.cancelButtonIcon} />
-        <Text
-          style={
-            Platform.OS === 'ios'
-              ? styles.addButtonTextIos
-              : styles.addButtonText
-          }
-        >
-          cancel
-        </Text>
-      </TouchableOpacity>
-    )
   }
 
   const renderGenderPicker = () => {
@@ -382,7 +358,7 @@ const PersonalInfoCreateForm = ({
           <Text style={styles.error}>{error}</Text>
         )}
         <View style={styles.nextBackButtonsBed}>
-          {cancelButton()}
+          <FormCancelButton route="personalInfo" />
           <TouchableOpacity
             style={styles.addButtonContainer}
             onPress={() => fullNameInputNext()}
@@ -814,11 +790,6 @@ const styles = StyleSheet.create({
     color: '#ff0033',
     alignSelf: 'center',
     paddingBottom: 10,
-  },
-  cancelButtonIcon: {
-    color: '#ffff',
-    fontSize: 18,
-    paddingRight: 5,
   },
   addButtonContainer: {
     backgroundColor: '#278ACD',

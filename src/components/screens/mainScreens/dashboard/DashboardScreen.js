@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { View, StyleSheet } from 'react-native'
 
 import PersonalInfoBitButton from '../../../cvBitButtons/PersonalInfoBitButton'
+import PersonalSummaryBitButton from '../../../cvBitButtons/PersonalSummaryBitButton'
 import AttributeBitButton from '../../../cvBitButtons/AttributeBitButton'
 import InterestBitButton from '../../../cvBitButtons/InterestBitButton'
 import SkillBitButton from '../../../cvBitButtons/SkillBitButton'
@@ -19,6 +20,7 @@ const DashboardScreen = () => {
       return (
         <View style={styles.container}>
           <PersonalInfoBitButton />
+          <PersonalSummaryBitButton />
           <LanguageBitButton />
           <AttributeBitButton />
           <InterestBitButton />

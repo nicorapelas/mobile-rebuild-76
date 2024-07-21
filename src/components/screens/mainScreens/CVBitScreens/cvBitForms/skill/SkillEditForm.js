@@ -16,6 +16,7 @@ import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons'
 import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
 import RadioProficiencyButton from '../../../../../common/RadioProficiencyButton'
 import FormHintModal from '../../../../../common/modals/FormHintModal'
+import FormCancelButton from '../../../../../common/FormCancelButton'
 import { Context as SkillContext } from '../../../../../../context/SkillContext'
 import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../../context/NavContext'
@@ -77,29 +78,6 @@ const SkillEditForm = () => {
     )
   }
 
-  const cancelButton = () => {
-    return (
-      <TouchableOpacity
-        style={styles.addButtonContainer}
-        onPress={() => {
-          setCVBitScreenSelected('skill')
-          Keyboard.dismiss()
-        }}
-      >
-        <AntDesign name="back" style={styles.cancelButtonIcon} />
-        <Text
-          style={
-            Platform.OS === 'ios'
-              ? styles.addButtonTextIos
-              : styles.addButtonText
-          }
-        >
-          cancel
-        </Text>
-      </TouchableOpacity>
-    )
-  }
-
   const handlePressEdit = () => {
     const { _id } = skillToEdit
     editSkill({ id: _id }, { skill, proficiency })
@@ -109,7 +87,7 @@ const SkillEditForm = () => {
   const renderButtons = () => {
     return (
       <View style={styles.nextBackButtonsBed}>
-        {proficiencyInputShow ? null : cancelButton()}
+        {proficiencyInputShow ? null : <FormCancelButton route="skill" />}
         {!proficiencyInputShow ? null : (
           <TouchableOpacity
             style={styles.addButtonContainer}
@@ -332,11 +310,6 @@ const styles = StyleSheet.create({
     color: '#ffff',
     fontSize: 18,
     marginBottom: 4,
-  },
-  cancelButtonIcon: {
-    color: '#ffff',
-    fontSize: 18,
-    paddingRight: 5,
   },
   nextBackButtonsBed: {
     flexDirection: 'row',

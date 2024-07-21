@@ -26,6 +26,7 @@ import ProficiencyTwo from '../../../../../common/proficiencyDots/ProficiencyTwo
 import ProficiencyThree from '../../../../../common/proficiencyDots/ProficiencyThree'
 import ProficiencyFour from '../../../../../common/proficiencyDots/ProficiencyFour'
 import ProficiencyFive from '../../../../../common/proficiencyDots/ProficiencyFive'
+import FormCancelButton from '../../../../../common/FormCancelButton'
 import { Context as LanguageContext } from '../../../../../../context/LanguageContext'
 import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../../context/NavContext'
@@ -91,29 +92,6 @@ const LanguageCreateForm = () => {
     createLanguage({ language, read, write, speak })
     tipSelectReset()
     setCVBitScreenSelected('language')
-  }
-
-  const cancelButton = () => {
-    return (
-      <TouchableOpacity
-        style={styles.addButtonContainer}
-        onPress={() => {
-          setCVBitScreenSelected('language')
-          Keyboard.dismiss()
-        }}
-      >
-        <AntDesign name="back" style={styles.cancelButtonIcon} />
-        <Text
-          style={
-            Platform.OS === 'ios'
-              ? styles.addButtonTextIos
-              : styles.addButtonText
-          }
-        >
-          cancel
-        </Text>
-      </TouchableOpacity>
-    )
   }
 
   const renderPreview = () => {
@@ -191,7 +169,7 @@ const LanguageCreateForm = () => {
           <Text style={styles.error}>{error}</Text>
         )}
         <View style={styles.buttonContainer}>
-          {!languageInputShow ? null : cancelButton()}
+          {!languageInputShow ? null : <FormCancelButton route="language" />}
           <TouchableOpacity
             style={styles.addButtonContainer}
             onPress={() => languageInputNext()}
@@ -566,11 +544,6 @@ const styles = StyleSheet.create({
     height: 40,
   },
   addButtonIcon: {
-    color: '#ffff',
-    fontSize: 18,
-    paddingRight: 5,
-  },
-  cancelButtonIcon: {
     color: '#ffff',
     fontSize: 18,
     paddingRight: 5,

@@ -16,10 +16,11 @@ import {
   AntDesign,
   MaterialCommunityIcons,
 } from '@expo/vector-icons'
-
 import uuid from 'uuid/v4'
+
 import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
 import FormHintModal from '../../../../../common/modals/FormHintModal'
+import FormCancelButton from '../../../../../common/FormCancelButton'
 import { Context as AttributeContext } from '../../../../../../context/AttributeContext'
 import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../../context/NavContext'
@@ -137,36 +138,13 @@ const AttributeCreateForm = ({ bit }) => {
     setCVBitScreenSelected('attribute')
   }
 
-  const cancelButton = () => {
-    return (
-      <TouchableOpacity
-        style={styles.addButtonContainer}
-        onPress={() => {
-          setCVBitScreenSelected('attribute')
-          Keyboard.dismiss()
-        }}
-      >
-        <AntDesign name="back" style={styles.cancelButtonIcon} />
-        <Text
-          style={
-            userPlanformOS === 'ios'
-              ? styles.addButtonTextIos
-              : styles.addButtonText
-          }
-        >
-          cancel
-        </Text>
-      </TouchableOpacity>
-    )
-  }
-
   const renderDoneSaveButton = () => {
     if (!attributeArray || attributeArray.length < 1) return null
     if (keyboard.keyboardShown) {
       return (
         <>
           <View style={styles.donePlusButtonBed}>
-            {cancelButton()}
+            <FormCancelButton route="attribute" />
             <TouchableOpacity
               style={styles.addButtonContainer}
               onPress={() => {
@@ -262,7 +240,9 @@ const AttributeCreateForm = ({ bit }) => {
         ) : (
           <Text style={styles.error}>{error}</Text>
         )}
-        {!attributeArray || attributeArray.length < 1 ? cancelButton() : null}
+        {!attributeArray || attributeArray.length < 1 ? (
+          <FormCancelButton route="attribute" />
+        ) : null}
         {renderDoneSaveButton()}
         <FormHintModal bit={bit} />
       </View>
@@ -342,11 +322,6 @@ const styles = StyleSheet.create({
     width: 90,
     margin: 5,
     height: 40,
-  },
-  cancelButtonIcon: {
-    color: '#ffff',
-    fontSize: 18,
-    paddingRight: 5,
   },
   addButtonIcon: {
     color: '#ffff',

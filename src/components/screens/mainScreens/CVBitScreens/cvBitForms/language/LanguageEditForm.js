@@ -26,6 +26,7 @@ import ProficiencyTwo from '../../../../../common/proficiencyDots/ProficiencyTwo
 import ProficiencyThree from '../../../../../common/proficiencyDots/ProficiencyThree'
 import ProficiencyFour from '../../../../../common/proficiencyDots/ProficiencyFour'
 import ProficiencyFive from '../../../../../common/proficiencyDots/ProficiencyFive'
+import FormCancelButton from '../../../../../common/FormCancelButton'
 import { Context as LanguageContext } from '../../../../../../context/LanguageContext'
 import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../../context/NavContext'
@@ -86,29 +87,6 @@ const LanguageEditForm = () => {
     if (val === 3) return <ProficiencyThree zoom="zoomedIn" />
     if (val === 4) return <ProficiencyFour zoom="zoomedIn" />
     if (val === 5) return <ProficiencyFive zoom="zoomedIn" />
-  }
-
-  const cancelButton = () => {
-    return (
-      <TouchableOpacity
-        style={styles.addButtonContainer}
-        onPress={() => {
-          setCVBitScreenSelected('language')
-          Keyboard.dismiss()
-        }}
-      >
-        <AntDesign name="back" style={styles.cancelButtonIcon} />
-        <Text
-          style={
-            Platform.OS === 'ios'
-              ? styles.addButtonTextIos
-              : styles.addButtonText
-          }
-        >
-          cancel
-        </Text>
-      </TouchableOpacity>
-    )
   }
 
   const renderPreview = () => {
@@ -192,7 +170,7 @@ const LanguageEditForm = () => {
           <Text style={styles.error}>{error}</Text>
         )}
         <View style={styles.buttonContainer}>
-          {!languageInputShow ? null : cancelButton()}
+          {!languageInputShow ? null : <FormCancelButton route="language" />}
           <TouchableOpacity
             style={styles.addButtonContainer}
             onPress={() => languageInputNext()}
@@ -570,11 +548,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-  },
-  cancelButtonIcon: {
-    color: '#ffff',
-    fontSize: 18,
-    paddingRight: 5,
   },
   nextBackButtonsBed: {
     flexDirection: 'row',

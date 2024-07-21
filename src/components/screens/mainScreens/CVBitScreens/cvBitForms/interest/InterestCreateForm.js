@@ -20,6 +20,7 @@ import {
 import uuid from 'uuid/v4'
 import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
 import FormHintModal from '../../../../../common/modals/FormHintModal'
+import FormCancelButton from '../../../../../common/FormCancelButton'
 import { Context as InterestContext } from '../../../../../../context/InterestContext'
 import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../../context/NavContext'
@@ -37,7 +38,6 @@ const InterestCreateForm = ({ bit }) => {
   const {
     state: { tipSelected, userPlanformOS },
     tipSelectReset,
-    toggleHideNavLinks,
   } = useContext(UniversalContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
@@ -49,10 +49,6 @@ const InterestCreateForm = ({ bit }) => {
   useEffect(() => {
     addTipSelectedInterest()
   }, [tipSelected])
-
-  useEffect(() => {
-    if (error) toggleHideNavLinks(false)
-  }, [error])
 
   const keyboard = useKeyboard()
 
@@ -134,75 +130,50 @@ const InterestCreateForm = ({ bit }) => {
     setCVBitScreenSelected('interest')
   }
 
-  const cancelButton = () => {
-    return (
-      <TouchableOpacity
-        style={styles.addButtonContainer}
-        onPress={() => {
-          setCVBitScreenSelected('interest')
-          Keyboard.dismiss()
-        }}
-      >
-        <AntDesign name="back" style={styles.cancelButtonIcon} />
-        <Text
-          style={
-            userPlanformOS === 'ios'
-              ? styles.addButtonTextIos
-              : styles.addButtonText
-          }
-        >
-          cancel
-        </Text>
-      </TouchableOpacity>
-    )
-  }
-
   const renderDoneSaveButton = () => {
     if (!interestArray || interestArray.length < 1) return null
     if (keyboard.keyboardShown) {
       return (
-        <>
-          <View style={styles.donePlusButtonBed}>
-            {cancelButton()}
-            <TouchableOpacity
-              style={styles.addButtonContainer}
-              onPress={() => {
-                addInterest()
-                setInterest(null)
-                Keyboard.dismiss()
-              }}
+        <View style={styles.donePlusButtonBed}>
+          <FormCancelButton route="interest" />
+          <TouchableOpacity
+            style={styles.addButtonContainer}
+            onPress={() => {
+              addInterest()
+              setInterest(null)
+              Keyboard.dismiss()
+            }}
+          >
+            <AntDesign name="caretdown" style={styles.addButtonIcon} />
+            <Text
+              style={
+                userPlanformOS === 'ios'
+                  ? styles.addButtonTextIos
+                  : styles.addButtonText
+              }
             >
-              <AntDesign name="caretdown" style={styles.addButtonIcon} />
-              <Text
-                style={
-                  userPlanformOS === 'ios'
-                    ? styles.addButtonTextIos
-                    : styles.addButtonText
-                }
-              >
-                done
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.addButtonContainer}
-              onPress={() => {
-                addInterest()
-                setInterest(null)
-              }}
+              done
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.addButtonContainer}
+            onPress={() => {
+              addInterest()
+              setInterest(null)
+            }}
+          >
+            <AntDesign name="plus" style={styles.addButtonIcon} />
+            <Text
+              style={
+                userPlanformOS === 'ios'
+                  ? styles.addButtonTextIos
+                  : styles.addButtonText
+              }
             >
-              <AntDesign name="plus" style={styles.addButtonIcon} />
-              <Text
-                style={
-                  userPlanformOS === 'ios'
-                    ? styles.addButtonTextIos
-                    : styles.addButtonText
-                }
-              >
-                add
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </>
+              add
+            </Text>
+          </TouchableOpacity>
+        </View>
       )
     }
     return (
@@ -259,7 +230,9 @@ const InterestCreateForm = ({ bit }) => {
         ) : (
           <Text style={styles.error}>{error}</Text>
         )}
-        {!interestArray || interestArray.length < 1 ? cancelButton() : null}
+        {!interestArray || interestArray.length < 1 ? (
+          <FormCancelButton route="interest" />
+        ) : null}
         {renderDoneSaveButton()}
         <FormHintModal bit={bit} />
       </View>
@@ -340,11 +313,7 @@ const styles = StyleSheet.create({
     margin: 5,
     height: 40,
   },
-  cancelButtonIcon: {
-    color: '#ffff',
-    fontSize: 18,
-    paddingRight: 5,
-  },
+
   addButtonIcon: {
     color: '#ffff',
     fontSize: 18,

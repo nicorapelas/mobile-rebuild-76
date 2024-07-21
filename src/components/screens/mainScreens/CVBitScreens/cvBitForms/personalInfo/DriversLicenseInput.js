@@ -1,33 +1,28 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { View, Text, Switch, StyleSheet } from 'react-native'
 import Checkbox from 'expo-checkbox'
 
 import { Context as PersonalInfoContext } from '../../../../../../context/PersonalInfoContext'
 
 const DriversLicenceInput = () => {
-  // const [A, setA] = useState(incomingLicenseCode === 'A' ? true : false)
-  // const [A1, setA1] = useState(incomingLicenseCode === 'A1' ? true : false)
-  // const [B, setB] = useState(incomingLicenseCode === 'B' ? true : false)
-  // const [C1, setC1] = useState(incomingLicenseCode === 'C1' ? true : false)
-  // const [C, setC] = useState(incomingLicenseCode === 'C' ? true : false)
-  // const [EB, setEB] = useState(incomingLicenseCode === 'EB' ? true : false)
-  // const [EC1, setEC1] = useState(incomingLicenseCode === 'EC1' ? true : false)
-  // const [EC, setEC] = useState(incomingLicenseCode === 'EC' ? true : false)
-
-  const [A, setA] = useState(false)
-  const [A1, setA1] = useState(false)
-  const [B, setB] = useState(false)
-  const [C1, setC1] = useState(false)
-  const [C, setC] = useState(false)
-  const [EB, setEB] = useState(false)
-  const [EC1, setEC1] = useState(false)
-  const [EC, setEC] = useState(false)
-
   const {
     state: { driversLicense, licenseCode },
     setLicenseCode,
     setDirversLicense,
   } = useContext(PersonalInfoContext)
+
+  const [A, setA] = useState(licenseCode === 'A' ? true : false)
+  const [A1, setA1] = useState(licenseCode === 'A1' ? true : false)
+  const [B, setB] = useState(licenseCode === 'B' ? true : false)
+  const [C1, setC1] = useState(licenseCode === 'C1' ? true : false)
+  const [C, setC] = useState(licenseCode === 'C' ? true : false)
+  const [EB, setEB] = useState(licenseCode === 'EB' ? true : false)
+  const [EC1, setEC1] = useState(licenseCode === 'EC1' ? true : false)
+  const [EC, setEC] = useState(licenseCode === 'EC' ? true : false)
+
+  useEffect(() => {
+    console.log(driversLicense)
+  }, [driversLicense])
 
   const toggleDiversLicense = () => setDirversLicense(!driversLicense)
 

@@ -30,7 +30,7 @@ const PersonalInfoContext = (state, action) => {
     case 'SET_PERSONAL_INFO_TO_EDIT':
       return { ...state, personalInfoToEdit: action.payload }
     case 'EDIT':
-      return { ...state, [action.payload._id]: action.payload, loading: false }
+      return { ...state, personalInfo: action.payload, loading: false }
     case 'DELETE':
       return _.omit(state, action.payload)
     case 'SET_DRIVERS_LICENSE':
@@ -125,19 +125,17 @@ const setPersonalInfoToEdit = (dispatch) => (data) => {
   return
 }
 
-const editPersonalInfo = (dispatch) => async (id, formValues, callback) => {
+const editPersonalInfo = (dispatch) => async (id, formValues) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.patch(
-      `/api/personal-info/${id}`,
+      `/api/personal-info/${id.id}`,
       formValues
     )
     dispatch({ type: 'EDIT', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }

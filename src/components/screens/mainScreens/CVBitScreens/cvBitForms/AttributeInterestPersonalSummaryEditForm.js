@@ -11,8 +11,8 @@ import {
 } from 'react-native'
 import { MaterialIcons, AntDesign } from '@expo/vector-icons'
 
-import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import FormHintModal from '../../../../common/modals/FormHintModal'
+import FormCancelButton from '../../../../common/FormCancelButton'
 import { Context as AttributeContext } from '../../../../../context/AttributeContext'
 import { Context as InterestContext } from '../../../../../context/InterestContext'
 import { Context as PersonalSummaryContext } from '../../../../../context/PersonalSummaryContext'
@@ -67,13 +67,6 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
     }
   }, [interestToEdit])
 
-  // useEffect(() => {
-  //   setIncomingBit(bit)
-  //   setAttribute(incomingValue)
-  //   setInterest(incomingValue)
-  //   setPersonalSummary(incomingValue)
-  // }, [])
-
   const handleSaveAttribute = () => {
     if (attributeToEdit) {
       const { id } = attributeToEdit
@@ -104,29 +97,6 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
     }
   }
 
-  const cancelButton = () => {
-    return (
-      <TouchableOpacity
-        style={styles.addButtonContainer}
-        onPress={() => {
-          setCVBitScreenSelected(incomingBit)
-          Keyboard.dismiss()
-        }}
-      >
-        <AntDesign name="back" style={styles.cancelButtonIcon} />
-        <Text
-          style={
-            Platform.OS === 'ios'
-              ? styles.addButtonTextIos
-              : styles.addButtonText
-          }
-        >
-          cancel
-        </Text>
-      </TouchableOpacity>
-    )
-  }
-
   const selectFormFields = () => {
     switch (incomingBit) {
       case 'attribute':
@@ -153,7 +123,7 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
               /25)
             </Text>
             <View style={styles.buttonContainer}>
-              {cancelButton()}
+              <FormCancelButton route="attribute" />
               <TouchableOpacity
                 style={styles.addButtonContainer}
                 onPress={handleSaveAttribute}
@@ -194,7 +164,7 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
               /25)
             </Text>
             <View style={styles.buttonContainer}>
-              {cancelButton()}
+              <FormCancelButton route="interest" />
               <TouchableOpacity
                 style={styles.addButtonContainer}
                 onPress={handleSaveInterest}
@@ -370,11 +340,6 @@ const styles = StyleSheet.create({
     color: '#ffff',
     fontSize: 18,
     marginBottom: 4,
-  },
-  cancelButtonIcon: {
-    color: '#ffff',
-    fontSize: 18,
-    paddingRight: 5,
   },
 })
 

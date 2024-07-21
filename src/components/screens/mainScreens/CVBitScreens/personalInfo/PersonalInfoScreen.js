@@ -36,7 +36,7 @@ const PersonalInfoScreen = () => {
 
   const handlePressEdit = () => {
     setPersonalInfoToEdit(personalInfo[0])
-    setCVBitScreenSelected('personalInformationEdit')
+    setCVBitScreenSelected('personalInfoEdit')
   }
 
   const renderContent = () => {
