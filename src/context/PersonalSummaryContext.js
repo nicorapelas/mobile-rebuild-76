@@ -23,6 +23,8 @@ const PersonalSummaryReducer = (state, action) => {
       return { ...state, personalSummaryToEdit: action.payload }
     case 'DELETE':
       return _.omit(state, action.payload)
+    case 'EDIT':
+      return { ...state, personalSummary: action.payload, loading: false }
     default:
       return state
   }
@@ -86,19 +88,18 @@ const setPersonalSummaryToEdit = (dispatch) => (data) => {
   return
 }
 
-const editPersonalSummary = (dispatch) => async (id, formValues, callback) => {
+const editPersonalSummary = (dispatch) => async (data) => {
+  const { id, content } = data
   dispatch({ type: 'LOADING' })
   try {
-    const response = await ngrokApi.patch(
-      `/api/personal-summary/${id}`,
-      formValues
-    )
+    const response = await ngrokApi.patch(`/api/personal-summary/${id}`, {
+      content,
+    })
+    console.log(`response:`, response.data)
     dispatch({ type: 'EDIT', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }

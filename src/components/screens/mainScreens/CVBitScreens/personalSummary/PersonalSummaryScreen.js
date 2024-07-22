@@ -52,7 +52,7 @@ const PersonalSummaryScreen = () => {
         <View style={styles.buttonBed}>
           <TouchableOpacity
             style={styles.editButtonBed}
-            onPress={() => handlePressEdit(content)}
+            onPress={() => handlePressEdit({ _id, content })}
           >
             <MaterialCommunityIcons style={styles.actionButton} name="pencil" />
           </TouchableOpacity>

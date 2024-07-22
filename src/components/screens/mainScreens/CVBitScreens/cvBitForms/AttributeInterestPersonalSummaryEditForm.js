@@ -26,17 +26,17 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
   const [personalSummary, setPersonalSummary] = useState('')
 
   const {
-    state: { loading: attributeLoading, attributeToEdit },
+    state: { attributeToEdit },
     editAttribute,
   } = useContext(AttributeContext)
 
   const {
-    state: { loading: interestLoading, interestToEdit },
+    state: { interestToEdit },
     editInterest,
   } = useContext(InterestContext)
 
   const {
-    state: { loading: PersonalSummaryLoading },
+    state: { personalSummaryToEdit },
     editPersonalSummary,
   } = useContext(PersonalSummaryContext)
 
@@ -44,7 +44,6 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
     state: { tipSelected },
     tipSelectReset,
     buildCV,
-    toggleHideNavLinks,
   } = useContext(UniversalContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
@@ -66,6 +65,13 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
       setInterest(interest)
     }
   }, [interestToEdit])
+
+  useEffect(() => {
+    if (personalSummaryToEdit) {
+      const { content } = personalSummaryToEdit
+      setPersonalSummary(content)
+    }
+  }, [personalSummaryToEdit])
 
   const handleSaveAttribute = () => {
     if (attributeToEdit) {
@@ -95,6 +101,14 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
       setAttribute('')
       setIncomingBit('')
     }
+  }
+
+  const handleSavePersonalSummary = () => {
+    const { _id } = personalSummaryToEdit
+    editPersonalSummary({ id: _id, content: personalSummary })
+    tipSelectReset()
+    setCVBitScreenSelected('personalSummary')
+    setPersonalSummary('')
   }
 
   const selectFormFields = () => {
@@ -202,30 +216,24 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
               max 330 characters ({!interest ? '0' : interest.length}
               /330)
             </Text>
-            <TouchableOpacity
-              style={styles.addButtonContainer}
-              onPress={() => {
-                toggleHideNavLinks(true)
-                editPersonalSummary(id, { content: personalSummary }, () => {
-                  toggleHideNavLinks(false)
-                  tipSelectReset()
-                  setCVBitScreenSelected('personalSummary')
-                })
-                buildCV()
-                setPersonalSummary('')
-              }}
-            >
-              <MaterialIcons style={styles.addButtonIcon} name="add-circle" />
-              <Text
-                style={
-                  Platform.OS === 'ios'
-                    ? styles.addButtonTextIos
-                    : styles.addButtonText
-                }
+            <View style={styles.buttonContainer}>
+              <FormCancelButton route="personalSummary" />
+              <TouchableOpacity
+                style={styles.addButtonContainer}
+                onPress={handleSavePersonalSummary}
               >
-                save
-              </Text>
-            </TouchableOpacity>
+                <MaterialIcons style={styles.addButtonIcon} name="add-circle" />
+                <Text
+                  style={
+                    Platform.OS === 'ios'
+                      ? styles.addButtonTextIos
+                      : styles.addButtonText
+                  }
+                >
+                  save
+                </Text>
+              </TouchableOpacity>
+            </View>
           </>
         )
       default:
@@ -234,15 +242,6 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
   }
 
   const renderForm = () => {
-    // if (
-    //   attributeLoading ||
-    //   attributeLoading === null ||
-    //   interestLoading ||
-    //   interestLoading === null ||
-    //   PersonalSummaryLoading ||
-    //   PersonalSummaryLoading === null
-    // )
-    //   return <LoaderFullScreen />
     return (
       <View style={styles.formBed}>
         {selectFormFields()}
@@ -252,20 +251,14 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
   }
 
   return (
-    <>
-      {/* <NavigationEvents
-        onWillBlur={tipSelectReset}
-        onWillFocus={tipSelectReset}
-      /> */}
-      <View View style={styles.bed}>
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
-          keyboardShouldPersistTaps="always"
-        >
-          {renderForm()}
-        </ScrollView>
-      </View>
-    </>
+    <View View style={styles.bed}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        keyboardShouldPersistTaps="always"
+      >
+        {renderForm()}
+      </ScrollView>
+    </View>
   )
 }
 
