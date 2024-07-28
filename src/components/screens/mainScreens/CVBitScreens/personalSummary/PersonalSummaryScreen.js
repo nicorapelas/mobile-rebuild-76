@@ -10,7 +10,6 @@ import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import BitNoData from '../../../../common/BitNoData'
-import AddContentButtonLink from '../../../../links/AddContentButtonLink'
 import DoneButton from '../../../../links/DoneButton'
 import DeleteModal from '../../../../common/modals/DeleteModal'
 import { Context as PersonalSummaryContext } from '../../../../../context/PersonalSummaryContext'

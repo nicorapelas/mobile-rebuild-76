@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { View, StyleSheet } from 'react-native'
 
+import ContactInfoBitButton from '../../../cvBitButtons/ContactInfoBitButton'
 import PersonalInfoBitButton from '../../../cvBitButtons/PersonalInfoBitButton'
 import PersonalSummaryBitButton from '../../../cvBitButtons/PersonalSummaryBitButton'
 import AttributeBitButton from '../../../cvBitButtons/AttributeBitButton'
@@ -8,6 +9,7 @@ import InterestBitButton from '../../../cvBitButtons/InterestBitButton'
 import SkillBitButton from '../../../cvBitButtons/SkillBitButton'
 import CVBitScreenRender from '../CVBitScreens/CVBitScreenRender'
 import LanguageBitButton from '../../../cvBitButtons/LanguageBitButton'
+import SecondEduBitButton from '../../../cvBitButtons/SecondEduBitButton'
 import { Context as NavContext } from '../../../../context/NavContext'
 
 const DashboardScreen = () => {
@@ -19,8 +21,10 @@ const DashboardScreen = () => {
     if (CVBitScreenSelected === '') {
       return (
         <View style={styles.container}>
-          <PersonalInfoBitButton />
           <PersonalSummaryBitButton />
+          <SecondEduBitButton />
+          <PersonalInfoBitButton />
+          <ContactInfoBitButton />
           <LanguageBitButton />
           <AttributeBitButton />
           <InterestBitButton />

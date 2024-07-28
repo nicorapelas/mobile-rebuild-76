@@ -19,6 +19,10 @@ const ContactInfoReducer = (state, action) => {
       return { ...state, contactInfo: action.payload, loading: false }
     case 'CREATE':
       return { ...state, contactInfo: action.payload, loading: false }
+    case 'EDIT':
+      return { ...state, contactInfo: action.payload, loading: false }
+    case 'SET_CONTACT_INFO_TO_EDIT':
+      return { ...state, contactInfoToEdit: action.payload }
     case 'DELETE':
       return _.omit(state, action.payload)
     default:
@@ -27,7 +31,7 @@ const ContactInfoReducer = (state, action) => {
 }
 
 // Actions
-const fetchContactInfoSample = dispatch => async () => {
+const fetchContactInfoSample = (dispatch) => async () => {
   try {
     const response = await ngrokApi.get('/api/contact-info/sample')
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
@@ -38,7 +42,7 @@ const fetchContactInfoSample = dispatch => async () => {
   }
 }
 
-const fetchContactInfoStatus = dispatch => async () => {
+const fetchContactInfoStatus = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/contact-info/status')
@@ -50,7 +54,7 @@ const fetchContactInfoStatus = dispatch => async () => {
   }
 }
 
-const fetchContactInfo = dispatch => async () => {
+const fetchContactInfo = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/contact-info')
@@ -62,7 +66,7 @@ const fetchContactInfo = dispatch => async () => {
   }
 }
 
-const fetchContactInfoInBackground = dispatch => async () => {
+const fetchContactInfoInBackground = (dispatch) => async () => {
   try {
     const response = await ngrokApi.get('/api/contact-info')
     dispatch({ type: 'FETCH_CONTACT_INFO', payload: response.data })
@@ -73,39 +77,45 @@ const fetchContactInfoInBackground = dispatch => async () => {
   }
 }
 
-const createContactInfo = dispatch => async (formValues, callback) => {
+const createContactInfo = (dispatch) => async (formValues) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/api/contact-info', formValues)
+    console.log(`response:`, response.data)
     if (response.data.error) {
       dispatch({ type: 'ADD_ERROR', payload: response.data.error })
       return
     }
     dispatch({ type: 'CREATE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
 
-const editContactInfo = dispatch => async (id, formValues, callback) => {
+const setContactInfoToEdit = (dispatch) => (data) => {
+  dispatch({ type: 'SET_CONTACT_INFO_TO_EDIT', payload: data })
+  return
+}
+
+const editContactInfo = (dispatch) => async (id, formValues) => {
   dispatch({ type: 'LOADING' })
   try {
-    const response = await ngrokApi.patch(`/api/contact-info/${id}`, formValues)
+    const response = await ngrokApi.patch(
+      `/api/contact-info/${id.id}`,
+      formValues
+    )
+    console.log(`response:`, response.data)
     dispatch({ type: 'EDIT', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
 
-const deleteContactInfo = dispatch => async (id, callback) => {
+const deleteContactInfo = (dispatch) => async (id, callback) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.delete(`/api/contact-info/${id}`)
@@ -119,12 +129,12 @@ const deleteContactInfo = dispatch => async (id, callback) => {
   }
 }
 
-const addError = dispatch => error => {
+const addError = (dispatch) => (error) => {
   dispatch({ type: 'ADD_ERROR', payload: error })
   return
 }
 
-const clearErrors = dispatch => () => {
+const clearErrors = (dispatch) => () => {
   dispatch({ type: 'CLEAR_ERRORS' })
   return
 }
@@ -137,16 +147,18 @@ export const { Context, Provider } = createDataContext(
     fetchContactInfo,
     fetchContactInfoInBackground,
     createContactInfo,
+    setContactInfoToEdit,
     editContactInfo,
     deleteContactInfo,
     addError,
-    clearErrors
+    clearErrors,
   },
   // Initial state
   {
     contactInfo: null,
     contactInfoStatus: null,
+    contactInfoToEdit: null,
     loading: null,
-    error: null
+    error: null,
   }
 )

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
 
 import BurgerMenu from '../common/burgerMenu/BurgerMenu'
 import logo from '../../../assets/images/logo_w300px.png'

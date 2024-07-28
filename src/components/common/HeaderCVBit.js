@@ -15,19 +15,25 @@ const HeaderCVBit = () => {
   useEffect(() => {
     switch (CVBitScreenSelected) {
       case 'attribute':
-        setLabel('Attributes')
+        setLabel('attributes')
         break
       case 'interest':
-        setLabel('Interests')
+        setLabel('interests')
         break
       case 'skill':
-        setLabel('Skills')
+        setLabel('skills')
         break
       case 'language':
-        setLabel('Languages')
+        setLabel('languages')
         break
       case 'personalInformation':
-        setLabel('Personal information')
+        setLabel('personal information')
+        break
+      case 'personalSummary':
+        setLabel('personal summary')
+        break
+      case 'contactInfo':
+        setLabel('contact information')
         break
       default:
         setLabel('')
