@@ -27,13 +27,17 @@ const SecondEduScreen = () => {
 
   const {
     state: { loading, secondEdu },
+    setSecondEduToEdit,
   } = useContext(SecondEduContext)
 
   const { showDeleteModal } = useContext(UniversalContext)
 
-  useEffect(() => {
-    console.log(`secondEdu:`, secondEdu)
-  }, [secondEdu])
+  const { setCVBitScreenSelected } = useContext(NavContext)
+
+  const handlePressEdit = (data) => {
+    setSecondEduToEdit(data)
+    setCVBitScreenSelected('secondEditEdit')
+  }
 
   const renderList = () => {
     if (loading || secondEdu === null) return <LoaderFullScreen />
@@ -41,7 +45,7 @@ const SecondEduScreen = () => {
       return (
         <BitNoData
           cvBit="Secondary education"
-          routeName="SecondEduCreate"
+          routeName="secondEduCreate"
           buttonText="add secondary education"
         />
       )
@@ -76,7 +80,7 @@ const SecondEduScreen = () => {
                     <View style={styles.subjectsBed}>
                       <MaterialCommunityIcons
                         style={styles.subjectsIcon}
-                        name="text-subject"
+                        name="text"
                       />
                       <View style={styles.subjectsContainer}>
                         {item.subjects.map((sub) => {
@@ -114,7 +118,7 @@ const SecondEduScreen = () => {
                       <MaterialCommunityIcons
                         style={styles.actionButton}
                         name="pencil"
-                        onPress={() => console.log('edit this')}
+                        onPress={() => handlePressEdit(item)}
                       />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.deleteButtonBed}>
@@ -147,13 +151,13 @@ const SecondEduScreen = () => {
       />
       {loading || !secondEdu || secondEdu.length < 1 ? null : (
         <AddContentButtonLink
-          routeName="SecondEduCreate"
+          routeName="secondEduCreate"
           text="add secondary education"
         />
       )}
       <View style={styles.bed}>{renderList()}</View>
       {loading || !secondEdu || secondEdu.length < 1 ? null : (
-        <DoneButton text="Done" routeName="Dashboard" />
+        <DoneButton text="Done" routeName="" />
       )}
     </>
   )
@@ -179,11 +183,12 @@ const styles = StyleSheet.create({
   },
   contentRow: {
     flexDirection: 'row',
-    paddingTop: 5,
+    paddingTop: 7,
   },
   icon: {
     width: 22,
-    fontSize: 22,
+    fontSize: 18,
+    paddingTop: 2,
   },
   subjectsBed: {
     flexDirection: 'row',

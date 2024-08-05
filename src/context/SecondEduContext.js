@@ -19,10 +19,12 @@ const SeconEduReducer = (state, action) => {
       return { ...state, secondEdu: action.payload, loading: false }
     case 'CREATE':
       return { ...state, secondEdu: action.payload, loading: false }
+    case 'SET_SECOND_EDU_TO_EDIT':
+      return { ...state, secondEduToEdit: action.payload }
     case 'EDIT':
-      return { ...state, [action.payload._id]: action.payload, loading: false }
+      return { ...state, secondEdu: action.payload, loading: false }
     case 'DELETE':
-      return _.omit(state, action.payload)
+      return { ...state, secondEdu: action.payload, loading: false }
     default:
       return state
   }
@@ -66,16 +68,16 @@ const fetchSecondEdu = (dispatch) => async () => {
   }
 }
 
-const createSecondEdu = (dispatch) => async (formValues, callback) => {
+const createSecondEdu = (dispatch) => async (formValues) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/api/secondary-education', formValues)
+    console.log(`response:`, response.data)
     if (response.data.error) {
       dispatch({ type: 'ADD_ERROR', payload: response.data.error })
       return
     }
     dispatch({ type: 'CREATE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
@@ -83,11 +85,16 @@ const createSecondEdu = (dispatch) => async (formValues, callback) => {
   }
 }
 
-const editSecondEdu = (dispatch) => async (id, formValues, callback) => {
+const setSecondEduToEdit = (dispatch) => (data) => {
+  dispatch({ type: 'SET_SECOND_EDU_TO_EDIT', payload: data })
+}
+
+const editSecondEdu = (dispatch) => async (id, formValues) => {
+  console.log(`id:`, id)
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.patch(
-      `/api/secondary-education/${id}`,
+      `/api/secondary-education/${id.id}`,
       formValues
     )
     if (response.data.error) {
@@ -95,25 +102,21 @@ const editSecondEdu = (dispatch) => async (id, formValues, callback) => {
       return
     }
     dispatch({ type: 'EDIT', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
 
-const deleteSecondEdu = (dispatch) => async (id, callback) => {
+const deleteSecondEdu = (dispatch) => async (id) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.delete(`/api/secondary-education/${id}`)
     dispatch({ type: 'DELETE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
@@ -133,6 +136,7 @@ export const { Context, Provider } = createDataContext(
     fetchSecondEduStatus,
     fetchSecondEdu,
     createSecondEdu,
+    setSecondEduToEdit,
     editSecondEdu,
     deleteSecondEdu,
     addError,
@@ -142,6 +146,7 @@ export const { Context, Provider } = createDataContext(
   {
     secondEdu: null,
     secondEdu: null,
+    secondEduToEdit: null,
     secondEduSample: null,
     secondEduStatus: null,
     loading: null,

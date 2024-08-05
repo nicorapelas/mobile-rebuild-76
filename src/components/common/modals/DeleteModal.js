@@ -152,11 +152,8 @@ const DeleteModal = ({ id, documentSelected, bit, publicId }) => {
       })
     }
     if (incomingBit === 'secondary education') {
-      toggleHideNavLinks(true)
-      deleteSecondEdu(id, () => {
-        fetchSecondEdus()
-        toggleHideNavLinks(false)
-      })
+      deleteSecondEdu(id)
+      setCVBitScreenSelected('secondEdu')
     }
     if (incomingBit === 'skill') {
       deleteSkill(id)

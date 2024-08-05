@@ -22,6 +22,10 @@ import ContactInfoScreen from './contactInfo/ContactInfoScreen'
 import ContactInfoCreateScreen from './contactInfo/ContactInfoCreateScreen'
 import ContactInfoEditScreen from './contactInfo/ContactInfoEditScreen'
 import SecondEduScreen from './secondEdu/SecondEduScreen'
+import SecondEduCreateScreen from './secondEdu/SecondEduCreateScreen'
+import SecondEduEditScreen from './secondEdu/SecondEduEditScreen'
+import TertEduScreen from './tertEdu/TertEduScreen'
+import TertEduCreateScreen from './tertEdu/TertEduCreateScreen'
 import { Context as NavContext } from '../../../../context/NavContext'
 
 const CVBitScreenRender = () => {
@@ -30,6 +34,7 @@ const CVBitScreenRender = () => {
   } = useContext(NavContext)
 
   const renderCVBitScreen = () => {
+    console.log(`CVBitScreenSelected:`, CVBitScreenSelected)
     switch (CVBitScreenSelected) {
       case 'attribute':
         return <AttributeScreen />
@@ -75,6 +80,14 @@ const CVBitScreenRender = () => {
         return <ContactInfoEditScreen />
       case 'secondEdu':
         return <SecondEduScreen />
+      case 'secondEduCreate':
+        return <SecondEduCreateScreen />
+      case 'secondEditEdit':
+        return <SecondEduEditScreen />
+      case 'tertEdu':
+        return <TertEduScreen />
+      case 'tertEduCreate':
+        return <TertEduCreateScreen />
       default:
         break
     }
