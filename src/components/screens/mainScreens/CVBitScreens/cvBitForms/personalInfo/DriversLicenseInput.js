@@ -20,10 +20,6 @@ const DriversLicenceInput = () => {
   const [EC1, setEC1] = useState(licenseCode === 'EC1' ? true : false)
   const [EC, setEC] = useState(licenseCode === 'EC' ? true : false)
 
-  useEffect(() => {
-    console.log(driversLicense)
-  }, [driversLicense])
-
   const toggleDiversLicense = () => setDirversLicense(!driversLicense)
 
   const renderLicenseSwitch = () => {

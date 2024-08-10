@@ -507,6 +507,8 @@ const SecondEduEditForm = () => {
   const handlePressSave = (data) => {
     const { _id } = secondEduToEdit
     editSecondEdu({ id: _id }, { formValues: data })
+    setStartDate(null)
+    setEndDate(null)
     setCVBitScreenSelected('secondEdu')
   }
 
@@ -519,7 +521,6 @@ const SecondEduEditForm = () => {
       subjects: subjectsArray,
       additionalInfo,
     }
-    console.log(`formValues:`, formValues)
     return (
       <View style={styles.nextBackButtonsBed}>
         <TouchableOpacity

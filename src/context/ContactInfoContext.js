@@ -81,7 +81,6 @@ const createContactInfo = (dispatch) => async (formValues) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/api/contact-info', formValues)
-    console.log(`response:`, response.data)
     if (response.data.error) {
       dispatch({ type: 'ADD_ERROR', payload: response.data.error })
       return
@@ -106,7 +105,6 @@ const editContactInfo = (dispatch) => async (id, formValues) => {
       `/api/contact-info/${id.id}`,
       formValues
     )
-    console.log(`response:`, response.data)
     dispatch({ type: 'EDIT', payload: response.data })
     return
   } catch (error) {

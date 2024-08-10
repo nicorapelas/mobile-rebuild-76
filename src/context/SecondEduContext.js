@@ -55,11 +55,9 @@ const fetchSecondEduStatus = (dispatch) => async () => {
 }
 
 const fetchSecondEdu = (dispatch) => async () => {
-  console.log(`hello world`)
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/secondary-education')
-    console.log(`response:`, response.data)
     dispatch({ type: 'FETCH_SECOND_EDU', payload: response.data })
     return
   } catch (error) {
@@ -72,7 +70,6 @@ const createSecondEdu = (dispatch) => async (formValues) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/api/secondary-education', formValues)
-    console.log(`response:`, response.data)
     if (response.data.error) {
       dispatch({ type: 'ADD_ERROR', payload: response.data.error })
       return
@@ -90,11 +87,10 @@ const setSecondEduToEdit = (dispatch) => (data) => {
 }
 
 const editSecondEdu = (dispatch) => async (id, formValues) => {
-  console.log(`id:`, id)
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.patch(
-      `/api/secondary-education/${id.id}`,
+      `/api/tertiary-education/${id.id}`,
       formValues
     )
     if (response.data.error) {

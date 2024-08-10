@@ -28,9 +28,17 @@ const TertEduScreen = () => {
 
   const {
     state: { loading, tertEdus },
+    setTertEduToEdit,
   } = useContext(TertEduContext)
 
   const { showDeleteModal } = useContext(UniversalContext)
+
+  const { setCVBitScreenSelected } = useContext(NavContext)
+
+  const handlePressEdit = (data) => {
+    setTertEduToEdit(data)
+    setCVBitScreenSelected('tertEduEdit')
+  }
 
   const renderList = () => {
     if (loading || tertEdus === null) return <LoaderFullScreen />
@@ -103,7 +111,7 @@ const TertEduScreen = () => {
                     <MaterialCommunityIcons
                       style={styles.actionButton}
                       name="pencil"
-                      onPress={() => console.log('edit this')}
+                      onPress={() => handlePressEdit(item)}
                     />
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.deleteButtonBed}>
@@ -141,7 +149,7 @@ const TertEduScreen = () => {
       )}
       <View style={styles.bed}>{renderList()}</View>
       {loading || !tertEdus || tertEdus.length < 1 ? null : (
-        <DoneButton text="Done" routeName="dashboard" />
+        <DoneButton text="Done" routeName="" />
       )}
     </>
   )

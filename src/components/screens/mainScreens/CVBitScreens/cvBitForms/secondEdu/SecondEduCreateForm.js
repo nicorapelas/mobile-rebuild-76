@@ -493,6 +493,8 @@ const SecondEduCreateForm = () => {
   const handlePressSave = (data) => {
     createSecondEdu(data)
     setCVBitScreenSelected('secondEdu')
+    setStartDate(null)
+    setEndDate(null)
   }
 
   const saveButton = () => {

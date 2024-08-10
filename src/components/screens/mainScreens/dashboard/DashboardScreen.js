@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
 import ContactInfoBitButton from '../../../cvBitButtons/ContactInfoBitButton'
 import PersonalInfoBitButton from '../../../cvBitButtons/PersonalInfoBitButton'
@@ -11,6 +11,7 @@ import CVBitScreenRender from '../CVBitScreens/CVBitScreenRender'
 import LanguageBitButton from '../../../cvBitButtons/LanguageBitButton'
 import SecondEduBitButton from '../../../cvBitButtons/SecondEduBitButton'
 import TertEduBitButton from '../../../cvBitButtons/TertEduBitButton'
+import EmployHistoryBitButton from '../../../cvBitButtons/EmployHistoryBitButton'
 import { Context as NavContext } from '../../../../context/NavContext'
 
 const DashboardScreen = () => {
@@ -21,7 +22,7 @@ const DashboardScreen = () => {
   const renderContent = () => {
     if (CVBitScreenSelected === '') {
       return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
           <PersonalSummaryBitButton />
           <SecondEduBitButton />
           <TertEduBitButton />
@@ -31,7 +32,8 @@ const DashboardScreen = () => {
           <AttributeBitButton />
           <InterestBitButton />
           <SkillBitButton />
-        </View>
+          <EmployHistoryBitButton />
+        </ScrollView>
       )
     }
     return <CVBitScreenRender />
@@ -44,6 +46,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
+    marginVertical: 5,
   },
 })
 

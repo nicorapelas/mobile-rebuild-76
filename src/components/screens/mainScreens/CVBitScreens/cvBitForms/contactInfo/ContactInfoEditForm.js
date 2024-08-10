@@ -108,7 +108,6 @@ const ContactInfoEditForm = () => {
       country,
       postalCode,
     }
-    console.log(`formValues:`, formValues)
     return (
       <View style={styles.nextBackButtonsBed}>
         <TouchableOpacity

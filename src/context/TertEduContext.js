@@ -19,8 +19,10 @@ const TertEduReducer = (state, action) => {
       return { ...state, tertEdus: action.payload, loading: false }
     case 'CREATE':
       return { ...state, tertEdus: action.payload, loading: false }
+    case 'SET_TERT_EDU_TO_EDIT':
+      return { ...state, tertEduToEdit: action.payload }
     case 'EDIT':
-      return { ...state, [action.payload._id]: action.payload, loading: false }
+      return { ...state, tertEdus: action.payload, loading: false }
     case 'DELETE':
       return { ...state, tertEdus: action.payload, loading: false }
     default:
@@ -74,11 +76,15 @@ const createTertEdu = (dispatch) => async (formValues) => {
   }
 }
 
-const editTertEdu = (dispatch) => async (id, formValues, callback) => {
+const setTertEduToEdit = (dispatch) => (data) => {
+  dispatch({ type: 'SET_TERT_EDU_TO_EDIT', payload: data })
+}
+
+const editTertEdu = (dispatch) => async (id, formValues) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.patch(
-      `/api/tertiary-education/${id}`,
+      `/api/tertiary-education/${id.id}`,
       formValues
     )
     if (response.data.error) {
@@ -86,10 +92,10 @@ const editTertEdu = (dispatch) => async (id, formValues, callback) => {
       return
     }
     dispatch({ type: 'EDIT', payload: response.data })
-    callback()
+    return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
+    return
   }
 }
 
@@ -120,6 +126,7 @@ export const { Context, Provider } = createDataContext(
     fetchTertEduStatus,
     fetchTertEdus,
     createTertEdu,
+    setTertEduToEdit,
     editTertEdu,
     deleteTertEdu,
     addError,
@@ -131,6 +138,7 @@ export const { Context, Provider } = createDataContext(
     tertEdus: null,
     tertEduSample: null,
     tertEduStatus: null,
+    tertEduToEdit: null,
     loading: null,
     error: null,
   }

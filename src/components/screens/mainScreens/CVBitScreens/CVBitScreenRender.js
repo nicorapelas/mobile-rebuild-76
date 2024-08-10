@@ -26,6 +26,9 @@ import SecondEduCreateScreen from './secondEdu/SecondEduCreateScreen'
 import SecondEduEditScreen from './secondEdu/SecondEduEditScreen'
 import TertEduScreen from './tertEdu/TertEduScreen'
 import TertEduCreateScreen from './tertEdu/TertEduCreateScreen'
+import TertEduEditScreen from './tertEdu/TertEduEditScreen'
+import EmployHistoryScreen from './employHistory/EmployHistoryScreen'
+import EmployHistoryCreateScreen from './employHistory/EmployHistoryCreateScreen'
 import { Context as NavContext } from '../../../../context/NavContext'
 
 const CVBitScreenRender = () => {
@@ -34,7 +37,6 @@ const CVBitScreenRender = () => {
   } = useContext(NavContext)
 
   const renderCVBitScreen = () => {
-    console.log(`CVBitScreenSelected:`, CVBitScreenSelected)
     switch (CVBitScreenSelected) {
       case 'attribute':
         return <AttributeScreen />
@@ -88,6 +90,12 @@ const CVBitScreenRender = () => {
         return <TertEduScreen />
       case 'tertEduCreate':
         return <TertEduCreateScreen />
+      case 'tertEduEdit':
+        return <TertEduEditScreen />
+      case 'employHistory':
+        return <EmployHistoryScreen />
+      case 'employHistoryCreate':
+        return <EmployHistoryCreateScreen />
       default:
         break
     }

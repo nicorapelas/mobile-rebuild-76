@@ -35,6 +35,12 @@ const HeaderCVBit = () => {
       case 'contactInfo':
         setLabel('contact information')
         break
+      case 'secondEdu':
+        setLabel('secondary education')
+        break
+      case 'tertEdu':
+        setLabel('tertiary education')
+        break
       default:
         setLabel('')
         break

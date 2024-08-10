@@ -95,7 +95,6 @@ const editPersonalSummary = (dispatch) => async (data) => {
     const response = await ngrokApi.patch(`/api/personal-summary/${id}`, {
       content,
     })
-    console.log(`response:`, response.data)
     dispatch({ type: 'EDIT', payload: response.data })
     return
   } catch (error) {

@@ -77,7 +77,6 @@ const PersonalInfoEditForm = () => {
     if (incomingLicenseCode) setLicenseCode(incomingLicenseCode)
     if (nationality) setNationality(nationality)
     if (ppNumber) setPpNumber(ppNumber)
-    console.log(`personalInfoToEdit:`, personalInfoToEdit)
   }, [personalInfoToEdit])
 
   useEffect(() => {

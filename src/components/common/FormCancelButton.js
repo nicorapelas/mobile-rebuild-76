@@ -9,18 +9,25 @@ import {
 import { AntDesign } from '@expo/vector-icons'
 
 import { Context as NavContext } from '../../context/NavContext'
+import { Context as UniversalContext } from '../../context/UniversalContext'
 
 const FormCancelButton = ({ route }) => {
   const { setCVBitScreenSelected } = useContext(NavContext)
+
+  const { setStartDate, setEndDate } = useContext(UniversalContext)
+
+  const handlePressCancel = () => {
+    setCVBitScreenSelected(route)
+    setStartDate(null)
+    setEndDate(null)
+    Keyboard.dismiss()
+  }
 
   const cancelButton = () => {
     return (
       <TouchableOpacity
         style={styles.addButtonContainer}
-        onPress={() => {
-          setCVBitScreenSelected(route)
-          Keyboard.dismiss()
-        }}
+        onPress={handlePressCancel}
       >
         <AntDesign name="back" style={styles.cancelButtonIcon} />
         <Text

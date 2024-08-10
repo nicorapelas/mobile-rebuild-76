@@ -23,8 +23,8 @@ import { Context as TertEduContext } from '../../../../../../context/TertEduCont
 import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../../context/NavContext'
 
-const TertEduCreateEditForm = ({ incomingCertificationType }) => {
-  const [instituteName, setSchoolName] = useState(null)
+const TertEduEditEditForm = ({ incomingCertificationType }) => {
+  const [instituteName, setInstituteName] = useState(null)
   const [certificationType, setCertificationType] = useState(null)
   const [description, setDescription] = useState(null)
   const [additionalInfo, setAdditionalInfo] = useState(null)
@@ -43,16 +43,37 @@ const TertEduCreateEditForm = ({ incomingCertificationType }) => {
       startDate,
       endDate,
     },
+    setStartDate,
+    setEndDate,
   } = useContext(UniversalContext)
 
   const {
-    state: { loading, error },
-    createTertEdu,
+    state: { loading, error, tertEduToEdit },
+    editTertEdu,
     addError,
     clearTertEduErrors,
   } = useContext(TertEduContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
+
+  useEffect(() => {
+    if (tertEduToEdit) {
+      const {
+        additionalInfo,
+        certificationType,
+        description,
+        instituteName,
+        startDate,
+        endDate,
+      } = tertEduToEdit
+      setAdditionalInfo(additionalInfo)
+      setCertificationType(certificationType)
+      setDescription(description)
+      setInstituteName(instituteName)
+      setStartDate(startDate)
+      setEndDate(endDate)
+    }
+  }, [tertEduToEdit])
 
   useEffect(() => {
     if (optionsModalSelectedOption)
@@ -99,7 +120,7 @@ const TertEduCreateEditForm = ({ incomingCertificationType }) => {
           placeholder="institute name"
           value={instituteName}
           onFocus={clearTertEduErrors}
-          onChangeText={setSchoolName}
+          onChangeText={setInstituteName}
           autoCorrect={false}
           autoCapitalize="words"
           autoFocus={!error ? true : false}
@@ -492,7 +513,8 @@ const TertEduCreateEditForm = ({ incomingCertificationType }) => {
   }
 
   const handlePressSave = (data) => {
-    createTertEdu(data)
+    const { _id } = tertEduToEdit
+    editTertEdu({ id: _id }, { formValues: data })
     setCVBitScreenSelected('tertEdu')
     setStartDate(null)
     setEndDate(null)
@@ -777,4 +799,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TertEduCreateEditForm
+export default TertEduEditEditForm

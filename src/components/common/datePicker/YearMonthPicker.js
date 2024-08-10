@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {
   View,
   Text,
@@ -12,10 +12,8 @@ import { Context as SecondEduContext } from '../../../context/SecondEduContext'
 import { Context as TertEduContext } from '../../../context/TertEduContext'
 import { Context as EmployHistoryContext } from '../../../context/EmployHistoryContext'
 
-const YearPicker = ({ bit, buttonText }) => {
+const YearMonthPicker = ({ bit, buttonText }) => {
   const [condensedYearArray, setCondensedYearArray] = useState([])
-
-  const scrollViewRef = useRef(null)
 
   const {
     state: { yearPickerShow, yearSelected, startDate, endDate },
@@ -47,13 +45,6 @@ const YearPicker = ({ bit, buttonText }) => {
     }
   }, [startDate, endDate])
 
-  useEffect(() => {
-    if (scrollViewRef.current) {
-      const middleIndex = Math.floor(yearsArray.length / 2)
-      scrollViewRef.current.scrollTo({ y: middleIndex * 70, animated: false })
-    }
-  }, [yearPickerShow])
-
   const handlePressYearSelect = (data) => {
     if (bit === 'startDate') setStartDate(data.toString())
     if (bit === 'endDate') setEndDate(data.toString())
@@ -63,7 +54,7 @@ const YearPicker = ({ bit, buttonText }) => {
   const CustomPicker = () => {
     return (
       <View style={styles.pickerBed}>
-        <ScrollView ref={scrollViewRef} style={styles.scrollPicker}>
+        <ScrollView style={styles.scrollPicker}>
           {(condensedYearArray.length > 0 && bit === 'endDate'
             ? condensedYearArray
             : yearsArray
@@ -81,13 +72,6 @@ const YearPicker = ({ bit, buttonText }) => {
     )
   }
 
-  const buttonTextStyle = () => {
-    if (bit === 'startDate' && !startDate) return styles.dummyInputText
-    if (bit === 'startDate' && startDate) return styles.inputText
-    if (bit === 'endDate' && !endDate) return styles.dummyInputText
-    if (bit === 'endDate' && endDate) return styles.inputText
-  }
-
   const showPickerButton = () => {
     return (
       <TouchableOpacity
@@ -100,7 +84,7 @@ const YearPicker = ({ bit, buttonText }) => {
           clearEmployHistoryErrors()
         }}
       >
-        <Text style={buttonTextStyle()}>
+        <Text style={!yearSelected ? styles.dummyInputText : styles.inputText}>
           {bit !== 'startDate' ? null : startDate}
           {bit !== 'endDate' ? null : endDate}
           {bit === 'startDate' && !startDate ? buttonText : null}
@@ -135,7 +119,6 @@ const styles = StyleSheet.create({
     marginTop: 17,
   },
   inputText: {
-    color: 'black',
     marginTop: 17,
   },
   pickerBed: {
@@ -156,4 +139,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default YearPicker
+export default YearMonthPicker
