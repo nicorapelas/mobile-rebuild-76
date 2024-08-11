@@ -14,12 +14,12 @@ import { Context as UniversalContext } from '../../context/UniversalContext'
 const FormCancelButton = ({ route }) => {
   const { setCVBitScreenSelected } = useContext(NavContext)
 
-  const { setStartDate, setEndDate } = useContext(UniversalContext)
+  const { setStartYear, setEndYear } = useContext(UniversalContext)
 
   const handlePressCancel = () => {
     setCVBitScreenSelected(route)
-    setStartDate(null)
-    setEndDate(null)
+    setStartYear(null)
+    setEndYear(null)
     Keyboard.dismiss()
   }
 

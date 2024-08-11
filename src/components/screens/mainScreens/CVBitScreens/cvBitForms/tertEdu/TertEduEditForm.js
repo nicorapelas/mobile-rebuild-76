@@ -40,11 +40,11 @@ const TertEduEditEditForm = ({ incomingCertificationType }) => {
       yearPickerProps,
       yearPickerShow,
       optionsModalSelectedOption,
-      startDate,
-      endDate,
+      startYear,
+      endYear,
     },
-    setStartDate,
-    setEndDate,
+    setStartYear,
+    setEndYear,
   } = useContext(UniversalContext)
 
   const {
@@ -63,15 +63,15 @@ const TertEduEditEditForm = ({ incomingCertificationType }) => {
         certificationType,
         description,
         instituteName,
-        startDate,
-        endDate,
+        startYear,
+        endYear,
       } = tertEduToEdit
       setAdditionalInfo(additionalInfo)
       setCertificationType(certificationType)
       setDescription(description)
       setInstituteName(instituteName)
-      setStartDate(startDate)
-      setEndDate(endDate)
+      setStartYear(startYear)
+      setEndYear(endYear)
     }
   }, [tertEduToEdit])
 
@@ -163,7 +163,7 @@ const TertEduEditEditForm = ({ incomingCertificationType }) => {
   }
 
   const datesInputNext = () => {
-    if (moment(startDate) > moment(endDate)) {
+    if (moment(startYear) > moment(endYear)) {
       addError({ dates: `The end date cannot be prior to the start date` })
     } else {
       setDatesInputShow(false)
@@ -178,14 +178,14 @@ const TertEduEditEditForm = ({ incomingCertificationType }) => {
         <View style={error && error.dates ? styles.datesErrorBed : null}>
           <Text style={styles.inputHeader}>Dates attended</Text>
           <YearPicker
-            bit="startDate"
+            bit="startYear"
             buttonText="start date"
-            incomingYearSelected={startDate}
+            incomingYearSelected={startYear}
           />
           <YearPicker
-            bit="endDate"
+            bit="endYear"
             buttonText="end date"
-            incomingYearSelected={endDate}
+            incomingYearSelected={endYear}
           />
           <View style={styles.nextBackButtonsBed}>
             <TouchableOpacity
@@ -240,18 +240,18 @@ const TertEduEditEditForm = ({ incomingCertificationType }) => {
       )
     } else {
       const { bit } = yearPickerProps
-      if (bit === 'startDate')
+      if (bit === 'startYear')
         return (
           <>
             <Text style={styles.yearPickerHeader}>Start date</Text>
-            <YearPicker bit="startDate" buttonText="start date" />
+            <YearPicker bit="startYear" buttonText="start date" />
           </>
         )
-      if (bit === 'endDate')
+      if (bit === 'endYear')
         return (
           <>
             <Text style={styles.yearPickerHeader}>End date</Text>
-            <YearPicker bit="endDate" buttonText="end date" />
+            <YearPicker bit="endYear" buttonText="end date" />
           </>
         )
     }
@@ -476,11 +476,11 @@ const TertEduEditEditForm = ({ incomingCertificationType }) => {
             <Text style={styles.previewText}>{instituteName}</Text>
           </View>
         )}
-        {!startDate || !endDate ? null : (
+        {!startYear || !endYear ? null : (
           <View>
             <Text style={styles.previewLabel}>Dates attended</Text>
             <Text style={styles.previewText}>
-              {startDate}-{endDate}
+              {startYear}-{endYear}
             </Text>
           </View>
         )}
@@ -516,16 +516,16 @@ const TertEduEditEditForm = ({ incomingCertificationType }) => {
     const { _id } = tertEduToEdit
     editTertEdu({ id: _id }, { formValues: data })
     setCVBitScreenSelected('tertEdu')
-    setStartDate(null)
-    setEndDate(null)
+    setStartYear(null)
+    setEndYear(null)
   }
 
   const saveButton = () => {
     if (!saveButtonShow) return null
     const formValues = {
       instituteName,
-      startDate,
-      endDate,
+      startYear,
+      endYear,
       certificationType,
       description,
       additionalInfo,

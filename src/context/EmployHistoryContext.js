@@ -17,7 +17,7 @@ const EmployHistoryReducer = (state, action) => {
       return {
         ...state,
         employHistoryStatus: action.payload,
-        loading: false
+        loading: false,
       }
     case 'FETCH_EMPLOY_HISTORYS':
       return { ...state, employHistorys: action.payload, loading: false }
@@ -33,7 +33,7 @@ const EmployHistoryReducer = (state, action) => {
 }
 
 // Actions
-const fetchEmployHistorySample = dispatch => async () => {
+const fetchEmployHistorySample = (dispatch) => async () => {
   try {
     const response = await ngrokApi.get('/api/employment-history/sample')
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
@@ -44,7 +44,7 @@ const fetchEmployHistorySample = dispatch => async () => {
   }
 }
 
-const fetchEmployHistoryStatus = dispatch => async () => {
+const fetchEmployHistoryStatus = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/employment-history/status')
@@ -56,7 +56,7 @@ const fetchEmployHistoryStatus = dispatch => async () => {
   }
 }
 
-const fetchEmployHistorys = dispatch => async () => {
+const fetchEmployHistorys = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('api/employment-history')
@@ -68,7 +68,7 @@ const fetchEmployHistorys = dispatch => async () => {
   }
 }
 
-const createEmployHistory = dispatch => async (formValues, callback) => {
+const createEmployHistory = (dispatch) => async (formValues) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/api/employment-history', formValues)
@@ -77,16 +77,14 @@ const createEmployHistory = dispatch => async (formValues, callback) => {
       return
     }
     dispatch({ type: 'CREATE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
 
-const editEmployHistory = dispatch => async (id, formValues, callback) => {
+const editEmployHistory = (dispatch) => async (id, formValues, callback) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.patch(
@@ -107,7 +105,7 @@ const editEmployHistory = dispatch => async (id, formValues, callback) => {
   }
 }
 
-const deleteEmployHistory = dispatch => async (id, callback) => {
+const deleteEmployHistory = (dispatch) => async (id, callback) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.delete(`/api/employment-history/${id}`)
@@ -121,11 +119,11 @@ const deleteEmployHistory = dispatch => async (id, callback) => {
   }
 }
 
-const addError = dispatch => error => {
+const addError = (dispatch) => (error) => {
   dispatch({ type: 'ADD_ERROR', payload: error })
 }
 
-const clearEmployHistoryErrors = dispatch => () => {
+const clearEmployHistoryErrors = (dispatch) => () => {
   dispatch({ type: 'CLEAR_ERRORS' })
   return
 }
@@ -140,7 +138,7 @@ export const { Context, Provider } = createDataContext(
     editEmployHistory,
     deleteEmployHistory,
     addError,
-    clearEmployHistoryErrors
+    clearEmployHistoryErrors,
   },
   // Initial state
   {
@@ -148,6 +146,6 @@ export const { Context, Provider } = createDataContext(
     employHistorys: null,
     employHistorySample: null,
     employHistoryStatus: null,
-    loading: null
+    loading: null,
   }
 )

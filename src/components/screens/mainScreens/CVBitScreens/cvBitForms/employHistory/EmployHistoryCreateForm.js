@@ -12,17 +12,19 @@ import {
 import { MaterialIcons, Ionicons } from '@expo/vector-icons'
 
 import FormHintModal from '../../../../../common/modals/FormHintModal'
+import FormCancelButton from '../../../../../common/FormCancelButton'
 import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
-import MonthYearpicker from '../../../../../common/datePicker/YearMonthPicker'
+import YearMonthPicker from '../../../../../common/datePicker/YearMonthPicker'
 import { Context as EmployHistoryContext } from '../../../../../../context/EmployHistoryContext'
 import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
+import { Context as NavContext } from '../../../../../../context/NavContext'
 
 const EmployHistoryCreateEditForm = () => {
   const [company, setCompany] = useState(null)
   const [position, setPosition] = useState(null)
   const [description, setDescription] = useState(null)
-  const [startDate, setStartDate] = useState(null)
-  const [endDate, setEndDate] = useState(null)
+  const [startYear, setStartYear] = useState(null)
+  const [endYear, setEndYear] = useState(null)
   const [startDateMonth, setStartDateMonth] = useState(null)
   const [startDateYear, setStartDateYear] = useState(null)
   const [endDateMonth, setEndDateMonth] = useState(null)
@@ -39,9 +41,10 @@ const EmployHistoryCreateEditForm = () => {
 
   const {
     state: { monthYearPickerProps, monthYearPickerShow },
-    toggleHideNavLinks,
     setStartDateToCompare,
   } = useContext(UniversalContext)
+
+  const { setCVBitScreenSelected } = useContext(NavContext)
 
   const {
     state: { loading, error },
@@ -51,27 +54,8 @@ const EmployHistoryCreateEditForm = () => {
   } = useContext(EmployHistoryContext)
 
   useEffect(() => {
-    if (monthYearPickerProps) {
-      setDatesFromPicker()
-    }
-  }, [monthYearPickerProps])
-
-  useEffect(() => {
-    if (error) toggleHideNavLinks(false)
-  }, [error])
-
-  useEffect(() => {
-    if (startDateMonth) {
-      assignStartMonthValue()
-    }
-    if (endDateMonth) {
-      assignEndMonthValue()
-    }
-  }, [startDateMonth, endDateMonth])
-
-  useEffect(() => {
     if (current) {
-      setEndDate(null)
+      setEndYear(null)
     }
   }, [current])
 
@@ -97,82 +81,8 @@ const EmployHistoryCreateEditForm = () => {
     )
   }
 
-  const setDatesFromPicker = () => {
-    const { bit, monthSelected, yearSelected } = monthYearPickerProps
-    if (bit === 'startDate') {
-      if (!monthSelected && !yearSelected) {
-        setStartDate(null)
-        return
-      }
-      if (monthSelected && !yearSelected) {
-        setStartDate(null)
-        setStartDateMonth(monthSelected)
-        return
-      }
-      if (!monthSelected && yearSelected) {
-        setStartDate(yearSelected)
-        setStartDateYear(yearSelected)
-        return
-      } else {
-        setStartDate(`${monthSelected} ${yearSelected}`)
-        setStartDateMonth(monthSelected)
-        setStartDateYear(yearSelected)
-      }
-    }
-    if (bit === 'endDate') {
-      if (!monthSelected && !yearSelected) {
-        setEndDate(null)
-        return
-      }
-      if (monthSelected && !yearSelected) {
-        setEndDate(null)
-        setEndDateMonth(monthSelected)
-        return
-      }
-      if (!monthSelected && yearSelected) {
-        setEndDate(yearSelected)
-        setEndDateYear(yearSelected)
-        return
-      } else {
-        setEndDate(`${monthSelected} ${yearSelected}`)
-        setEndDateMonth(monthSelected)
-        setEndDateYear(yearSelected)
-      }
-    }
-  }
-
-  const assignStartMonthValue = () => {
-    if (startDateMonth === 'January') setStartMonthValue('1')
-    if (startDateMonth === 'February') setStartMonthValue('2')
-    if (startDateMonth === 'March') setStartMonthValue('3')
-    if (startDateMonth === 'April') setStartMonthValue('4')
-    if (startDateMonth === 'May') setStartMonthValue('5')
-    if (startDateMonth === 'June') setStartMonthValue('6')
-    if (startDateMonth === 'July') setStartMonthValue('7')
-    if (startDateMonth === 'August') setStartMonthValue('8')
-    if (startDateMonth === 'September') setStartMonthValue('9')
-    if (startDateMonth === 'October') setStartMonthValue('10')
-    if (startDateMonth === 'November') setStartMonthValue('11')
-    if (startDateMonth === 'December') setStartMonthValue('12')
-  }
-
-  const assignEndMonthValue = () => {
-    if (endDateMonth === 'January') setEndMonthValue('1')
-    if (endDateMonth === 'February') setEndMonthValue('2')
-    if (endDateMonth === 'March') setEndMonthValue('3')
-    if (endDateMonth === 'April') setEndMonthValue('4')
-    if (endDateMonth === 'May') setEndMonthValue('5')
-    if (endDateMonth === 'June') setEndMonthValue('6')
-    if (endDateMonth === 'July') setEndMonthValue('7')
-    if (endDateMonth === 'August') setEndMonthValue('8')
-    if (endDateMonth === 'September') setEndMonthValue('9')
-    if (endDateMonth === 'October') setEndMonthValue('10')
-    if (endDateMonth === 'November') setEndMonthValue('11')
-    if (endDateMonth === 'December') setEndMonthValue('12')
-  }
-
   const datesInputNext = () => {
-    if (!startDate || !endDate) {
+    if (!startYear || !endYear) {
       setDatesInputShow(false)
       setDescriptionInputShow(true)
       return
@@ -193,11 +103,7 @@ const EmployHistoryCreateEditForm = () => {
       return (
         <View style={error && error.dates ? styles.datesErrorBed : null}>
           <Text style={styles.inputHeader}>Dates attended</Text>
-          <MonthYearpicker
-            bit="startDate"
-            buttonText="start date"
-            incomingDate={startDate}
-          />
+          <YearMonthPicker bit="startYearMonth" buttonText="start date" />
           {current ? (
             <TouchableOpacity
               onPress={() => setCurrent(false)}
@@ -206,11 +112,7 @@ const EmployHistoryCreateEditForm = () => {
               <Text style={styles.currentButtonUndoText}>Current</Text>
             </TouchableOpacity>
           ) : (
-            <MonthYearpicker
-              bit="endDate"
-              buttonText="end date"
-              incomingDate={endDate}
-            />
+            <YearMonthPicker bit="endYearMonth" buttonText="end date" />
           )}
           {current ? null : (
             <>
@@ -218,7 +120,7 @@ const EmployHistoryCreateEditForm = () => {
               <TouchableOpacity
                 onPress={() => {
                   setCurrent(true)
-                  setEndDate(null)
+                  setEndYear(null)
                 }}
                 style={styles.currentButton}
               >
@@ -279,18 +181,18 @@ const EmployHistoryCreateEditForm = () => {
       )
     } else {
       const { bit } = monthYearPickerProps
-      if (bit === 'startDate') {
+      if (bit === 'startYearMonth') {
         return (
           <>
             <Text style={styles.yearPickerHeader}>Start date</Text>
-            <MonthYearpicker bit="startDate" buttonText="start date" />
+            <YearMonthPicker bit="startYearMonth" buttonText="start date" />
           </>
         )
       } else {
         return (
           <>
             <Text style={styles.yearPickerHeader}>End date</Text>
-            <MonthYearpicker bit="endDate" buttonText="end date" />
+            <YearMonthPicker bit="endYearMonth" buttonText="end date" />
           </>
         )
       }
@@ -474,6 +376,7 @@ const EmployHistoryCreateEditForm = () => {
           </>
         )}
         <View style={styles.nextBackButtonsBed}>
+          <FormCancelButton route="employHistory" />
           <TouchableOpacity
             style={styles.addButtonContainer}
             onPress={() => companyNameInputNext()}
@@ -501,8 +404,8 @@ const EmployHistoryCreateEditForm = () => {
     if (current) {
       return <Text>Current</Text>
     }
-    if (endDate) {
-      return <Text>{endDate}</Text>
+    if (endYear) {
+      return <Text>{endYear}</Text>
     }
     return null
   }
@@ -523,11 +426,11 @@ const EmployHistoryCreateEditForm = () => {
             <Text style={styles.previewText}>{position}</Text>
           </View>
         )}
-        {!startDate && !endDate ? null : (
+        {!startYear && !endYear ? null : (
           <View>
             <Text style={styles.previewLabel}>Dates attended</Text>
             <Text style={styles.previewText}>
-              {startDate} - {renderEndDatePreview()}
+              {startYear} - {renderEndDatePreview()}
             </Text>
           </View>
         )}
@@ -545,14 +448,15 @@ const EmployHistoryCreateEditForm = () => {
 
   const handlePressSave = (data) => {
     createEmployHistory(data)
+    setCVBitScreenSelected('employHistory')
   }
 
   const saveButton = () => {
     if (!saveButtonShow) return null
     const formValues = {
       company,
-      startDate,
-      endDate,
+      startYear,
+      endYear,
       current,
       startDateValue,
       position,
@@ -795,8 +699,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 90,
     height: 40,
-    marginTop: 15,
-    marginBottom: 25,
   },
   addButtonContainer: {
     backgroundColor: '#278ACD',
@@ -808,8 +710,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 5,
     width: 90,
-    marginTop: 5,
-    marginBottom: 15,
     height: 40,
     marginHorizontal: 5,
   },
@@ -830,7 +730,7 @@ const styles = StyleSheet.create({
   nextBackButtonsBed: {
     flexDirection: 'row',
     alignSelf: 'center',
-    marginVertical: 10,
+    marginVertical: 7,
   },
   nextButtonIcon: {
     color: '#ffff',

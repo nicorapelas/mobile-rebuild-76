@@ -18,12 +18,12 @@ const YearPicker = ({ bit, buttonText }) => {
   const scrollViewRef = useRef(null)
 
   const {
-    state: { yearPickerShow, yearSelected, startDate, endDate },
+    state: { yearPickerShow, startYear, endYear },
     setYearPickerShow,
     setYearPickerProps,
     clearYearPickerProps,
-    setStartDate,
-    setEndDate,
+    setStartYear,
+    setEndYear,
   } = useContext(UniversalContext)
 
   const { clearSecondEduErrors } = useContext(SecondEduContext)
@@ -42,10 +42,10 @@ const YearPicker = ({ bit, buttonText }) => {
   }, [yearPickerShow])
 
   useEffect(() => {
-    if (startDate && endDate && parseInt(startDate) > parseInt(endDate)) {
-      setEndDate(startDate)
+    if (startYear && endYear && parseInt(startYear) > parseInt(endYear)) {
+      setEndYear(startYear)
     }
-  }, [startDate, endDate])
+  }, [startYear, endYear])
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -55,8 +55,8 @@ const YearPicker = ({ bit, buttonText }) => {
   }, [yearPickerShow])
 
   const handlePressYearSelect = (data) => {
-    if (bit === 'startDate') setStartDate(data.toString())
-    if (bit === 'endDate') setEndDate(data.toString())
+    if (bit === 'startYear') setStartYear(data.toString())
+    if (bit === 'endYear') setEndYear(data.toString())
     setYearPickerShow(false)
   }
 
@@ -64,7 +64,7 @@ const YearPicker = ({ bit, buttonText }) => {
     return (
       <View style={styles.pickerBed}>
         <ScrollView ref={scrollViewRef} style={styles.scrollPicker}>
-          {(condensedYearArray.length > 0 && bit === 'endDate'
+          {(condensedYearArray.length > 0 && bit === 'endYear'
             ? condensedYearArray
             : yearsArray
           ).map((year) => (
@@ -82,10 +82,10 @@ const YearPicker = ({ bit, buttonText }) => {
   }
 
   const buttonTextStyle = () => {
-    if (bit === 'startDate' && !startDate) return styles.dummyInputText
-    if (bit === 'startDate' && startDate) return styles.inputText
-    if (bit === 'endDate' && !endDate) return styles.dummyInputText
-    if (bit === 'endDate' && endDate) return styles.inputText
+    if (bit === 'startYear' && !startYear) return styles.dummyInputText
+    if (bit === 'startYear' && startYear) return styles.inputText
+    if (bit === 'endYear' && !endYear) return styles.dummyInputText
+    if (bit === 'endYear' && endYear) return styles.inputText
   }
 
   const showPickerButton = () => {
@@ -101,10 +101,10 @@ const YearPicker = ({ bit, buttonText }) => {
         }}
       >
         <Text style={buttonTextStyle()}>
-          {bit !== 'startDate' ? null : startDate}
-          {bit !== 'endDate' ? null : endDate}
-          {bit === 'startDate' && !startDate ? buttonText : null}
-          {bit === 'endDate' && !endDate ? buttonText : null}
+          {bit !== 'startYear' ? null : startYear}
+          {bit !== 'endYear' ? null : endYear}
+          {bit === 'startYear' && !startYear ? buttonText : null}
+          {bit === 'endYear' && !endYear ? buttonText : null}
         </Text>
       </TouchableOpacity>
     )

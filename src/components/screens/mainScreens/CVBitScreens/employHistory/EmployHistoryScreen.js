@@ -28,7 +28,6 @@ const EmployHistoryScreen = () => {
 
   const {
     state: { loading, employHistorys },
-    fetchEmployHistorys,
   } = useContext(EmployHistoryContext)
 
   const { showDeleteModal } = useContext(UniversalContext)
@@ -39,7 +38,7 @@ const EmployHistoryScreen = () => {
       return (
         <BitNoData
           cvBit="Employment history"
-          routeName="EmployHistoryCreate"
+          routeName="employHistoryCreate"
           buttonText="add previous employment"
         />
       )
@@ -64,13 +63,13 @@ const EmployHistoryScreen = () => {
                       <Text style={styles.text}>{item.position}</Text>
                     </View>
                   )}
-                  {!item.startDate ? null : (
+                  {!item.startYear ? null : (
                     <View style={styles.contentRow}>
                       <Foundation style={styles.icon} name="calendar" />
                       <Text style={styles.text}>
-                        {item.startDate}
+                        {item.startYear}
                         {!item.current ? null : ` - Current`}
-                        {!item.endDate ? null : ` - ${item.endDate} `}
+                        {!item.endYear ? null : ` - ${item.endYear} `}
                       </Text>
                     </View>
                   )}
@@ -128,7 +127,7 @@ const EmployHistoryScreen = () => {
       />
       {loading || !employHistorys || employHistorys.length < 1 ? null : (
         <AddContentButtonLink
-          routeName="EmployHistoryCreate"
+          routeName="employHistoryCreate"
           text="add employment history"
         />
       )}

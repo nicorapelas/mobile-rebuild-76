@@ -60,10 +60,14 @@ const UniversalReducer = (state, action) => {
       return { ...state, yearPickerShow: action.payload }
     case 'YEAR_PICKER_PROPS':
       return { ...state, yearPickerProps: action.payload }
-    case 'SET_START_DATE':
-      return { ...state, startDate: action.payload }
-    case 'SET_END_DATE':
-      return { ...state, endDate: action.payload }
+    case 'SET_START_YEAR':
+      return { ...state, startYear: action.payload }
+    case 'SET_END_YEAR':
+      return { ...state, endYear: action.payload }
+    case 'SET_START_MONTH':
+      return { ...state, startMonth: action.payload }
+    case 'SET_END_MONTH':
+      return { ...state, endMonth: action.payload }
     case 'CLEAR_YEAR_PICKER_PROPS':
       return { ...state, yearPickerProps: action.payload }
     case 'MONTH_YEAR_PICKER_SHOW':
@@ -223,12 +227,20 @@ const setYearPickerProps = (dispatch) => (props) => {
   dispatch({ type: 'YEAR_PICKER_PROPS', payload: props })
 }
 
-const setStartDate = (dispatch) => (props) => {
-  dispatch({ type: 'SET_START_DATE', payload: props })
+const setStartYear = (dispatch) => (props) => {
+  dispatch({ type: 'SET_START_YEAR', payload: props })
 }
 
-const setEndDate = (dispatch) => (props) => {
-  dispatch({ type: 'SET_END_DATE', payload: props })
+const setEndYear = (dispatch) => (props) => {
+  dispatch({ type: 'SET_END_YEAR', payload: props })
+}
+
+const setStartMonth = (dispatch) => (props) => {
+  dispatch({ type: 'SET_START_MONTH', payload: props })
+}
+
+const setEndMonth = (dispatch) => (props) => {
+  dispatch({ type: 'SET_END_MONTH', payload: props })
 }
 
 const clearYearPickerProps = (dispatch) => () => {
@@ -240,6 +252,7 @@ const setMonthYearPickerShow = (dispatch) => (value) => {
   return
 }
 const setMonthYearPickerProps = (dispatch) => (props) => {
+  console.log(`at action:`, props)
   dispatch({ type: 'MONTH_YEAR_PICKER_PROPS', payload: props })
 }
 const clearMonthYearPickerProps = (dispatch) => () => {
@@ -281,8 +294,10 @@ export const { Context, Provider } = createDataContext(
     setOptionsModalSelectedOption,
     setYearPickerShow,
     setYearPickerProps,
-    setStartDate,
-    setEndDate,
+    setStartYear,
+    setEndYear,
+    setStartMonth,
+    setEndMonth,
     clearYearPickerProps,
     setMonthYearPickerShow,
     setMonthYearPickerProps,
@@ -312,8 +327,10 @@ export const { Context, Provider } = createDataContext(
     optionsModalSelectedOption: null,
     yearPickerShow: false,
     yearPickerProps: null,
-    startDate: null,
-    endDate: null,
+    startYear: null,
+    endYear: null,
+    startMonth: null,
+    endMonth: null,
     monthYearPickerShow: false,
     monthYearPickerProps: null,
     showPhotoSample: null,

@@ -40,9 +40,9 @@ const SecondEduEditForm = () => {
   const [saveButtonShow, setSaveButtonShow] = useState(false)
 
   const {
-    state: { yearPickerProps, yearPickerShow, startDate, endDate },
-    setStartDate,
-    setEndDate,
+    state: { yearPickerProps, yearPickerShow, startYear, endYear },
+    setStartYear,
+    setEndYear,
     toggleHideNavLinks,
   } = useContext(UniversalContext)
 
@@ -68,11 +68,11 @@ const SecondEduEditForm = () => {
 
   useEffect(() => {
     if (secondEduToEdit) {
-      const { schoolName, startDate, endDate, subjects, additionalInfo } =
+      const { schoolName, startYear, endYear, subjects, additionalInfo } =
         secondEduToEdit
       setSchoolName(schoolName)
-      setStartDate(startDate)
-      setEndDate(endDate)
+      setStartYear(startYear)
+      setEndYear(endYear)
       setSubjectsArray(subjects)
       setAdditionalInfo(additionalInfo)
     }
@@ -90,7 +90,7 @@ const SecondEduEditForm = () => {
   }
 
   const datesInputNext = () => {
-    if (moment(startDate) > moment(endDate)) {
+    if (moment(startYear) > moment(endYear)) {
       addError({ dates: `The end date cannot be prior to the start date` })
     } else {
       setDatesInputShow(false)
@@ -104,8 +104,8 @@ const SecondEduEditForm = () => {
       return (
         <View style={error && error.dates ? styles.datesErrorBed : null}>
           <Text style={styles.inputHeader}>Dates attended</Text>
-          <YearPicker bit="startDate" buttonText="start date" />
-          <YearPicker bit="endDate" buttonText="end date" />
+          <YearPicker bit="startYear" buttonText="start date" />
+          <YearPicker bit="endYear" buttonText="end date" />
           <View style={styles.nextBackButtonsBed}>
             <TouchableOpacity
               style={styles.addButtonContainer}
@@ -158,19 +158,19 @@ const SecondEduEditForm = () => {
       )
     } else {
       const { bit } = yearPickerProps
-      if (bit === 'startDate') {
+      if (bit === 'startYear') {
         return (
           <>
             <Text style={styles.yearPickerHeader}>Start date</Text>
-            <YearPicker bit="startDate" buttonText="start date" />
+            <YearPicker bit="startYear" buttonText="start date" />
           </>
         )
       }
-      if (bit === 'endDate') {
+      if (bit === 'endYear') {
         return (
           <>
             <Text style={styles.yearPickerHeader}>End date</Text>
-            <YearPicker bit="endDate" buttonText="end date" />
+            <YearPicker bit="endYear" buttonText="end date" />
           </>
         )
       }
@@ -476,11 +476,11 @@ const SecondEduEditForm = () => {
             <Text style={styles.previewText}>{schoolName}</Text>
           </View>
         )}
-        {!startDate || !endDate ? null : (
+        {!startYear || !endYear ? null : (
           <View>
             <Text style={styles.previewLabel}>Dates attended</Text>
             <Text style={styles.previewText}>
-              {startDate}-{endDate}
+              {startYear}-{endYear}
             </Text>
           </View>
         )}
@@ -507,8 +507,8 @@ const SecondEduEditForm = () => {
   const handlePressSave = (data) => {
     const { _id } = secondEduToEdit
     editSecondEdu({ id: _id }, { formValues: data })
-    setStartDate(null)
-    setEndDate(null)
+    setStartYear(null)
+    setEndYear(null)
     setCVBitScreenSelected('secondEdu')
   }
 
@@ -516,8 +516,8 @@ const SecondEduEditForm = () => {
     if (!saveButtonShow) return null
     const formValues = {
       schoolName,
-      startDate,
-      endDate,
+      startYear,
+      endYear,
       subjects: subjectsArray,
       additionalInfo,
     }
