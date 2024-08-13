@@ -22,148 +22,116 @@ import { Context as UniversalContext } from '../../../context/UniversalContext'
 import { Context as NavContext } from '../../../context/NavContext'
 
 const DeleteModal = ({ id, documentSelected, bit, publicId }) => {
-  const [incomingBit, setIncomingBit] = useState('')
-  const { deleteAttribute } = useContext(AttributeContext)
-  const { deleteCertificate, fetchCertificates } =
-    useContext(CertificateContext)
-  const { deleteContactInfo, fetchContactInfo } = useContext(ContactInfoContext)
-  const { deleteEmployHistory, fetchEmployHistorys } =
-    useContext(EmployHistoryContext)
-  const { deleteExperience, fetchExperiences } = useContext(ExperienceContext)
+  const [cancelRoute, setCancelRoute] = useState('')
 
+  const { deleteAttribute } = useContext(AttributeContext)
+  const { deleteCertificate } = useContext(CertificateContext)
+  const { deleteContactInfo } = useContext(ContactInfoContext)
+  const { deleteEmployHistory } = useContext(EmployHistoryContext)
+  const { deleteExperience } = useContext(ExperienceContext)
   const { deleteFirstImpression } = useContext(FirstImpressionContext)
-  const { fetchInterests, deleteInterest } = useContext(InterestContext)
-  const { fetchLanguages, deleteLanguage } = useContext(LanguageContext)
-  const { fetchPersonalInfo, deletePersonalInfo } =
-    useContext(PersonalInfoContext)
-  const { fetchPersonalSummary, deletePersonalSummary } = useContext(
-    PersonalSummaryContext
-  )
+  const { deleteInterest } = useContext(InterestContext)
+  const { deleteLanguage } = useContext(LanguageContext)
+  const { deletePersonalInfo } = useContext(PersonalInfoContext)
+  const { deletePersonalSummary } = useContext(PersonalSummaryContext)
   const {
     state: { assignedPhotoId },
-    fetchPhotos,
     deletePhoto,
     clearAssignedPhoto,
   } = useContext(PhotoContext)
-  const { fetchSecondEdus, deleteSecondEdu } = useContext(SecondEduContext)
-  const { fetchReferences, deleteReference } = useContext(ReferenceContext)
-  const { fetchSkills, deleteSkill } = useContext(SkillContext)
-  const { fetchTertEdus, deleteTertEdu } = useContext(TertEduContext)
+  const { deleteSecondEdu } = useContext(SecondEduContext)
+  const { deleteReference } = useContext(ReferenceContext)
+  const { deleteSkill } = useContext(SkillContext)
+  const { deleteTertEdu } = useContext(TertEduContext)
 
   const {
     state: { deleteModalShow, userPlanformOS },
     hideDeleteModal,
-    toggleHideNavLinks,
   } = useContext(UniversalContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
 
   useEffect(() => {
-    setIncomingBit(bit)
-  }, [])
+    console.log(`bit:`, bit)
+    switch (bit) {
+      case 'contact information':
+        setCancelRoute('contactInfo')
+        break
+      case 'secondary education':
+        setCancelRoute('secondEdu')
+        break
+      case 'tertiary education':
+        setCancelRoute('tertEdu')
+        break
+      case 'personal summary':
+        setCancelRoute('personalSummary')
+        break
+      case 'personal information':
+        setCancelRoute('personalInfo')
+      case 'employment history':
+        setCancelRoute('employHistory')
+        break
+      default:
+        setCancelRoute(bit)
+    }
+  }, [bit])
 
   const photoDelete = () => {
     if (assignedPhotoId === id) {
       deletePhoto({ id, publicId }, () => {
         clearAssignedPhoto()
-        fetchPhotos()
-        toggleHideNavLinks(false)
       })
       return
     }
-    deletePhoto({ id, publicId }, () => {
-      fetchPhotos()
-      toggleHideNavLinks(false)
-    })
+    deletePhoto({ id, publicId })
   }
 
   const selectAction = () => {
-    if (incomingBit === 'attribute') {
+    if (bit === 'attribute') {
       deleteAttribute(id)
     }
-    if (incomingBit === 'certificate') {
-      toggleHideNavLinks(true)
-      deleteCertificate({ id, publicId }, () => {
-        fetchCertificates()
-        toggleHideNavLinks(false)
-      })
+    if (bit === 'certificate') {
+      deleteCertificate({ id, publicId })
     }
-    if (incomingBit === 'contact information') {
-      toggleHideNavLinks(true)
-      deleteContactInfo(id, () => {
-        fetchContactInfo()
-        toggleHideNavLinks(false)
-      })
+    if (bit === 'contact information') {
+      deleteContactInfo(id)
     }
-    if (incomingBit === 'employment history') {
-      toggleHideNavLinks(true)
-      deleteEmployHistory(id, () => {
-        fetchEmployHistorys()
-        toggleHideNavLinks(false)
-      })
+    if (bit === 'employment history') {
+      deleteEmployHistory(id)
     }
-    if (incomingBit === 'experience') {
-      toggleHideNavLinks(true)
-      deleteExperience(id, () => {
-        fetchExperiences()
-        toggleHideNavLinks(false)
-      })
+    if (bit === 'experience') {
+      deleteExperience(id)
     }
-    if (incomingBit === 'first impression') {
-      toggleHideNavLinks(true)
-      deleteFirstImpression({ id, publicId }, () => {
-        setCVBitScreenSelected('dashboard')
-        toggleHideNavLinks(false)
-      })
+    if (bit === 'first impression') {
+      deleteFirstImpression({ id, publicId })
     }
-    if (incomingBit === 'language') {
-      toggleHideNavLinks(true)
-      deleteLanguage(id, () => {
-        fetchLanguages()
-        toggleHideNavLinks(false)
-      })
+    if (bit === 'language') {
+      deleteLanguage(id)
     }
-    if (incomingBit === 'interest') {
+    if (bit === 'interest') {
       deleteInterest(id)
     }
-    if (incomingBit === 'personal information') {
-      toggleHideNavLinks(true)
-      deletePersonalInfo(id, () => {
-        fetchPersonalInfo()
-        toggleHideNavLinks(false)
-      })
+    if (bit === 'personal information') {
+      deletePersonalInfo(id)
     }
-    if (incomingBit === 'personal summary') {
-      toggleHideNavLinks(true)
-      deletePersonalSummary(id, () => {
-        fetchPersonalSummary()
-        toggleHideNavLinks(false)
-      })
+    if (bit === 'personal summary') {
+      deletePersonalSummary(id)
     }
-    if (incomingBit === 'photo') {
-      toggleHideNavLinks(true)
+    if (bit === 'photo') {
       photoDelete()
     }
-    if (incomingBit === 'reference') {
-      toggleHideNavLinks(true)
-      deleteReference(id, () => {
-        fetchReferences()
-        toggleHideNavLinks(false)
-      })
+    if (bit === 'reference') {
+      deleteReference(id)
     }
-    if (incomingBit === 'secondary education') {
+    if (bit === 'secondary education') {
       deleteSecondEdu(id)
       setCVBitScreenSelected('secondEdu')
     }
-    if (incomingBit === 'skill') {
+    if (bit === 'skill') {
       deleteSkill(id)
     }
-    if (incomingBit === 'tertiary education') {
-      toggleHideNavLinks(true)
-      deleteTertEdu(id, () => {
-        fetchTertEdus()
-        toggleHideNavLinks(false)
-      })
+    if (bit === 'tertiary education') {
+      deleteTertEdu(id)
     }
     return null
   }
@@ -186,7 +154,7 @@ const DeleteModal = ({ id, documentSelected, bit, publicId }) => {
                 : styles.messageTextAndroid
             }
           >
-            delete {incomingBit}
+            delete {bit}
           </Text>
           {documentSelected ? (
             <Text style={styles.documentSelectedText}>
@@ -207,7 +175,7 @@ const DeleteModal = ({ id, documentSelected, bit, publicId }) => {
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => {
-              setCVBitScreenSelected(incomingBit)
+              setCVBitScreenSelected(cancelRoute)
               hideDeleteModal()
             }}
           >

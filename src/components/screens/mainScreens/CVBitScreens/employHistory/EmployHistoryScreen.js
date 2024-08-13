@@ -34,6 +34,7 @@ const EmployHistoryScreen = () => {
 
   const renderList = () => {
     if (loading || employHistorys === null) return <LoaderFullScreen />
+    console.log(employHistorys)
     if (employHistorys.length < 1)
       return (
         <BitNoData
@@ -63,13 +64,13 @@ const EmployHistoryScreen = () => {
                       <Text style={styles.text}>{item.position}</Text>
                     </View>
                   )}
-                  {!item.startYear ? null : (
+                  {!item.startDate ? null : (
                     <View style={styles.contentRow}>
                       <Foundation style={styles.icon} name="calendar" />
                       <Text style={styles.text}>
-                        {item.startYear}
+                        {item.startDate}
                         {!item.current ? null : ` - Current`}
-                        {!item.endYear ? null : ` - ${item.endYear} `}
+                        {!item.endDate ? null : ` - ${item.endDate} `}
                       </Text>
                     </View>
                   )}

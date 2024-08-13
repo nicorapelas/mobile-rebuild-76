@@ -19,7 +19,7 @@ import { Context as EmployHistoryContext } from '../../../../../../context/Emplo
 import { Context as UniversalContext } from '../../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../../context/NavContext'
 
-const EmployHistoryCreateForm = () => {
+const EmployHistoryEditForm = () => {
   const [company, setCompany] = useState(null)
   const [position, setPosition] = useState(null)
   const [description, setDescription] = useState(null)
@@ -52,7 +52,7 @@ const EmployHistoryCreateForm = () => {
 
   const {
     state: { loading, error },
-    createEmployHistory,
+    editEmployHistory,
     addError,
     clearEmployHistoryErrors,
   } = useContext(EmployHistoryContext)
@@ -439,7 +439,7 @@ const EmployHistoryCreateForm = () => {
   }
 
   const handlePressSave = (data) => {
-    createEmployHistory(data)
+    editEmployHistory(data)
     setStartYear(null)
     setEndYear(null)
     setStartMonth(null)
@@ -754,4 +754,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default EmployHistoryCreateForm
+export default EmployHistoryEditForm
