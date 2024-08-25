@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ScrollView
+  ScrollView,
 } from 'react-native'
 import { Overlay } from 'react-native-elements'
 import AppLink from 'react-native-app-link'
@@ -17,7 +17,7 @@ const InstructionModal = ({ bit }) => {
 
   const {
     state: { instructionModalShow },
-    toggleInstructionModal
+    toggleInstructionModal,
   } = useContext(UniversalContext)
 
   const { setVideoDemoShow } = useContext(FirstImpressionContext)
@@ -58,7 +58,7 @@ const InstructionModal = ({ bit }) => {
               appName: 'genius-scan-pdf-scanner',
               appStoreId: '377672876',
               appStoreLocale: 'za',
-              playStoreId: 'com.thegrizzlylabs.geniusscan.free'
+              playStoreId: 'com.thegrizzlylabs.geniusscan.free',
             })
           }
         >
@@ -80,7 +80,7 @@ const InstructionModal = ({ bit }) => {
           First impressions go a long way so make it count!
         </Text>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>
             Record while holding your phone upright
           </Text>
@@ -93,27 +93,27 @@ const InstructionModal = ({ bit }) => {
           </View>
         </View>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>
             Be mindful of your body language and posture
           </Text>
         </View>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>Speak clearly</Text>
         </View>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>Dress the part</Text>
         </View>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>
             Mention the attached certificates, if any
           </Text>
         </View>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>Be authentic</Text>
         </View>
         <View>
@@ -170,44 +170,44 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     padding: 15,
-    borderRadius: 10
+    borderRadius: 10,
   },
   headingBed: {
     flexDirection: 'row',
     alignSelf: 'center',
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   headingText: {
     color: '#7ac6fa',
-    fontSize: 28
+    fontSize: 28,
   },
   headingIcon: {
     color: '#7ac6fa',
     fontSize: 27,
-    margin: 7
+    margin: 7,
   },
   subHeading: {
     color: '#7ac6fa',
     fontSize: 18,
     paddingBottom: 3,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   hitBed: {
-    paddingBottom: 7
+    paddingBottom: 7,
   },
   dotHintBed: {
     flexDirection: 'row',
-    paddingVertical: 2
+    paddingVertical: 2,
   },
   dot: {
     color: '#7ac6fa',
     fontSize: 13,
     paddingRight: 7,
-    paddingTop: 4
+    paddingTop: 4,
   },
   hintText: {
     color: '#7ac6fa',
-    fontSize: 14
+    fontSize: 14,
   },
   phoneOutlineBody: {
     borderColor: '#7ac6fa',
@@ -216,12 +216,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: 40,
     width: 25,
-    marginVertical: 5
+    marginVertical: 5,
   },
   phoneOutlineButtonBed: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   phoneOutlineButton: {
     borderColor: '#7ac6fa',
@@ -230,49 +230,49 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 5,
     width: 5,
-    marginBottom: 2
+    marginBottom: 2,
   },
   description: {
-    color: '#7ac6fa'
+    color: '#7ac6fa',
   },
   paragraph: {
     color: '#7ac6fa',
-    paddingVertical: 2
+    paddingVertical: 2,
   },
   examplesIntro: {
     color: '#7ac6fa',
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   stepHeading: {
     color: '#7ac6fa',
     fontWeight: '900',
-    paddingTop: 10
+    paddingTop: 10,
   },
   backButton: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 15
+    marginVertical: 15,
   },
   backButtonIcon: {
     color: '#F9B321',
     paddingRight: 7,
     paddingTop: 2,
-    fontSize: 20
+    fontSize: 20,
   },
   backButtonText: {
     color: '#F9B321',
-    fontSize: 18
+    fontSize: 18,
   },
   appLink: {
     borderColor: '#7ac6fa',
     borderWidth: 1,
     borderRadius: 5,
     alignSelf: 'center',
-    marginTop: 20
+    marginTop: 20,
   },
   appLinkText: {
     color: '#7ac6fa',
-    padding: 7
+    padding: 7,
   },
   demoButton: {
     borderColor: '#7ac6fa',
@@ -280,17 +280,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignSelf: 'center',
     marginTop: 7,
-    padding: 7
+    padding: 7,
   },
   playIcons: {
     color: '#7ac6fa',
     fontSize: 27,
     margin: 7,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   demoButtonText: {
-    color: '#7ac6fa'
-  }
+    color: '#7ac6fa',
+  },
 })
 
 export default InstructionModal

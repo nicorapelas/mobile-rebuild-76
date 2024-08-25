@@ -15,25 +15,27 @@ const ExperienceReducer = (state, action) => {
       return {
         ...state,
         experienceStatus: action.payload,
-        loading: false
+        loading: false,
       }
     case 'FETCH_SAMPLE':
       return { ...state, experienceSample: action.payload }
     case 'FETCH_EXPERIENCES':
       return { ...state, experiences: action.payload, loading: false }
     case 'CREATE':
-      return { ...state, experience: action.payload, loading: false }
+      return { ...state, experiences: action.payload, loading: false }
+    case 'SET_EXPERIENCE_TO_EDIT':
+      return { ...state, experienceToEdit: action.payload }
     case 'EDIT':
-      return { ...state, [action.payload._id]: action.payload, loading: false }
+      return { ...state, experiences: action.payload, loading: false }
     case 'DELETE':
-      return _.omit(state, action.payload)
+      return { ...state, experiences: action.payload, loading: false }
     default:
       return state
   }
 }
 
 // Actions
-const fetchExperienceSample = dispatch => async () => {
+const fetchExperienceSample = (dispatch) => async () => {
   try {
     const response = await ngrokApi.get('/api/experience/sample')
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
@@ -44,7 +46,7 @@ const fetchExperienceSample = dispatch => async () => {
   }
 }
 
-const fetchExperienceStatus = dispatch => async () => {
+const fetchExperienceStatus = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/experience/status')
@@ -56,7 +58,7 @@ const fetchExperienceStatus = dispatch => async () => {
   }
 }
 
-const fetchExperiences = dispatch => async () => {
+const fetchExperiences = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/experience')
@@ -68,7 +70,7 @@ const fetchExperiences = dispatch => async () => {
   }
 }
 
-const createExperience = dispatch => async (formValues, callback) => {
+const createExperience = (dispatch) => async (formValues) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/api/experience', formValues)
@@ -77,7 +79,6 @@ const createExperience = dispatch => async (formValues, callback) => {
       return
     }
     dispatch({ type: 'CREATE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
@@ -85,43 +86,47 @@ const createExperience = dispatch => async (formValues, callback) => {
   }
 }
 
-const editExperience = dispatch => async (id, formValues, callback) => {
+const setExperienceToEdit = (dispatch) => (data) => {
+  dispatch({ type: 'SET_EXPERIENCE_TO_EDIT', payload: data })
+  return
+}
+
+const editExperience = (dispatch) => async (id, formValues) => {
   dispatch({ type: 'LOADING' })
   try {
-    const response = await ngrokApi.patch(`/api/experience/${id}`, formValues)
+    const response = await ngrokApi.patch(
+      `/api/experience/${id.id}`,
+      formValues
+    )
     if (response.data.error) {
       dispatch({ type: 'ADD_ERROR', payload: response.data.error })
       return
     }
     dispatch({ type: 'EDIT', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
 
-const deleteExperience = dispatch => async (id, callback) => {
+const deleteExperience = (dispatch) => async (id) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.delete(`/api/experience/${id}`)
     dispatch({ type: 'DELETE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
 
-const addError = dispatch => error => {
+const addError = (dispatch) => (error) => {
   dispatch({ type: 'ADD_ERROR', payload: error })
 }
 
-const clearExperienceErrors = dispatch => () => {
+const clearExperienceErrors = (dispatch) => () => {
   dispatch({ type: 'CLEAR_ERRORS' })
   return
 }
@@ -133,10 +138,11 @@ export const { Context, Provider } = createDataContext(
     fetchExperienceStatus,
     fetchExperiences,
     createExperience,
+    setExperienceToEdit,
     editExperience,
     deleteExperience,
     addError,
-    clearExperienceErrors
+    clearExperienceErrors,
   },
   // Initial state
   {
@@ -144,7 +150,8 @@ export const { Context, Provider } = createDataContext(
     experiences: null,
     experienceSample: null,
     experienceStatus: null,
+    experienceToEdit: null,
     loading: null,
-    error: null
+    error: null,
   }
 )

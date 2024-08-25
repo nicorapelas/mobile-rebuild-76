@@ -14,7 +14,12 @@ const DoneButton = ({ routeName, text }) => {
         style={styles.button}
         onPress={() => setCVBitScreenSelected(routeName)}
       >
-        <AntDesign name="checkcircle" style={styles.icon} />
+        {routeName === 'photo' ? (
+          <AntDesign name="back" style={styles.icon} />
+        ) : (
+          <AntDesign name="checkcircle" style={styles.icon} />
+        )}
+
         <Text style={styles.text}>{text}</Text>
       </TouchableOpacity>
     </View>

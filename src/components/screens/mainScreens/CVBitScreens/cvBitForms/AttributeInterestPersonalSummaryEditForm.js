@@ -6,10 +6,9 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  Keyboard,
   Platform,
 } from 'react-native'
-import { MaterialIcons, AntDesign } from '@expo/vector-icons'
+import { MaterialIcons } from '@expo/vector-icons'
 
 import FormHintModal from '../../../../common/modals/FormHintModal'
 import FormCancelButton from '../../../../common/FormCancelButton'

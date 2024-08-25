@@ -29,6 +29,16 @@ import TertEduCreateScreen from './tertEdu/TertEduCreateScreen'
 import TertEduEditScreen from './tertEdu/TertEduEditScreen'
 import EmployHistoryScreen from './employHistory/EmployHistoryScreen'
 import EmployHistoryCreateScreen from './employHistory/EmployHistoryCreateScreen'
+import EmployHistoryEditScreen from './employHistory/EmployHistoryEditScreen'
+import ExperienceScreen from './experience/ExperienceScreen'
+import ExperienceCreateScreen from './experience/ExperienceCreateScreen'
+import ExperienceEditScreen from './experience/ExperienceEditScreen'
+import ReferenceScreen from './reference/ReferenceScreen'
+import ReferenceCreateScreen from './reference/ReferenceCreateScreen'
+import ReferenceEditScreen from './reference/ReferenceEditScreen'
+import PhotoScreen from './photo/PhotoScreen'
+import PhotoCreateScreen from './photo/PhotoCreateScreen'
+import PhotoEditScreen from './photo/PhotoEditScreen'
 import { Context as NavContext } from '../../../../context/NavContext'
 
 const CVBitScreenRender = () => {
@@ -96,6 +106,26 @@ const CVBitScreenRender = () => {
         return <EmployHistoryScreen />
       case 'employHistoryCreate':
         return <EmployHistoryCreateScreen />
+      case 'employHistoryEdit':
+        return <EmployHistoryEditScreen />
+      case 'experience':
+        return <ExperienceScreen />
+      case 'experienceCreate':
+        return <ExperienceCreateScreen />
+      case 'experienceEdit':
+        return <ExperienceEditScreen />
+      case 'reference':
+        return <ReferenceScreen />
+      case 'referenceCreate':
+        return <ReferenceCreateScreen />
+      case 'referenceEdit':
+        return <ReferenceEditScreen />
+      case 'photo':
+        return <PhotoScreen />
+      case 'photoCreate':
+        return <PhotoCreateScreen />
+      case 'photoEdit':
+        return <PhotoEditScreen />
       default:
         break
     }

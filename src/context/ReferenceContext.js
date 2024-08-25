@@ -18,18 +18,20 @@ const ReferenceReducer = (state, action) => {
     case 'FETCH_REFERENCES':
       return { ...state, references: action.payload, loading: false }
     case 'CREATE':
-      return { ...state, reference: action.payload, loading: false }
+      return { ...state, references: action.payload, loading: false }
+    case 'SET_REFERENCE_TO_EDIT':
+      return { ...state, referenceToEdit: action.payload }
     case 'EDIT':
-      return { ...state, [action.payload._id]: action.payload, loading: false }
+      return { ...state, references: action.payload, loading: false }
     case 'DELETE':
-      return _.omit(state, action.payload)
+      return { ...state, references: action.payload, loading: false }
     default:
       return state
   }
 }
 
 // Actions
-const fetchReferenceSample = dispatch => async () => {
+const fetchReferenceSample = (dispatch) => async () => {
   try {
     const response = await ngrokApi.get('/api/reference/sample')
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
@@ -40,7 +42,7 @@ const fetchReferenceSample = dispatch => async () => {
   }
 }
 
-const fetchReferenceStatus = dispatch => async () => {
+const fetchReferenceStatus = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/reference/status')
@@ -52,7 +54,7 @@ const fetchReferenceStatus = dispatch => async () => {
   }
 }
 
-const fetchReferences = dispatch => async () => {
+const fetchReferences = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/reference')
@@ -64,16 +66,15 @@ const fetchReferences = dispatch => async () => {
   }
 }
 
-const createReference = dispatch => async (formValues, callback) => {
+const createReference = (dispatch) => async (data) => {
   dispatch({ type: 'LOADING' })
   try {
-    const response = await ngrokApi.post('/api/reference', formValues)
+    const response = await ngrokApi.post('/api/reference', data)
     if (response.data.error) {
       dispatch({ type: 'ADD_ERROR', payload: response.data.error })
       return
     }
     dispatch({ type: 'CREATE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
@@ -81,43 +82,43 @@ const createReference = dispatch => async (formValues, callback) => {
   }
 }
 
-const editReference = dispatch => async (id, formValues, callback) => {
+const setReferenceToEdit = (dispatch) => (data) => {
+  dispatch({ type: 'SET_REFERENCE_TO_EDIT', payload: data })
+}
+
+const editReference = (dispatch) => async (id, formValues) => {
   dispatch({ type: 'LOADING' })
   try {
-    const response = await ngrokApi.patch(`/api/reference/${id}`, formValues)
+    const response = await ngrokApi.patch(`/api/reference/${id.id}`, formValues)
     if (response.data.error) {
       dispatch({ type: 'ADD_ERROR', payload: response.data.error })
       return
     }
     dispatch({ type: 'EDIT', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
 
-const deleteReference = dispatch => async (id, callback) => {
+const deleteReference = (dispatch) => async (id) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.delete(`/api/reference/${id}`)
     dispatch({ type: 'DELETE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
 
-const addError = dispatch => error => {
+const addError = (dispatch) => (error) => {
   dispatch({ type: 'ADD_ERROR', payload: error })
 }
 
-const clearReferenceErrors = dispatch => () => {
+const clearReferenceErrors = (dispatch) => () => {
   dispatch({ type: 'CLEAR_ERRORS' })
   return
 }
@@ -129,17 +130,19 @@ export const { Context, Provider } = createDataContext(
     fetchReferenceStatus,
     fetchReferences,
     createReference,
+    setReferenceToEdit,
     editReference,
     deleteReference,
     addError,
-    clearReferenceErrors
+    clearReferenceErrors,
   },
   // Initial state
   {
     references: null,
     referenceSample: null,
     referenceStatus: null,
+    referenceToEdit: null,
     loading: null,
-    error: null
+    error: null,
   }
 )

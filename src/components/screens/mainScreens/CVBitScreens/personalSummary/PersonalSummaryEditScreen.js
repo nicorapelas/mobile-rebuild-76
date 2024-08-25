@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import { Context as PersonalSummaryContext } from '../../../../../context/PersonalSummaryContext'
-// HERE.......
 import PersonalSummaryEditForm from '../cvBitForms/AttributeInterestPersonalSummaryEditForm'
 
 const PersonalSummaryEditScreen = () => {

@@ -252,7 +252,6 @@ const setMonthYearPickerShow = (dispatch) => (value) => {
   return
 }
 const setMonthYearPickerProps = (dispatch) => (props) => {
-  console.log(`at action:`, props)
   dispatch({ type: 'MONTH_YEAR_PICKER_PROPS', payload: props })
 }
 const clearMonthYearPickerProps = (dispatch) => () => {

@@ -23,7 +23,7 @@ const PersonalSummaryCreateForm = ({ bit }) => {
   const [personalSummaryNew, setPersonalSummaryNew] = useState(null)
 
   const {
-    state: { loading, error, personalSummary },
+    state: { loading, error },
     createPersonalSummary,
     clearPersonalSummaryErrors,
   } = useContext(PersonalSummaryContext)

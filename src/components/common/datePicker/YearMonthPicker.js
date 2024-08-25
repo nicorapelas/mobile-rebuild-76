@@ -16,6 +16,8 @@ const YearMonthPicker = ({ bit, buttonText }) => {
   const [condensedYearArray, setCondensedYearArray] = useState([])
   const [yearSelectionDone, setYearSelectionDone] = useState(false)
   const [monthSelectionDone, setMonthSelectionDone] = useState(false)
+  const [selectedYear, setSelectedYear] = useState(null)
+  const [selectedMonth, setSelectedMonth] = useState(null)
 
   const scrollViewRef = useRef(null)
   const monthScrollViewRef = useRef(null)
@@ -87,12 +89,14 @@ const YearMonthPicker = ({ bit, buttonText }) => {
   const handlePressYearSelect = (data) => {
     if (bit === 'startYearMonth') setStartYear(data.toString())
     if (bit === 'endYearMonth') setEndYear(data.toString())
+    setSelectedYear(data)
     setYearSelectionDone(true)
   }
 
   const handlePressMonthSelect = (month) => {
     if (bit === 'startYearMonth') setStartMonth(month)
     if (bit === 'endYearMonth') setEndMonth(month)
+    setSelectedMonth(month)
     setMonthSelectionDone(true)
   }
 
@@ -107,10 +111,20 @@ const YearMonthPicker = ({ bit, buttonText }) => {
             ).map((year) => (
               <TouchableOpacity
                 key={year}
-                style={styles.pickerItem}
+                style={[
+                  styles.pickerItem,
+                  selectedYear === year && styles.selectedItem,
+                ]}
                 onPress={() => handlePressYearSelect(year)}
               >
-                <Text style={styles.pickerItemText}>{year}</Text>
+                <Text
+                  style={[
+                    styles.pickerItemText,
+                    selectedYear === year && styles.selectedItemText,
+                  ]}
+                >
+                  {year}
+                </Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
@@ -120,10 +134,20 @@ const YearMonthPicker = ({ bit, buttonText }) => {
             {monthsArray.map((month, index) => (
               <TouchableOpacity
                 key={index}
-                style={styles.pickerItem}
+                style={[
+                  styles.pickerItem,
+                  selectedMonth === month && styles.selectedItem,
+                ]}
                 onPress={() => handlePressMonthSelect(month)}
               >
-                <Text style={styles.pickerItemText}>{month}</Text>
+                <Text
+                  style={[
+                    styles.pickerItemText,
+                    selectedMonth === month && styles.selectedItemText,
+                  ]}
+                >
+                  {month}
+                </Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
@@ -214,6 +238,12 @@ const styles = StyleSheet.create({
   pickerItemText: {
     fontSize: 22,
     color: '#1a1a1a',
+  },
+  selectedItem: {
+    backgroundColor: '#d3e0ea',
+  },
+  selectedItemText: {
+    fontWeight: '700',
   },
 })
 

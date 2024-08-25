@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {
   View,
+  KeyboardAvoidingView,
   ScrollView,
   Text,
   TextInput,
@@ -10,6 +11,7 @@ import {
   Keyboard,
 } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons'
+import { useKeyboard } from '@react-native-community/hooks'
 
 import FormHintModal from '../../../../../common/modals/FormHintModal'
 import FormCancelButton from '../../../../../common/FormCancelButton'
@@ -29,9 +31,9 @@ const EmployHistoryEditForm = () => {
   const [descriptionInputShow, setDescriptionInputShow] = useState(false)
   const [saveButtonShow, setSaveButtonShow] = useState(false)
   const [current, setCurrent] = useState(false)
-
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
+  const [initDateDone, setInitDateDone] = useState(false)
 
   const {
     state: {
@@ -51,7 +53,7 @@ const EmployHistoryEditForm = () => {
   const { setCVBitScreenSelected } = useContext(NavContext)
 
   const {
-    state: { loading, error },
+    state: { loading, error, employHistoryToEdit },
     editEmployHistory,
     addError,
     clearEmployHistoryErrors,
@@ -63,10 +65,39 @@ const EmployHistoryEditForm = () => {
   }, [startYear, endYear, startMonth, endMonth])
 
   useEffect(() => {
+    if (employHistoryToEdit) {
+      const { company, current, description, startDate, endDate, position } =
+        employHistoryToEdit
+      setCompany(company)
+      setCurrent(current)
+      setDescription(description)
+      setStartDate(startDate)
+      setEndDate(endDate)
+      setPosition(position)
+    }
+  }, [employHistoryToEdit])
+
+  useEffect(() => {
+    if (!initDateDone) {
+      if (startDate) {
+        const [startMonth, startYear] = startDate.split(' ')
+        const [endMonth, endYear] = endDate.split(' ')
+        setStartMonth(startMonth)
+        setStartYear(startYear)
+        setEndMonth(endMonth)
+        setEndYear(endYear)
+        setInitDateDone(true)
+      }
+    }
+  }, [initDateDone, startDate, endDate])
+
+  useEffect(() => {
     if (current) {
       setEndDate(null)
     }
   }, [current])
+
+  const keyboard = useKeyboard()
 
   const errorHeading = () => {
     if (error === null) return null
@@ -439,7 +470,8 @@ const EmployHistoryEditForm = () => {
   }
 
   const handlePressSave = (data) => {
-    editEmployHistory(data)
+    const { _id } = employHistoryToEdit
+    editEmployHistory({ id: _id }, { formValues: data })
     setStartYear(null)
     setEndYear(null)
     setStartMonth(null)
@@ -515,7 +547,14 @@ const EmployHistoryEditForm = () => {
   const renderContent = () => {
     if (loading) return <LoaderFullScreen />
     return (
-      <View View style={styles.bed}>
+      <KeyboardAvoidingView
+        style={
+          Platform.OS === 'ios' && keyboard.keyboardShown === false
+            ? styles.bedIos
+            : styles.bedAndroid
+        }
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         {errorHeading()}
         {!monthYearPickerShow ? (
           <ScrollView
@@ -528,17 +567,23 @@ const EmployHistoryEditForm = () => {
         ) : (
           <View style={styles.yearPickerBed}>{renderForm()}</View>
         )}
-      </View>
+      </KeyboardAvoidingView>
     )
   }
   return renderContent()
 }
 
 const styles = StyleSheet.create({
-  bed: {
+  bedIos: {
     backgroundColor: '#232936',
-    flex: 1,
     width: '100%',
+    flex: 1,
+    marginTop: -100,
+  },
+  bedAndroid: {
+    backgroundColor: '#232936',
+    width: '100%',
+    flex: 1,
   },
   formBed: {
     flexDirection: 'column',
