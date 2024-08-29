@@ -297,7 +297,6 @@ const ExperienceEditForm = () => {
         >
           {renderPreview()}
           {renderForm()}
-          {Platform.OS === 'ios' ? <KeyboardSpacer /> : null}
         </ScrollView>
       </KeyboardAvoidingView>
     )

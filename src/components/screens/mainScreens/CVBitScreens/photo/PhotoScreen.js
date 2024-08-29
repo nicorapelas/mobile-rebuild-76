@@ -57,12 +57,6 @@ const PhotoScreen = () => {
     }
   }
 
-  //   navigation.navigate('PhotoEdit', {
-  //     id: item._id,
-  //     title: item.title,
-  //     photoUrl: item.photoUrl,
-  //   })
-
   const handlePressUsePhoto = (data) => {
     setPhotoSelected(data._id)
     resetAssignedPhotoId()

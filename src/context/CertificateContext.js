@@ -19,6 +19,10 @@ const CertificateReducer = (state, action) => {
       return { ...state, certificates: action.payload, loading: false }
     case 'CREATE':
       return { ...state, certificate: action.payload, loading: false }
+    case 'SET_CERTIFICATE_TO_EDIT':
+      return { ...state, certificateToEdit: action.payload }
+    case 'DELETE':
+      return { ...state, certificates: action.payload, loading: false }
     default:
       return state
   }
@@ -73,6 +77,10 @@ const deleteLargeCertificate = (dispatch) => async (imageFile) => {
   }
 }
 
+const setCertificateToEdit = (dispatch) => (data) => {
+  dispatch({ type: 'SET_CERTIFICATE_TO_EDIT', payload: data })
+}
+
 const editCertificate = (dispatch) => async (id, formValues, callback) => {
   dispatch({ type: 'LOADING' })
   try {
@@ -87,16 +95,14 @@ const editCertificate = (dispatch) => async (id, formValues, callback) => {
   }
 }
 
-const deleteCertificate = (dispatch) => async (data, callback) => {
+const deleteCertificate = (dispatch) => async (data) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post(`/api/certificate/delete`, data)
     dispatch({ type: 'DELETE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
@@ -143,6 +149,7 @@ export const { Context, Provider } = createDataContext(
     fetchCertificateStatus,
     fetchCertificates,
     createCertificate,
+    setCertificateToEdit,
     editCertificate,
     deleteCertificate,
     deleteLargeCertificate,
@@ -155,6 +162,7 @@ export const { Context, Provider } = createDataContext(
     certificate: null,
     certificates: null,
     certificateStatus: null,
+    certificateToEdit: null,
     uploadSignature: null,
     loading: null,
     photoError: null,

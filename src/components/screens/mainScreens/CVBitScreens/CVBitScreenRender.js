@@ -39,6 +39,11 @@ import ReferenceEditScreen from './reference/ReferenceEditScreen'
 import PhotoScreen from './photo/PhotoScreen'
 import PhotoCreateScreen from './photo/PhotoCreateScreen'
 import PhotoEditScreen from './photo/PhotoEditScreen'
+import CertificateScreen from './certificate/CertificateScreen'
+import CertificateCreateScreen from './certificate/CertificateCreateScreen'
+import CertificatePdfUploadScreen from './certificate/CertificatePdfUploadScreen'
+import CertificatePhotoUploadScreen from './certificate/CertificatePhotoUploadScreen'
+import CertificateEditScreen from './certificate/CertificateEditScreen'
 import { Context as NavContext } from '../../../../context/NavContext'
 
 const CVBitScreenRender = () => {
@@ -126,6 +131,16 @@ const CVBitScreenRender = () => {
         return <PhotoCreateScreen />
       case 'photoEdit':
         return <PhotoEditScreen />
+      case 'certificate':
+        return <CertificateScreen />
+      case 'certificateCreate':
+        return <CertificateCreateScreen />
+      case 'certificatePdfUpload':
+        return <CertificatePdfUploadScreen />
+      case 'certificatePhotoUpload':
+        return <CertificatePhotoUploadScreen />
+      case 'certificateEditScreen':
+        return <CertificateEditScreen />
       default:
         break
     }
