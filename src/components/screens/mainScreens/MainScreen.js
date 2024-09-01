@@ -90,6 +90,7 @@ const Main = () => {
       CVBitScreenSelected === 'referenceEdit' ||
       CVBitScreenSelected === 'photoCreate' ||
       CVBitScreenSelected === 'photoEdit' ||
+      CVBitScreenSelected === 'certificatePhotoUpload' ||
       navTabSelected === 'viewCV'
     ) {
       setShowHeader(false)

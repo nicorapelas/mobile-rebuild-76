@@ -63,7 +63,7 @@ const CertificateScreen = () => {
     return (
       <>
         <AddContentButtonLink
-          routeName="CertificateCreate"
+          routeName="certificateCreate"
           text="upload certificate"
         />
         <FlatList

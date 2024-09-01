@@ -152,7 +152,7 @@ const InstructionModal = ({ bit }) => {
             >
               <Ionicons
                 style={styles.backButtonIcon}
-                name="close-circle-outline"
+                name="ios-close-circle-outline"
               />
               <Text style={styles.backButtonText}>close</Text>
             </TouchableOpacity>

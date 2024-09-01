@@ -44,6 +44,15 @@ const HeaderCVBit = () => {
       case 'employHistory':
         setLabel('employment history')
         break
+      case 'experience':
+        setLabel('work experience')
+        break
+      case 'reference':
+        setLabel('references')
+        break
+      case 'certificate':
+        setLabel('certificates')
+        break
       default:
         setLabel('')
         break

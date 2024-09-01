@@ -1,20 +1,24 @@
 import React, { useContext, useState, useEffect } from 'react'
 import {
   View,
-  ScrollView,
+  KeyboardAvoidingView,
   Text,
   TextInput,
   StyleSheet,
   TouchableOpacity,
   Image,
+  Platform,
+  Alert,
 } from 'react-native'
 import { Camera } from 'expo-camera'
 import * as ImagePicker from 'expo-image-picker'
 import { Fontisto, MaterialIcons } from '@expo/vector-icons'
+import { useKeyboard } from '@react-native-community/hooks'
 
 import { keys } from '../../../../../../config/keys_dev'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import PhotoPermissions from '../photo/PhotoPermissions'
+import FormCancelButton from '../../../../common/FormCancelButton'
 import { Context as CertificateContext } from '../../../../../context/CertificateContext'
 import { Context as NavContext } from '../../../../../context/NavContext'
 
@@ -42,6 +46,22 @@ const CertificatePhotoUploadScreen = () => {
     }
   }, [uploadSignature])
 
+  const keyboard = useKeyboard()
+
+  const handleCertificateCreate = (data) => {
+    createCertificate({
+      title: title,
+      photoUrl: data.url,
+      publicId: data.public_id,
+    })
+    setImageUploading(false)
+    setModal(false)
+    setTitle(null)
+    setImageFile(null)
+    clearUploadSignature()
+    setCVBitScreenSelected('certificate')
+  }
+
   const randomFileName =
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15) +
@@ -50,45 +70,38 @@ const CertificatePhotoUploadScreen = () => {
   const imageUpload = () => {
     const { apiKey, signature, timestamp } = uploadSignature
     const data = new FormData()
-    data.append('file', {
-      uri: imageFile.uri,
-      type: `documents/${imageFile.uri.split('.')[1]}`,
-      name: imageFile.name,
-    })
-    data.append('api_key', apiKey)
-    data.append('timestamp', timestamp)
-    data.append('signature', signature)
-    fetch(keys.cloudinary.uploadImageUrl, {
-      method: 'post',
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setImageUploading(false)
-          clearUploadSignature()
+    if (imageFile) {
+      data.append('file', {
+        uri: imageFile.uri,
+        type: `documents/${imageFile.uri.split('.')[1]}`,
+        name: imageFile.name,
+      })
+      data.append('api_key', apiKey)
+      data.append('timestamp', timestamp)
+      data.append('signature', signature)
+      fetch(keys.cloudinary.uploadImageUrl, {
+        method: 'post',
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(`datadata`, data)
+          if (data.error) {
+            setImageUploading(false)
+            clearUploadSignature()
+            Alert.alert('Unable to upload image, please try again later')
+            setCVBitScreenSelected('')
+            return
+          }
+          handleCertificateCreate(data)
+        })
+        .catch((err) => {
+          console.log(`errerr`, err)
           Alert.alert('Unable to upload image, please try again later')
           setCVBitScreenSelected('')
           return
-        }
-        createCertificate(
-          {
-            title: title,
-            photoUrl: data.url,
-            publicId: data.public_id,
-          },
-          () => {
-            setImageUploading(false)
-            clearUploadSignature()
-            setCVBitScreenSelected('certificate')
-          }
-        )
-        setImageUploading(false)
-      })
-      .catch((err) => {
-        Alert.alert('Unable to upload image, please try again later')
-        return
-      })
+        })
+    }
   }
 
   const pickFromGallery = async () => {
@@ -144,17 +157,26 @@ const CertificatePhotoUploadScreen = () => {
   const titleField = () => {
     if (!imageUri || imageUri.length < 1) return null
     return (
-      <View>
-        <ScrollView keyboardShouldPersistTaps="always">
-          <Image source={{ uri: imageUri }} style={styles.photo} />
-          <TextInput
-            style={styles.input}
-            textAlign="center"
-            placeholder="image title"
-            value={title}
-            onChangeText={setTitle}
-            autoCorrect={false}
-          />
+      <KeyboardAvoidingView
+        style={
+          Platform.OS === 'ios' && keyboard.keyboardShown === false
+            ? styles.bedIos
+            : styles.bedAndroid
+        }
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardShouldPersistTaps="always"
+      >
+        <Image source={{ uri: imageUri }} style={styles.photo} />
+        <TextInput
+          style={styles.input}
+          textAlign="center"
+          placeholder="image title"
+          value={title}
+          onChangeText={setTitle}
+          autoCorrect={false}
+        />
+        <View style={styles.donePlusButtonBed}>
+          <FormCancelButton route="certificate" />
           <TouchableOpacity
             style={styles.addButtonContainer}
             onPress={() => createUploadSignature()}
@@ -162,8 +184,8 @@ const CertificatePhotoUploadScreen = () => {
             <MaterialIcons style={styles.addButtonIcon} name="add-circle" />
             <Text style={styles.addButtonText}>save</Text>
           </TouchableOpacity>
-        </ScrollView>
-      </View>
+        </View>
+      </KeyboardAvoidingView>
     )
   }
 
@@ -200,10 +222,10 @@ const CertificatePhotoUploadScreen = () => {
     if (galleryPermissionStatus === false)
       return <PhotoPermissions bit="gallery" />
     return (
-      <View style={styles.bed}>
+      <>
         {cameraOrGallery()}
         {titleField()}
-      </View>
+      </>
     )
   }
 
@@ -215,11 +237,17 @@ const styles = StyleSheet.create({
     color: '#ffff',
     fontSize: 22,
   },
-  bed: {
+  bedIos: {
     backgroundColor: '#232936',
-    flex: 1,
-    justifyContent: 'center',
     width: '100%',
+    flex: 1,
+    paddingTop: '10%',
+  },
+  bedAndroid: {
+    backgroundColor: '#232936',
+    width: '100%',
+    flex: 1,
+    paddingTop: '10%',
   },
   imageSelectButton: {
     alignSelf: 'center',
@@ -286,7 +314,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     borderRadius: 7,
-    marginVertical: 15,
+    marginVertical: 10,
+  },
+  donePlusButtonBed: {
+    flexDirection: 'row',
+    alignSelf: 'center',
   },
   addButtonContainer: {
     backgroundColor: '#278ACD',

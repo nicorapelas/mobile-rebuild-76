@@ -18,9 +18,11 @@ const CertificateReducer = (state, action) => {
     case 'FETCH_CERTIFICATES':
       return { ...state, certificates: action.payload, loading: false }
     case 'CREATE':
-      return { ...state, certificate: action.payload, loading: false }
+      return { ...state, certificates: action.payload, loading: false }
     case 'SET_CERTIFICATE_TO_EDIT':
       return { ...state, certificateToEdit: action.payload }
+    case 'EDIT':
+      return { ...state, certificates: action.payload, loading: false }
     case 'DELETE':
       return { ...state, certificates: action.payload, loading: false }
     default:
@@ -53,16 +55,14 @@ const fetchCertificates = (dispatch) => async () => {
   }
 }
 
-const createCertificate = (dispatch) => async (pdfData, callback) => {
+const createCertificate = (dispatch) => async (pdfData) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/api/certificate', pdfData)
     dispatch({ type: 'CREATE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
@@ -81,16 +81,14 @@ const setCertificateToEdit = (dispatch) => (data) => {
   dispatch({ type: 'SET_CERTIFICATE_TO_EDIT', payload: data })
 }
 
-const editCertificate = (dispatch) => async (id, formValues, callback) => {
+const editCertificate = (dispatch) => async (id, formValues) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.patch(`/api/certificate/${id}`, formValues)
     dispatch({ type: 'EDIT', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
@@ -108,11 +106,13 @@ const deleteCertificate = (dispatch) => async (data) => {
 }
 
 const createUploadSignature = (dispatch) => async () => {
+  console.log(`at createUploadSignature`)
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post(
       '/api/cloudinary/signature-request-no-preset'
     )
+    console.log(`response:`, response.data)
     if (response.data.error) {
       dispatch({ type: 'ADD_ERROR', payload: response.data.error })
       return

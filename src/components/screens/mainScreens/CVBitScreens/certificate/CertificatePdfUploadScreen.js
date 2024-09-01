@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native'
-import {} from 'react-native-elements'
 import * as DocumentPicker from 'expo-document-picker'
 import { MaterialIcons, AntDesign } from '@expo/vector-icons'
 
