@@ -12,18 +12,23 @@ import { Context as NavContext } from '../../context/NavContext'
 import { Context as UniversalContext } from '../../context/UniversalContext'
 
 const FormCancelButton = ({ route }) => {
-  const { setCVBitScreenSelected } = useContext(NavContext)
+  const { setCVBitScreenSelected, setNavTabSelected } = useContext(NavContext)
 
   const { setStartYear, setEndYear, setStartMonth, setEndMonth } =
     useContext(UniversalContext)
 
   const handlePressCancel = () => {
-    setCVBitScreenSelected(route)
-    setStartYear(null)
-    setEndYear(null)
-    setStartMonth(null)
-    setEndMonth(null)
-    Keyboard.dismiss()
+    if (route === 'dashboard') {
+      setCVBitScreenSelected('')
+      setNavTabSelected('dashboard')
+    } else {
+      setCVBitScreenSelected(route)
+      setStartYear(null)
+      setEndYear(null)
+      setStartMonth(null)
+      setEndMonth(null)
+      Keyboard.dismiss()
+    }
   }
 
   const cancelButton = () => {

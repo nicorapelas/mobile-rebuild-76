@@ -52,7 +52,6 @@ const DeleteModal = ({ id, documentSelected, bit, publicId }) => {
   const { setCVBitScreenSelected } = useContext(NavContext)
 
   useEffect(() => {
-    console.log(`bit:`, bit)
     switch (bit) {
       case 'contact information':
         setCancelRoute('contactInfo')
@@ -68,8 +67,12 @@ const DeleteModal = ({ id, documentSelected, bit, publicId }) => {
         break
       case 'personal information':
         setCancelRoute('personalInfo')
+        break
       case 'employment history':
         setCancelRoute('employHistory')
+        break
+      case 'first impression':
+        setCancelRoute('firstImpression')
         break
       default:
         setCancelRoute(bit)

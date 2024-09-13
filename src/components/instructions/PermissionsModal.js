@@ -9,7 +9,7 @@ const PermissionsModal = ({ bit }) => {
 
   const {
     state: { permissionsModalShow },
-    togglePermissionsModal
+    togglePermissionsModal,
   } = useContext(UniversalContext)
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const PermissionsModal = ({ bit }) => {
           >
             <Ionicons
               style={styles.backButtonIcon}
-              name="ios-close-circle-outline"
+              name="close-circle-outline"
             />
             <Text style={styles.backButtonText}>close</Text>
           </TouchableOpacity>
@@ -74,44 +74,44 @@ const styles = StyleSheet.create({
     backgroundColor: '#232936',
     width: '80%',
     padding: 15,
-    borderRadius: 10
+    borderRadius: 10,
   },
   headingBed: {
     flexDirection: 'row',
     alignSelf: 'center',
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   headingText: {
     color: '#7ac6fa',
-    fontSize: 28
+    fontSize: 28,
   },
   headingIcon: {
     color: '#7ac6fa',
     fontSize: 27,
-    margin: 7
+    margin: 7,
   },
   subHeading: {
     color: '#7ac6fa',
     fontSize: 18,
     paddingBottom: 3,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   hitBed: {
-    paddingBottom: 7
+    paddingBottom: 7,
   },
   dotHintBed: {
     flexDirection: 'row',
-    paddingVertical: 2
+    paddingVertical: 2,
   },
   dot: {
     color: '#7ac6fa',
     fontSize: 13,
     paddingRight: 7,
-    paddingTop: 4
+    paddingTop: 4,
   },
   hintText: {
     color: '#7ac6fa',
-    fontSize: 14
+    fontSize: 14,
   },
   phoneOutlineBody: {
     borderColor: '#7ac6fa',
@@ -120,12 +120,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: 40,
     width: 25,
-    marginVertical: 5
+    marginVertical: 5,
   },
   phoneOutlineButtonBed: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   phoneOutlineButton: {
     borderColor: '#7ac6fa',
@@ -134,50 +134,50 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 5,
     width: 5,
-    marginBottom: 2
+    marginBottom: 2,
   },
   description: {
-    color: '#7ac6fa'
+    color: '#7ac6fa',
   },
   paragraph: {
     color: '#7ac6fa',
-    paddingVertical: 2
+    paddingVertical: 2,
   },
   examplesIntro: {
     color: '#7ac6fa',
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   stepHeading: {
     color: '#7ac6fa',
     fontWeight: '900',
-    paddingTop: 10
+    paddingTop: 10,
   },
   backButton: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: 20
+    paddingTop: 20,
   },
   backButtonIcon: {
     color: '#F9B321',
     paddingRight: 7,
     paddingTop: 2,
-    fontSize: 20
+    fontSize: 20,
   },
   backButtonText: {
     color: '#F9B321',
-    fontSize: 18
+    fontSize: 18,
   },
   appLink: {
     borderColor: '#7ac6fa',
     borderWidth: 1,
     borderRadius: 5,
     alignSelf: 'center',
-    marginTop: 20
+    marginTop: 20,
   },
   appLinkText: {
     color: '#7ac6fa',
-    padding: 7
-  }
+    padding: 7,
+  },
 })
 
 export default PermissionsModal

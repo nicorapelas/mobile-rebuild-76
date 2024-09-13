@@ -50,8 +50,17 @@ const HeaderCVBit = () => {
       case 'reference':
         setLabel('references')
         break
+      case 'photo':
+        setLabel('photo')
+        break
       case 'certificate':
         setLabel('certificates')
+        break
+      case 'firstImpression':
+        setLabel('first impression')
+        break
+      case 'firstImpressionCreate':
+        setLabel('recorder')
         break
       default:
         setLabel('')
@@ -114,7 +123,7 @@ const styles = StyleSheet.create({
   },
   headingContainer: {
     justifyContent: 'center',
-    paddingRight: 40,
+    paddingRight: 50,
     paddingBottom: 8,
   },
   headerText: {

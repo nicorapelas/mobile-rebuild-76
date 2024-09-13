@@ -95,7 +95,7 @@ const Affiliate = () => {
           >
             <Ionicons
               style={styles.backButtonIcon}
-              name="ios-close-circle-outline"
+              name="close-circle-outline"
             />
             <Text style={styles.backButtonText}>back</Text>
           </TouchableOpacity>

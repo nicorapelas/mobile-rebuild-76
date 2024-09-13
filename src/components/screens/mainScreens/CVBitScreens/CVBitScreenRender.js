@@ -44,6 +44,8 @@ import CertificateCreateScreen from './certificate/CertificateCreateScreen'
 import CertificatePdfUploadScreen from './certificate/CertificatePdfUploadScreen'
 import CertificatePhotoUploadScreen from './certificate/CertificatePhotoUploadScreen'
 import CertificateEditScreen from './certificate/CertificateEditScreen'
+import FirstImpressionScreen from './firstImpression/FirstImpressionScreen'
+import FirstImpressionCreateScreen from './firstImpression/FirstImpressionCreateScreen'
 import { Context as NavContext } from '../../../../context/NavContext'
 
 const CVBitScreenRender = () => {
@@ -139,8 +141,12 @@ const CVBitScreenRender = () => {
         return <CertificatePdfUploadScreen />
       case 'certificatePhotoUpload':
         return <CertificatePhotoUploadScreen />
-      case 'certificateEditScreen':
+      case 'certificateEdit':
         return <CertificateEditScreen />
+      case 'firstImpression':
+        return <FirstImpressionScreen />
+      case 'firstImpressionCreate':
+        return <FirstImpressionCreateScreen />
       default:
         break
     }

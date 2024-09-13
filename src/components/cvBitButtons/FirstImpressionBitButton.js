@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {
   View,
   Text,
@@ -6,24 +6,32 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native'
-import { Octicons } from '@expo/vector-icons'
+import { Feather, Octicons } from '@expo/vector-icons'
 
-import { Context as AttributeContext } from '../../context/AttributeContext'
+import { Context as FirstImpressionContext } from '../../context/FirstImpressionContext'
 import { Context as NavContext } from '../../context/NavContext'
 
-const AttributeBitButton = () => {
+const FirstImpressionBitButton = () => {
+  const [counter, setCounter] = useState(0)
+
   const {
-    state: { loading, attributeStatus },
-    fetchAttributeStatus,
-    fetchAttributes,
-  } = useContext(AttributeContext)
+    state: { loading, firstImpressionStatus, firstImpression },
+    fetchFirstImpression,
+    fetchFirsImpressionStatus,
+  } = useContext(FirstImpressionContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
 
   useEffect(() => {
-    fetchAttributeStatus()
-    fetchAttributes()
+    fetchFirstImpression()
+    fetchFirsImpressionStatus()
   }, [])
+
+  useEffect(() => {
+    if (firstImpression && counter < 2) {
+      setCounter(counter + 1)
+    }
+  }, [firstImpression])
 
   const renderStatusLoader = () => {
     return <ActivityIndicator size="small" color="#ededed" />
@@ -34,31 +42,34 @@ const AttributeBitButton = () => {
       return <View style={styles.statusBed}>{renderStatusLoader()}</View>
     return (
       <View style={styles.statusBed}>
-        <Text style={styles.percentage}>X {attributeStatus}</Text>
-        {attributeStatus === '0' ? (
-          <Octicons style={styles.redDot} name="dot-fill" />
+        {firstImpressionStatus === '0' ? (
+          <>
+            <Text style={styles.percentage}>
+              <Feather name="circle" size={24} />
+            </Text>
+            <Octicons style={styles.redDot} name="dot-fill" />
+          </>
         ) : null}
-        {attributeStatus === '1' ? (
-          <Octicons style={styles.orangeDot} name="dot-fill" />
-        ) : null}
-        {attributeStatus === '2' ? (
-          <Octicons style={styles.yellowDot} name="dot-fill" />
-        ) : null}
-        {attributeStatus > '2' ? (
-          <Octicons style={styles.greenDot} name="dot-fill" />
+        {firstImpressionStatus > 0 ? (
+          <>
+            <Text style={styles.percentage}>
+              <Feather name="check-circle" size={24} />
+            </Text>
+            <Octicons style={styles.greenDot} name="dot-fill" />
+          </>
         ) : null}
       </View>
     )
   }
 
   const handlePress = () => {
-    setCVBitScreenSelected('attribute')
+    setCVBitScreenSelected('firstImpression')
   }
 
   return (
     <View style={styles.bed}>
       <TouchableOpacity style={styles.button} onPress={handlePress}>
-        <Text style={styles.title}>attributes</Text>
+        <Text style={styles.title}>first impression</Text>
       </TouchableOpacity>
       {renderStatus()}
     </View>
@@ -128,4 +139,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AttributeBitButton
+export default FirstImpressionBitButton

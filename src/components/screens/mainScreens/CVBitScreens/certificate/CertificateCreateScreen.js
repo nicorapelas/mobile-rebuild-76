@@ -6,6 +6,7 @@ import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import { Context as CertificateContext } from '../../../../../context/CertificateContext'
 import { Context as UniversalContext } from '../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../context/NavContext'
+import DoneButton from '../../../../links/DoneButton'
 import InstructionModal from '../../../../common/modals/InstructionModal'
 
 const CertificateCreateScreen = () => {
@@ -84,6 +85,7 @@ const CertificateCreateScreen = () => {
     <>
       <InstructionModal bit="certificate" />
       {renderContent()}
+      <DoneButton text="Cancel" routeName="certificate" />
     </>
   )
 }

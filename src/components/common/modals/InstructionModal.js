@@ -81,7 +81,7 @@ const InstructionModal = ({ bit }) => {
           First impressions go a long way so make it count!
         </Text>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>
             Record while holding your phone upright
           </Text>
@@ -94,27 +94,27 @@ const InstructionModal = ({ bit }) => {
           </View>
         </View>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>
             Be mindful of your body language and posture
           </Text>
         </View>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>Speak clearly</Text>
         </View>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>Dress the part</Text>
         </View>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>
             Mention the attached certificates, if any
           </Text>
         </View>
         <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="primitive-dot" />
+          <Octicons style={styles.dot} name="dot-fill" />
           <Text style={styles.hintText}>Be authentic</Text>
         </View>
         <View>
@@ -152,7 +152,7 @@ const InstructionModal = ({ bit }) => {
             >
               <Ionicons
                 style={styles.backButtonIcon}
-                name="ios-close-circle-outline"
+                name="close-circle-outline"
               />
               <Text style={styles.backButtonText}>close</Text>
             </TouchableOpacity>

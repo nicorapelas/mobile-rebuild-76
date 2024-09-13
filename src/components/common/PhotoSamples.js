@@ -108,10 +108,7 @@ const PhotoSamples = () => {
           style={styles.backButton}
           onPress={() => setPhotoSampleViewShow(false)}
         >
-          <Ionicons
-            style={styles.backButtonIcon}
-            name="ios-close-circle-outline"
-          />
+          <Ionicons style={styles.backButtonIcon} name="close-circle-outline" />
           <Text style={styles.backButtonText}>close</Text>
         </TouchableOpacity>
       </View>

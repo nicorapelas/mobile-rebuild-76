@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import {
   View,
   StyleSheet,
@@ -6,14 +6,20 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  Linking,
 } from 'react-native'
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
+import {
+  AntDesign,
+  MaterialCommunityIcons,
+  FontAwesome,
+} from '@expo/vector-icons'
 
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import BitNoData from '../../../../common/BitNoData'
 import AddContentButtonLink from '../../../../links/AddContentButtonLink'
 import DoneButton from '../../../../links/DoneButton'
 import DeleteModal from '../../../../common/modals/DeleteModal'
+import ImageViewer from '../../../../common/ImageViewer'
 import { Context as CertificateContext } from '../../../../../context/CertificateContext'
 import { Context as UniversalContext } from '../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../context/NavContext'
@@ -23,20 +29,32 @@ const CertificateScreen = () => {
   const [documentSelected, setDocumentSelected] = useState(null)
   const [documentPublicId, setDocumentPublicId] = useState(null)
 
-  const { showDeleteModal } = useContext(UniversalContext)
+  const {
+    state: { imageToViewUrl },
+    showDeleteModal,
+    setImageToViewUrl,
+  } = useContext(UniversalContext)
 
   const {
     state: { loading, certificates },
+    setCertificateToEdit,
   } = useContext(CertificateContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
 
-  // navigation.navigate('CertificateEdit', {
-  //   id: item._id,
-  //   title: item.title,
-  //   fileName: item.fileName,
-  //   photoUrl: item.photoUrl,
-  // })
+  const handlePressExpand = (data) => {
+    const { photoUrl, pdfUrl } = data
+    if (pdfUrl) {
+      Linking.openURL(pdfUrl).catch((err) =>
+        console.error('Failed to open PDF', err)
+      )
+      return
+    }
+    if (photoUrl) {
+      setImageToViewUrl(photoUrl)
+      return
+    }
+  }
 
   const handlePressEdit = (data) => {
     setCertificateToEdit(data)
@@ -89,6 +107,12 @@ const CertificateScreen = () => {
                   </View>
                   <View style={styles.buttonBed}>
                     <TouchableOpacity
+                      style={styles.expandButtonBed}
+                      onPress={() => handlePressExpand(item)}
+                    >
+                      <FontAwesome style={styles.actionButton} name="expand" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
                       style={styles.editButtonBed}
                       onPress={() => handlePressEdit(item)}
                     >
@@ -116,20 +140,25 @@ const CertificateScreen = () => {
     )
   }
 
-  return (
-    <>
-      <DeleteModal
-        id={documentId}
-        documentSelected={documentSelected}
-        publicId={documentPublicId}
-        bit="certificate"
-      />
-      <View style={styles.bed}>{renderList()}</View>
-      {loading || !certificates || certificates.length < 1 ? null : (
-        <DoneButton text="Done" routeName="" />
-      )}
-    </>
-  )
+  const renderContent = () => {
+    if (imageToViewUrl) return <ImageViewer />
+    return (
+      <>
+        <DeleteModal
+          id={documentId}
+          documentSelected={documentSelected}
+          publicId={documentPublicId}
+          bit="certificate"
+        />
+        <View style={styles.bed}>{renderList()}</View>
+        {loading || !certificates || certificates.length < 1 ? null : (
+          <DoneButton text="Done" routeName="" />
+        )}
+      </>
+    )
+  }
+
+  return renderContent()
 }
 
 const styles = StyleSheet.create({
@@ -179,9 +208,14 @@ const styles = StyleSheet.create({
     width: 120,
     paddingTop: 5,
   },
+  expandButtonBed: {
+    backgroundColor: '#558dd8',
+    borderRadius: 25,
+  },
   editButtonBed: {
     backgroundColor: '#558dd8',
     borderRadius: 25,
+    marginHorizontal: 10,
   },
   deleteButtonBed: {
     backgroundColor: '#c35a44',

@@ -155,7 +155,6 @@ const ViewCVScreen = () => {
     if (personalInfo === null || contactInfo === null) return null
     if (personalInfo.length < 1 && contactInfo.length < 1) {
       // navigation.navigate('StartUpCreate')
-      console.log(`nav userr to StartUpCreate`)
     }
   }
 

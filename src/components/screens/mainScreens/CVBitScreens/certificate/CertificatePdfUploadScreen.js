@@ -1,11 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
 import {
   View,
+  KeyboardAvoidingView,
   ScrollView,
   Text,
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Platform,
   Alert,
 } from 'react-native'
 import * as DocumentPicker from 'expo-document-picker'
@@ -15,7 +17,6 @@ import { keys } from '../../../../../../config/keys_dev'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import LoaderWithText from '../../../../common/LoaderWithText'
 import { Context as CertificateContext } from '../../../../../context/CertificateContext'
-import { Context as UniversalContext } from '../../../../../context/UniversalContext'
 import { Context as NavContext } from '../../../../../context/NavContext'
 import InstructionModal from '../../../../common/modals/InstructionModal'
 
@@ -32,16 +33,18 @@ const CertificatePdfUploadScreen = () => {
     clearUploadSignature,
   } = useContext(CertificateContext)
 
-  const { toggleHideNavLinks, buildCV } = useContext(UniversalContext)
-
   const { setCVBitScreenSelected } = useContext(NavContext)
 
   useEffect(() => {
-    pickFromDocuments()
+    ;(async () => {
+      await pickFromDocuments()
+    })()
   }, [])
 
   useEffect(() => {
-    createFileName()
+    if (pdfUrl) {
+      createFileName()
+    }
   }, [pdfUrl])
 
   useEffect(() => {
@@ -57,73 +60,75 @@ const CertificatePdfUploadScreen = () => {
     Date.now().toString()
 
   const createFileName = () => {
-    if (!pdfUrl || pdfUrl.type === 'cancel') return null
-    setDocumentName(`${randomFileName}.${pdfUrl.uri.split('.')[1]}`)
+    if (!pdfUrl || pdfUrl.type === 'canceled') return
+    const fileType = pdfUrl.split('.').pop()
+    setDocumentName(`${randomFileName}.${fileType}`)
   }
 
-  const documentUpload = () => {
+  const handleCertificateCreate = (data) => {
+    createCertificate({
+      title: title,
+      pdfUrl: data.url,
+      publicId: data.public_id,
+    })
+    setPdfUploading(false)
+    setPdfUrl(null)
+    clearUploadSignature()
+    setCVBitScreenSelected('certificate')
+  }
+
+  const documentUpload = async () => {
     const { apiKey, signature, timestamp } = uploadSignature
     const data = new FormData()
+    const fileType = pdfUrl.split('.').pop()
     data.append('file', {
-      uri: pdfUrl.uri,
-      type: `documents/${pdfUrl.uri.split('.')[1]}`,
+      uri: pdfUrl,
+      type: `application/${fileType}`,
       name: documentName,
     })
     data.append('api_key', apiKey)
     data.append('timestamp', timestamp)
     data.append('signature', signature)
-    fetch(keys.cloudinary.uploadPdfUrl, {
-      method: 'post',
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          toggleHideNavLinks(false)
-          setPdfUrl(null)
-          setPdfUploading(false)
-          clearUploadSignature()
-          Alert.alert('Unable to upload PDF, please try again later')
-          setCVBitScreenSelected('')
-          return
-        }
-        createCertificate(
-          {
-            title: title,
-            pdfUrl: data.url,
-            publicId: data.public_id,
-          },
-          () => {
-            toggleHideNavLinks(false)
-            setPdfUploading(false)
-            setPdfUrl(null)
-            buildCV()
-            clearUploadSignature()
-            setCVBitScreenSelected('certificate')
-          }
-        )
-        setPdfUploading(false)
-        toggleHideNavLinks(false)
+    try {
+      const response = await fetch(keys.cloudinary.uploadPdfUrl, {
+        method: 'POST',
+        body: data,
       })
-      .catch((err) => {
-        Alert.alert('Unable to upload PDF, please try again later')
+      const result = await response.json()
+      if (result.error) {
+        handleUploadError()
         return
-      })
+      }
+      handleCertificateCreate(result)
+    } catch (error) {
+      handleUploadError()
+    } finally {
+      setPdfUploading(false)
+    }
+  }
+
+  const handleUploadError = () => {
+    setPdfUrl(null)
+    setPdfUploading(false)
+    clearUploadSignature()
+    Alert.alert('Unable to upload PDF, please try again later')
+    setCVBitScreenSelected('')
   }
 
   const pickFromDocuments = async () => {
     let result = await DocumentPicker.getDocumentAsync({
       type: 'application/pdf',
     })
-    setPdfUrl(result)
-    if (!result || result.length < 1 || result.type === 'cancel') {
+    if (!result || result.canceled) {
       setCVBitScreenSelected('certificateCreate')
-      return
+    } else {
+      const { uri } = result.assets[0]
+      setPdfUrl(uri)
     }
   }
 
   const titleField = () => {
-    if (!pdfUrl || pdfUrl.type === 'cancel') return null
+    if (!pdfUrl || pdfUrl.type === 'canceled') return null
     if (pdfUploading)
       return (
         <LoaderWithText

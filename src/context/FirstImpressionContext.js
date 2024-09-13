@@ -22,7 +22,7 @@ const FirstImpressionReducer = (state, action) => {
     case 'EDIT':
       return { ...state, [action.payload._id]: action.payload, loading: false }
     case 'DELETE':
-      return _.omit(state, action.payload)
+      return { ...state, firstImpression: action.payload, loading: false }
     case 'ADD_VIDEO_OBJECT':
       return { ...state, videoObject: action.payload }
     case 'CLEAR_VIDEO_OBJECT':
@@ -31,13 +31,15 @@ const FirstImpressionReducer = (state, action) => {
       return { ...state, videoDemoShow: action.payload }
     case 'FETCH_DEMO_URL':
       return { ...state, videoDemoUrl: action.payload, loading: false }
+    case 'SET_VIDEO_UPLOADING':
+      return { ...state, videoUploading: action.payload }
     default:
       return state
   }
 }
 
 // Actions
-const fetchFirsImpressionStatus = dispatch => async () => {
+const fetchFirsImpressionStatus = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/first-impression/status')
@@ -49,7 +51,7 @@ const fetchFirsImpressionStatus = dispatch => async () => {
   }
 }
 
-const fetchFirstImpression = dispatch => async () => {
+const fetchFirstImpression = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/first-impression')
@@ -61,7 +63,7 @@ const fetchFirstImpression = dispatch => async () => {
   }
 }
 
-const createUploadSignature = dispatch => async () => {
+const createUploadSignature = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post(
@@ -79,11 +81,11 @@ const createUploadSignature = dispatch => async () => {
   }
 }
 
-const clearUploadSignature = dispatch => () => {
+const clearUploadSignature = (dispatch) => () => {
   dispatch({ type: 'CLEAR_UPLOAD_SIGNATURE', payload: null })
 }
 
-const createFirstImpression = dispatch => async (videoData, callback) => {
+const createFirstImpression = (dispatch) => async (videoData, callback) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/api/first-impression', videoData)
@@ -97,7 +99,7 @@ const createFirstImpression = dispatch => async (videoData, callback) => {
   }
 }
 
-const deleteFirstImpression = dispatch => async (videoData, callback) => {
+const deleteFirstImpression = (dispatch) => async (videoData) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post(
@@ -105,34 +107,32 @@ const deleteFirstImpression = dispatch => async (videoData, callback) => {
       videoData
     )
     dispatch({ type: 'DELETE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
 
-const addVideoObject = dispatch => async video => {
+const addVideoObject = (dispatch) => async (video) => {
   dispatch({ type: 'ADD_VIDEO_OBJECT', payload: video })
   return
 }
 
-const clearVideoObject = dispatch => async video => {
+const clearVideoObject = (dispatch) => async (video) => {
   dispatch({ type: 'CLEAR_VIDEO_OBJECT', payload: null })
   return
 }
 
-const setLoadingForUploading = dispatch => () => {
+const setLoadingForUploading = (dispatch) => () => {
   dispatch({ type: 'LOADING' })
 }
 
-const setVideoDemoShow = dispatch => value => {
+const setVideoDemoShow = (dispatch) => (value) => {
   dispatch({ type: 'SET_VIDEO_DEMO_SHOW', payload: value })
 }
 
-const fetchDemoVideoUrl = dispatch => async () => {
+const fetchDemoVideoUrl = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/first-impression/demo')
@@ -142,6 +142,10 @@ const fetchDemoVideoUrl = dispatch => async () => {
     await ngrokApi.post('/error', { error: error })
     return
   }
+}
+
+const setVideoUploading = (dispatch) => (value) => {
+  dispatch({ type: 'SET_VIDEO_UPLOADING', payload: value })
 }
 
 export const { Context, Provider } = createDataContext(
@@ -157,7 +161,8 @@ export const { Context, Provider } = createDataContext(
     clearVideoObject,
     setLoadingForUploading,
     setVideoDemoShow,
-    fetchDemoVideoUrl
+    fetchDemoVideoUrl,
+    setVideoUploading,
   },
   // Initial state
   {
@@ -168,6 +173,7 @@ export const { Context, Provider } = createDataContext(
     uploadSignature: null,
     videoDemoShow: false,
     videoDemoUrl: null,
-    error: null
+    error: null,
+    videoUploading: false,
   }
 )

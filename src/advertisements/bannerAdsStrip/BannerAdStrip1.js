@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
+import { Context as UniversalContext } from '../../context/UniversalContext'
+
 const BannerAdStrip1 = () => {
+  const {
+    state: { imageToViewUrl },
+  } = useContext(UniversalContext)
+
   const renderContent = () => {
+    if (imageToViewUrl) return null
     return (
       <View style={styles.container}>
         <View style={styles.banner}>

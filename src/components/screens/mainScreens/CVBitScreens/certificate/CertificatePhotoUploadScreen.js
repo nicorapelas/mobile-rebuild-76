@@ -19,6 +19,7 @@ import { keys } from '../../../../../../config/keys_dev'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
 import PhotoPermissions from '../photo/PhotoPermissions'
 import FormCancelButton from '../../../../common/FormCancelButton'
+import DoneButton from '../../../../links/DoneButton'
 import { Context as CertificateContext } from '../../../../../context/CertificateContext'
 import { Context as NavContext } from '../../../../../context/NavContext'
 
@@ -85,7 +86,6 @@ const CertificatePhotoUploadScreen = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(`datadata`, data)
           if (data.error) {
             setImageUploading(false)
             clearUploadSignature()
@@ -96,7 +96,6 @@ const CertificatePhotoUploadScreen = () => {
           handleCertificateCreate(data)
         })
         .catch((err) => {
-          console.log(`errerr`, err)
           Alert.alert('Unable to upload image, please try again later')
           setCVBitScreenSelected('')
           return
@@ -174,6 +173,7 @@ const CertificatePhotoUploadScreen = () => {
           value={title}
           onChangeText={setTitle}
           autoCorrect={false}
+          autoFocus={true}
         />
         <View style={styles.donePlusButtonBed}>
           <FormCancelButton route="certificate" />
@@ -223,8 +223,11 @@ const CertificatePhotoUploadScreen = () => {
       return <PhotoPermissions bit="gallery" />
     return (
       <>
-        {cameraOrGallery()}
-        {titleField()}
+        <View style={styles.bed}>
+          {cameraOrGallery()}
+          {titleField()}
+        </View>
+        <DoneButton text="Cancel" routeName="certificate" />
       </>
     )
   }
@@ -236,6 +239,12 @@ const styles = StyleSheet.create({
   heading: {
     color: '#ffff',
     fontSize: 22,
+  },
+  bed: {
+    backgroundColor: '#232936',
+    flex: 1,
+    justifyContent: 'center',
+    width: '100%',
   },
   bedIos: {
     backgroundColor: '#232936',

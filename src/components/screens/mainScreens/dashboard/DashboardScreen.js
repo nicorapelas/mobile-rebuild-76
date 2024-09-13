@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
+import FirstImpressionBitButton from '../../../cvBitButtons/FirstImpressionBitButton'
 import ContactInfoBitButton from '../../../cvBitButtons/ContactInfoBitButton'
 import PersonalInfoBitButton from '../../../cvBitButtons/PersonalInfoBitButton'
 import PersonalSummaryBitButton from '../../../cvBitButtons/PersonalSummaryBitButton'
@@ -27,6 +28,7 @@ const DashboardScreen = () => {
     if (CVBitScreenSelected === '') {
       return (
         <ScrollView style={styles.container}>
+          <FirstImpressionBitButton />
           <PhotoBitButton />
           <PersonalSummaryBitButton />
           <SecondEduBitButton />

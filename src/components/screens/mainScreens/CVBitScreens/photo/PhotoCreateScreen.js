@@ -1,17 +1,19 @@
 import React, { useContext, useState, useEffect } from 'react'
 import {
   View,
-  ScrollView,
+  KeyboardAvoidingView,
   StyleSheet,
   TouchableOpacity,
   Image,
   Alert,
   Text,
   TextInput,
+  Platform,
 } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { Camera } from 'expo-camera'
 import { Fontisto, MaterialIcons } from '@expo/vector-icons'
+import { useKeyboard } from '@react-native-community/hooks'
 
 import { keys } from '../../../../../../config/keys_dev'
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
@@ -44,6 +46,8 @@ const PhotoCreateScreen = () => {
       imageUpload()
     }
   }, [uploadSignature])
+
+  const keyboard = useKeyboard()
 
   const randomFileName =
     Math.random().toString(36).substring(2, 15) +
@@ -124,7 +128,6 @@ const PhotoCreateScreen = () => {
       })
       if (!data.canceled) {
         const { uri } = data.assets[0]
-        console.log(`uri:`, uri)
         let newFile = {
           uri: uri,
           type: `image/${uri.split('.')[1]}`,
@@ -142,30 +145,37 @@ const PhotoCreateScreen = () => {
   const titleField = () => {
     if (!imageUri || imageUri.length < 1) return null
     return (
-      <View>
-        <ScrollView keyboardShouldPersistTaps="always">
-          <Image source={{ uri: imageUri }} style={styles.photo} />
-          <TextInput
-            style={styles.input}
-            textAlign="center"
-            placeholder="image title"
-            value={title}
-            onChangeText={setTitle}
-            autoCorrect={false}
-            autoCapitalize="words"
-          />
-          <View style={styles.buttonContainer}>
-            <FormCancelButton route="photo" />
-            <TouchableOpacity
-              style={styles.addButtonContainer}
-              onPress={() => createUploadSignature()}
-            >
-              <MaterialIcons style={styles.addButtonIcon} name="add-circle" />
-              <Text style={styles.addButtonText}>save</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </View>
+      <KeyboardAvoidingView
+        style={
+          Platform.OS === 'ios' && keyboard.keyboardShown === false
+            ? styles.bedIos
+            : styles.bedAndroid
+        }
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardShouldPersistTaps="always"
+      >
+        <Image source={{ uri: imageUri }} style={styles.photo} />
+        <TextInput
+          style={styles.input}
+          textAlign="center"
+          placeholder="image title"
+          value={title}
+          onChangeText={setTitle}
+          autoCorrect={false}
+          autoCapitalize="words"
+          autoFocus={true}
+        />
+        <View style={styles.buttonContainer}>
+          <FormCancelButton route="photo" />
+          <TouchableOpacity
+            style={styles.addButtonContainer}
+            onPress={() => createUploadSignature()}
+          >
+            <MaterialIcons style={styles.addButtonIcon} name="add-circle" />
+            <Text style={styles.addButtonText}>save</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     )
   }
 
@@ -208,7 +218,9 @@ const PhotoCreateScreen = () => {
           {cameraOrGallery()}
           {titleField()}
         </View>
-        <DoneButton text="Cancel" routeName="photo" />
+        {imageUri !== null ? null : (
+          <DoneButton text="Cancel" routeName="photo" />
+        )}
       </>
     )
   }
@@ -226,6 +238,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     width: '100%',
+  },
+  bedIos: {
+    backgroundColor: '#232936',
+    width: '100%',
+    flex: 1,
+    paddingTop: '10%',
+  },
+  bedAndroid: {
+    backgroundColor: '#232936',
+    width: '100%',
+    flex: 1,
+    paddingTop: '10%',
   },
   imageSelectButton: {
     alignSelf: 'center',

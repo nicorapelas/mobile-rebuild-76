@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
 
+import { Context as UniversalContext } from '../../../context/UniversalContext'
 import DashboardNav from './DashboardNav'
 import ViewCV from './ViewCV'
 import ShareCV from './ShareCV'
 
 const NavBar = () => {
+  const {
+    state: { imageToViewUrl },
+  } = useContext(UniversalContext)
+
   const keyboard = useKeyboard()
 
   const renderContent = () => {
-    if (keyboard.keyboardShown) return null
+    if (keyboard.keyboardShown || imageToViewUrl) return null
     return (
       <View style={styles.container}>
         <DashboardNav />

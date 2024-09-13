@@ -106,13 +106,11 @@ const deleteCertificate = (dispatch) => async (data) => {
 }
 
 const createUploadSignature = (dispatch) => async () => {
-  console.log(`at createUploadSignature`)
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post(
       '/api/cloudinary/signature-request-no-preset'
     )
-    console.log(`response:`, response.data)
     if (response.data.error) {
       dispatch({ type: 'ADD_ERROR', payload: response.data.error })
       return

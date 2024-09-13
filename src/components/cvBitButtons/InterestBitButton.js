@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native'
-import { Feather } from '@expo/vector-icons'
+import { Octicons } from '@expo/vector-icons'
 
 import { Context as InterestContext } from '../../context/InterestContext'
 import { Context as NavContext } from '../../context/NavContext'
@@ -36,16 +36,16 @@ const InterestBitButton = () => {
       <View style={styles.statusBed}>
         <Text style={styles.percentage}>X {interestStatus}</Text>
         {interestStatus === '0' ? (
-          <Feather style={styles.redDot} name="target" />
+          <Octicons style={styles.redDot} name="dot-fill" />
         ) : null}
         {interestStatus === '1' ? (
-          <Feather style={styles.orangeDot} name="target" />
+          <Octicons style={styles.orangeDot} name="dot-fill" />
         ) : null}
         {interestStatus === '2' ? (
-          <Feather style={styles.yellowDot} name="target" />
+          <Octicons style={styles.yellowDot} name="dot-fill" />
         ) : null}
         {interestStatus > '2' ? (
-          <Feather style={styles.greenDot} name="target" />
+          <Octicons style={styles.greenDot} name="dot-fill" />
         ) : null}
       </View>
     )

@@ -82,6 +82,8 @@ const UniversalReducer = (state, action) => {
       return { ...state, userPlanformOS: action.payload }
     case 'SET_YEAT_SELECTED':
       return { ...state, yearSelected: action.payload }
+    case 'SET_IMAGE_TO_VIEW_URL':
+      return { ...state, imageToViewUrl: action.payload }
     default:
       return state
   }
@@ -270,6 +272,10 @@ const setYearSelected = (dispatch) => (value) => {
   dispatch({ type: 'SET_YEAT_SELECTED', payload: value })
 }
 
+const setImageToViewUrl = (dispatch) => (data) => {
+  dispatch({ type: 'SET_IMAGE_TO_VIEW_URL', payload: data })
+}
+
 export const { Context, Provider } = createDataContext(
   UniversalReducer,
   {
@@ -306,6 +312,7 @@ export const { Context, Provider } = createDataContext(
     setOptionPickerProps,
     setUserPlatformOS,
     setYearSelected,
+    setImageToViewUrl,
   },
   // Initial state
   {
@@ -337,5 +344,6 @@ export const { Context, Provider } = createDataContext(
     optionPickerProps: null,
     userPlanformOS: 'android',
     yearSelected: null,
+    imageToViewUrl: null,
   }
 )

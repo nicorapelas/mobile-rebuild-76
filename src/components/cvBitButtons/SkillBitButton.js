@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native'
-import { Feather } from '@expo/vector-icons'
+import { Octicons } from '@expo/vector-icons'
 
 import { Context as SkillContext } from '../../context/SkillContext'
 import { Context as NavContext } from '../../context/NavContext'
@@ -36,16 +36,16 @@ const SkillBitButton = () => {
       <View style={styles.statusBed}>
         <Text style={styles.percentage}>X {skillStatus}</Text>
         {skillStatus === '0' ? (
-          <Feather style={styles.redDot} name="target" />
+          <Octicons style={styles.redDot} name="dot-fill" />
         ) : null}
         {skillStatus === '1' ? (
-          <Feather style={styles.orangeDot} name="target" />
+          <Octicons style={styles.orangeDot} name="dot-fill" />
         ) : null}
         {skillStatus === '2' ? (
-          <Feather style={styles.yellowDot} name="target" />
+          <Octicons style={styles.yellowDot} name="dot-fill" />
         ) : null}
         {skillStatus > '2' ? (
-          <Feather style={styles.greenDot} name="target" />
+          <Octicons style={styles.greenDot} name="dot-fill" />
         ) : null}
       </View>
     )

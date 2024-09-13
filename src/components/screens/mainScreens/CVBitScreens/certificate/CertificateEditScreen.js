@@ -11,6 +11,7 @@ import {
 import { MaterialIcons, AntDesign } from '@expo/vector-icons'
 
 import LoaderFullScreen from '../../../../common/LoaderFullScreen'
+import FormCancelButton from '../../../../common/FormCancelButton'
 import { Context as CertificateContext } from '../../../../../context/CertificateContext'
 import { Context as NavContext } from '../../../../../context/NavContext'
 
@@ -28,7 +29,10 @@ const CertificateEditScreen = () => {
 
   useEffect(() => {
     if (certificateToEdit) {
-      console.log(`certificateToEdit`, certificateToEdit)
+      const { _id, title, photoUrl } = certificateToEdit
+      setId(_id)
+      setTitle(title)
+      if (photoUrl) setPhotoUrl(photoUrl)
     }
   }, [certificateToEdit])
 
@@ -66,13 +70,16 @@ const CertificateEditScreen = () => {
               }}
               autoCorrect={false}
             />
-            <TouchableOpacity
-              style={styles.addButtonContainer}
-              onPress={handlePressEdit}
-            >
-              <MaterialIcons style={styles.addButtonIcon} name="add-circle" />
-              <Text style={styles.addButtonText}>save</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <FormCancelButton route="certificate" />
+              <TouchableOpacity
+                style={styles.addButtonContainer}
+                onPress={handlePressEdit}
+              >
+                <MaterialIcons style={styles.addButtonIcon} name="add-circle" />
+                <Text style={styles.addButtonText}>save</Text>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         </View>
       </View>
@@ -112,7 +119,11 @@ const styles = StyleSheet.create({
     width: '85%',
     textAlign: 'center',
     borderRadius: 7,
-    margin: 5,
+    marginVertical: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   addButtonContainer: {
     backgroundColor: '#278ACD',
@@ -135,6 +146,7 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: '#ffff',
     fontSize: 18,
+    paddingBottom: 5,
   },
 })
 
