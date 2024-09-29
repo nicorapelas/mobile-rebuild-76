@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Overlay } from 'react-native-elements'
+import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native'
 import { AntDesign, FontAwesome } from '@expo/vector-icons'
 
 import { Context as AttributeContext } from '../../../context/AttributeContext'
@@ -21,7 +20,13 @@ import { Context as TertEduContext } from '../../../context/TertEduContext'
 import { Context as UniversalContext } from '../../../context/UniversalContext'
 import { Context as NavContext } from '../../../context/NavContext'
 
-const DeleteModal = ({ id, documentSelected, bit, publicId }) => {
+const DeleteModal = ({
+  id,
+  documentSelected,
+  bit,
+  publicId,
+  isVisible = false,
+}) => {
   const [cancelRoute, setCancelRoute] = useState('')
 
   const { deleteAttribute } = useContext(AttributeContext)
@@ -139,54 +144,57 @@ const DeleteModal = ({ id, documentSelected, bit, publicId }) => {
     return null
   }
 
+  const handlePressCancel = () => {
+    setCVBitScreenSelected(cancelRoute)
+    hideDeleteModal()
+  }
+
   const renderModal = () => {
     return (
-      <Overlay
-        isVisible={deleteModalShow}
-        windowBackgroundColor="rgba(0, 0, 0, 0.7)"
-        overlayBackgroundColor="rgba(0, 0, 0, 0)"
-        width="auto"
-        height="auto"
+      <Modal
+        transparent={true}
+        visible={deleteModalShow}
+        animationType="slide"
+        onRequestClose={handlePressCancel}
       >
-        <View style={styles.messageBed}>
-          <FontAwesome style={styles.icon} name="trash-o" />
-          <Text
-            style={
-              userPlanformOS === 'ios'
-                ? styles.messageTextIos
-                : styles.messageTextAndroid
-            }
-          >
-            delete {bit}
-          </Text>
-          {documentSelected ? (
-            <Text style={styles.documentSelectedText}>
-              "{documentSelected}"
+        <View style={styles.modalBackground}>
+          <View style={styles.messageBed}>
+            <FontAwesome style={styles.icon} name="trash-o" />
+            <Text
+              style={
+                userPlanformOS === 'ios'
+                  ? styles.messageTextIos
+                  : styles.messageTextAndroid
+              }
+            >
+              delete {bit}
             </Text>
-          ) : (
-            <Text style={styles.noDocumentSelectedText}></Text>
-          )}
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              selectAction()
-              hideDeleteModal()
-            }}
-          >
-            <Text style={styles.buttonText}>delete</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => {
-              setCVBitScreenSelected(cancelRoute)
-              hideDeleteModal()
-            }}
-          >
-            <AntDesign name="closecircle" style={styles.backButtonIcon} />
-            <Text style={styles.backButtonText}>cancel</Text>
-          </TouchableOpacity>
+            {documentSelected ? (
+              <Text style={styles.documentSelectedText}>
+                "{documentSelected}"
+              </Text>
+            ) : (
+              <Text style={styles.noDocumentSelectedText}></Text>
+            )}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                selectAction()
+                hideDeleteModal()
+              }}
+            >
+              <Text style={styles.buttonText}>delete</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={handlePressCancel}
+            >
+              <AntDesign name="closecircle" style={styles.backButtonIcon} />
+              <Text style={styles.backButtonText}>cancel</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </Overlay>
+      </Modal>
     )
   }
 
@@ -194,6 +202,12 @@ const DeleteModal = ({ id, documentSelected, bit, publicId }) => {
 }
 
 const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
   messageBed: {
     backgroundColor: '#232936',
     width: '80%',

@@ -90,7 +90,9 @@ const PersonalSummaryScreen = () => {
     <View style={styles.bed}>
       <DeleteModal id={documentId} bit="personal summary" />
       {renderContent()}
-      <DoneButton text="Done" routeName="" />
+      {!personalSummary || personalSummary.length < 1 ? null : (
+        <DoneButton text="Done" routeName="" />
+      )}
     </View>
   )
 }

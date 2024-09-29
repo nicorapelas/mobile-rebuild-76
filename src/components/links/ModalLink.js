@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { Overlay } from 'react-native-elements'
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native'
 
 import { Context as AuthContext } from '../../context/AuthContext'
 import { Context as NavContext } from '../../context/NavContext'
@@ -18,45 +17,58 @@ const ModalLink = ({ message, routeName, buttonText }) => {
   const visible = !!message
 
   return (
-    <Overlay
-      isVisible={visible}
-      windowBackgroundColor="rgba(0, 0, 0, 0.75)"
-      overlayStyle={styles.overlay}
+    <Modal
+      transparent={true}
+      visible={visible}
+      animationType="slide"
+      onRequestClose={() => {
+        clearErrorMessage()
+        clearApiMessage()
+      }}
     >
-      <View style={styles.messageBed}>
-        <Text
-          style={
-            userPlanformOS === 'ios'
-              ? styles.messageTextIos
-              : styles.messageTextAndroid
-          }
-        >
-          {message}
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            clearErrorMessage()
-            clearApiMessage()
-            setScreenSelected('loginEmail')
-          }}
-        >
-          <Text style={styles.button}>{buttonText}</Text>
-        </TouchableOpacity>
+      <View style={styles.modalBackground}>
+        <View style={styles.overlay}>
+          <View style={styles.messageBed}>
+            <Text
+              style={
+                userPlanformOS === 'ios'
+                  ? styles.messageTextIos
+                  : styles.messageTextAndroid
+              }
+            >
+              {message}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                clearErrorMessage()
+                clearApiMessage()
+                setScreenSelected('loginEmail')
+              }}
+            >
+              <Text style={styles.button}>{buttonText}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-    </Overlay>
+    </Modal>
   )
 }
 
 const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+  },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 1)',
-    width: 'auto',
-    height: 'auto',
-  },
-  messageBed: {
     width: '90%',
     borderRadius: 7,
+  },
+  messageBed: {
     alignItems: 'center',
+    padding: 20,
   },
   messageTextIos: {
     color: '#F9B321',
@@ -81,7 +93,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 4,
     alignSelf: 'center',
-    width: 'auto',
     backgroundColor: '#59BB46',
     marginTop: 20,
   },

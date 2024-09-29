@@ -1,6 +1,12 @@
 import React, { useState, useContext } from 'react'
-import { Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
-import { CheckBox } from 'react-native-elements'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Switch,
+} from 'react-native'
 
 import { Context as AuthContext } from '../../../context/AuthContext'
 import { Context as BurgerMenuContext } from '../../../context/BurgerMenuContext'
@@ -1486,24 +1492,38 @@ const TermsAndConditions = () => {
           </TouchableOpacity>
         )}
         {privacyChecked ? null : (
-          <CheckBox
-            onPress={() => setPrivacyChecked(!privacyChecked)}
-            title="I accept CV Cloud Privacy Policy"
-            iconRight
-            checked={privacyChecked}
-            textStyle={styles.checkText}
-            containerStyle={styles.checkBed}
-          />
+          <View style={styles.switchRow}>
+            <View style={styles.switchContainer}>
+              <Text style={styles.switchText}>
+                I accept CV Cloud Privacy Policy
+              </Text>
+              <Switch
+                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                thumbColor={privacyChecked ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={() => setPrivacyChecked(!privacyChecked)}
+                value={privacyChecked}
+                style={styles.switch}
+              />
+            </View>
+          </View>
         )}
         {termsChecked ? null : (
-          <CheckBox
-            onPress={() => setTermsChecked(!termsChecked)}
-            title="I accept CV Cloud Terms of Use"
-            iconRight
-            checked={termsChecked}
-            textStyle={styles.checkText}
-            containerStyle={styles.checkBed}
-          />
+          <View style={styles.switchRow}>
+            <View style={styles.switchContainer}>
+              <Text style={styles.switchText}>
+                I accept CV Cloud Terms of Use
+              </Text>
+              <Switch
+                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                thumbColor={termsChecked ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={() => setTermsChecked(!termsChecked)}
+                value={termsChecked}
+                style={styles.switch}
+              />
+            </View>
+          </View>
         )}
       </ScrollView>
     )
@@ -1560,6 +1580,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingVertical: 8,
     paddingHorizontal: 12,
+  },
+  switchRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 5,
+  },
+  switchContainer: {
+    backgroundColor: 'black',
+    width: '80%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  switchText: {
+    color: '#ffff',
+    padding: 15,
   },
 })
 

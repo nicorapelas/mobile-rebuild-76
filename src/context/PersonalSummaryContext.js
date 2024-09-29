@@ -22,7 +22,7 @@ const PersonalSummaryReducer = (state, action) => {
     case 'SET_PERSOANL_SUMMARY_TO_EDIT':
       return { ...state, personalSummaryToEdit: action.payload }
     case 'DELETE':
-      return _.omit(state, action.payload)
+      return { ...state, personalSummary: action.payload, loading: false }
     case 'EDIT':
       return { ...state, personalSummary: action.payload, loading: false }
     default:

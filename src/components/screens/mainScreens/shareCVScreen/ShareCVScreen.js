@@ -1,12 +1,9 @@
-import React, { useEffect, useContext } from 'react'
+import React from 'react'
 import { View, StyleSheet, Platform } from 'react-native'
 
-import { Context as NavContext } from '../../../../context/NavContext'
 import ShareCVForm from './ShareCVForm'
 
 const ShareCVScreen = () => {
-  const { setScreenSelected, setCVBitScreenSelected } = useContext(NavContext)
-
   const renderContent = () => {
     return (
       <View style={styles.bed}>

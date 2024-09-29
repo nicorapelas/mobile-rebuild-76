@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { Overlay } from 'react-native-elements'
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native'
 
 import { Context as AuthContext } from '../../../context/AuthContext'
 import { Context as UniversalContext } from '../../../context/UniversalContext'
@@ -26,42 +25,56 @@ const EmailVerificationModal = ({
   } = useContext(UniversalContext)
 
   return (
-    <Overlay
-      isVisible={visible}
-      windowBackgroundColor="rgba(0, 0, 0, 0.75)"
-      overlayStyle={{ backgroundColor: 'rgba(0, 0, 0, 1)' }}
+    <Modal
+      transparent={true}
+      visible={visible}
+      animationType="slide"
+      onRequestClose={() => {
+        clearApiMessage()
+        clearErrorMessage()
+      }}
     >
-      <View style={styles.messageBed}>
-        <LoaderModal loading={loading} />
-        <Text
-          style={
-            userPlanformOS === 'ios'
-              ? styles.messageTextIos
-              : styles.messageTextAndroid
-          }
-        >
-          {message}
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            clearApiMessage()
-            clearErrorMessage()
-          }}
-        >
-          <Text style={styles.button}>{buttonOneText}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => resendVerificationEmail({ email })}>
-          <Text style={styles.resendLink}>{buttonTwoText}</Text>
-        </TouchableOpacity>
+      <View style={styles.modalBackground}>
+        <View style={styles.overlay}>
+          <LoaderModal loading={loading} />
+          <Text
+            style={
+              userPlanformOS === 'ios'
+                ? styles.messageTextIos
+                : styles.messageTextAndroid
+            }
+          >
+            {message}
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              clearApiMessage()
+              clearErrorMessage()
+            }}
+          >
+            <Text style={styles.button}>{buttonOneText}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => resendVerificationEmail({ email })}>
+            <Text style={styles.resendLink}>{buttonTwoText}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </Overlay>
+    </Modal>
   )
 }
 
 const styles = StyleSheet.create({
-  messageBed: {
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 1)',
     width: '80%',
     borderRadius: 7,
+    padding: 20,
   },
   messageTextIos: {
     color: '#F9B321',
@@ -86,8 +99,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 4,
     alignSelf: 'center',
-    width: 'auto',
     backgroundColor: '#59BB46',
+    marginVertical: 10,
   },
   resendLink: {
     color: '#fff',
@@ -97,7 +110,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 4,
     alignSelf: 'center',
-    width: 'auto',
     backgroundColor: '#288acd',
   },
 })

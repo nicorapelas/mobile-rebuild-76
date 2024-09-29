@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import {
   View,
+  KeyboardAvoidingView,
   Text,
   TextInput,
   ScrollView,
@@ -69,6 +70,20 @@ const ShareCVForm = () => {
       setIncludePhoto(true)
     }
   }, [photos])
+
+  useEffect(() => {
+    if (sentMessage) {
+      const timer = setTimeout(() => {
+        setSentMessage(false)
+        setSubject(null)
+        setMessage(null)
+        setEmail(null)
+        setCVBitScreenSelected('')
+        setNavTabSelected('dashboard')
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [sentMessage])
 
   const keyboard = useKeyboard()
 
@@ -400,7 +415,7 @@ const ShareCVForm = () => {
             )}
           </View>
         ) : (
-          <View style={styles.donePlusButtonBed}>
+          <View style={styles.nextBackButtonsBed}>
             <TouchableOpacity
               style={styles.addButtonContainer}
               onPress={() => {
@@ -647,7 +662,14 @@ const ShareCVForm = () => {
 
   const renderContent = () => {
     return (
-      <View View style={styles.bed}>
+      <KeyboardAvoidingView
+        style={
+          Platform.OS === 'ios' && keyboard.keyboardShown === false
+            ? styles.bedIos
+            : styles.bedAndroid
+        }
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         {renderSentMessage()}
         {errorHeading()}
         <ScrollView
@@ -656,17 +678,23 @@ const ShareCVForm = () => {
         >
           {renderForm()}
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
   return renderContent()
 }
 
 const styles = StyleSheet.create({
-  bed: {
+  bedIos: {
     backgroundColor: '#232936',
-    flex: 1,
     width: '100%',
+    flex: 1,
+    marginTop: -100,
+  },
+  bedAndroid: {
+    backgroundColor: '#232936',
+    width: '100%',
+    flex: 1,
   },
   cancelButton: {
     flexDirection: 'row',
@@ -784,10 +812,6 @@ const styles = StyleSheet.create({
   },
   hintModalBed: {
     paddingBottom: 10,
-  },
-  donePlusButtonBed: {
-    flexDirection: 'row',
-    alignSelf: 'center',
   },
   nextBackButtonsBed: {
     flexDirection: 'row',

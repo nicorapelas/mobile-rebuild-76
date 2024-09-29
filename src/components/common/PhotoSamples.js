@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
-import { AntDesign, Ionicons } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
 import { Context as UniversalContext } from '../../context/UniversalContext'
 
 import photo001 from '../../../assets/portraitPhotos/photo006-200.png'
@@ -108,7 +108,7 @@ const PhotoSamples = () => {
           style={styles.backButton}
           onPress={() => setPhotoSampleViewShow(false)}
         >
-          <Ionicons style={styles.backButtonIcon} name="close-circle-outline" />
+          <AntDesign style={styles.backButtonIcon} name="closecircle" />
           <Text style={styles.backButtonText}>close</Text>
         </TouchableOpacity>
       </View>

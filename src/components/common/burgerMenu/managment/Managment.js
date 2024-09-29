@@ -34,19 +34,21 @@ const Managment = () => {
     setInfoToShow('managment')
   }
 
-  const renderButton = () => {
-    if (configData.length < 1) return null
-    if (!user) return null
-    const { _id } = user
-    if (_id !== userId) return null
-    return (
-      <TouchableOpacity onPress={handlePress}>
-        <Text style={styles.buttonText}>Managment</Text>
-      </TouchableOpacity>
-    )
-  }
+  // const renderButton = () => {
+  //   if (configData.length < 1) return null
+  //   if (!user) return null
+  //   const { _id } = user
+  //   if (_id !== userId) return null
+  //   return (
+  //     <TouchableOpacity onPress={handlePress}>
+  //       <Text style={styles.buttonText}>Managment</Text>
+  //     </TouchableOpacity>
+  //   )
+  // }
 
-  return renderButton()
+  // return renderButton()
+
+  return null
 }
 
 const styles = StyleSheet.create({

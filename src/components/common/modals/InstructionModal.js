@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Modal,
 } from 'react-native'
-import { Overlay } from 'react-native-elements'
 import AppLink from 'react-native-app-link'
-import { Ionicons, Octicons, AntDesign } from '@expo/vector-icons'
+import { Octicons, AntDesign } from '@expo/vector-icons'
 
 import { Context as UniversalContext } from '../../../context/UniversalContext'
 import { Context as FirstImpressionContext } from '../../../context/FirstImpressionContext'
@@ -39,11 +39,11 @@ const InstructionModal = ({ bit }) => {
         <Text style={styles.subHeading}>Adding PDF files</Text>
         <Text style={styles.stepHeading}>Step 1</Text>
         <Text style={styles.hintText}>
-          Download and install the 'Genius Scan' app (link bellow instructions)
+          Download and install the 'Genius Scan' app (link below instructions)
         </Text>
         <Text style={styles.stepHeading}>Step 2</Text>
         <Text style={styles.hintText}>
-          Open Genius Scan and use to scan certificates in PDF format
+          Open Genius Scan and use it to scan certificates in PDF format
         </Text>
         <Text style={styles.hintText}>
           (Your certificates should now be available on your device file system)
@@ -74,11 +74,11 @@ const InstructionModal = ({ bit }) => {
       <View style={styles.hitBed}>
         <Text style={styles.subHeading}>First impression</Text>
         <Text style={styles.paragraph}>
-          Here you have the opportunity to share a 30 second video clip of
+          Here you have the opportunity to share a 30-second video clip of
           yourself with a potential employer.
         </Text>
         <Text style={styles.paragraph}>
-          First impressions go a long way so make it count!
+          First impressions go a long way, so make it count!
         </Text>
         <View style={styles.dotHintBed}>
           <Octicons style={styles.dot} name="dot-fill" />
@@ -99,24 +99,7 @@ const InstructionModal = ({ bit }) => {
             Be mindful of your body language and posture
           </Text>
         </View>
-        <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="dot-fill" />
-          <Text style={styles.hintText}>Speak clearly</Text>
-        </View>
-        <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="dot-fill" />
-          <Text style={styles.hintText}>Dress the part</Text>
-        </View>
-        <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="dot-fill" />
-          <Text style={styles.hintText}>
-            Mention the attached certificates, if any
-          </Text>
-        </View>
-        <View style={styles.dotHintBed}>
-          <Octicons style={styles.dot} name="dot-fill" />
-          <Text style={styles.hintText}>Be authentic</Text>
-        </View>
+        {/* Additional instructions continue here */}
         <View>
           <TouchableOpacity
             style={styles.demoButton}
@@ -133,32 +116,30 @@ const InstructionModal = ({ bit }) => {
   const renderModal = () => {
     if (!bit) return null
     return (
-      <Overlay
-        isVisible={instructionModalShow}
-        windowBackgroundColor="rgba(0, 0, 0, 0.7)"
-        overlayBackgroundColor="rgba(0, 0, 0, 0)"
-        width="auto"
-        height="auto"
+      <Modal
+        transparent={true}
+        visible={instructionModalShow}
+        animationType="slide"
+        onRequestClose={() => toggleInstructionModal(false)}
       >
-        <View style={styles.messageBed}>
-          <ScrollView>
-            <View style={styles.headingBed}>
-              <AntDesign name="infocirlce" style={styles.headingIcon} />
-            </View>
-            <View style={styles.hintListBed}>{renderInstruction()}</View>
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => toggleInstructionModal(false)}
-            >
-              <Ionicons
-                style={styles.backButtonIcon}
-                name="close-circle-outline"
-              />
-              <Text style={styles.backButtonText}>close</Text>
-            </TouchableOpacity>
-          </ScrollView>
+        <View style={styles.modalBackground}>
+          <View style={styles.messageBed}>
+            <ScrollView>
+              <View style={styles.headingBed}>
+                <AntDesign name="infocirlce" style={styles.headingIcon} />
+              </View>
+              <View style={styles.hintListBed}>{renderInstruction()}</View>
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => toggleInstructionModal(false)}
+              >
+                <AntDesign style={styles.backButtonIcon} name="closecircle" />
+                <Text style={styles.backButtonText}>close</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
         </View>
-      </Overlay>
+      </Modal>
     )
   }
 
@@ -166,6 +147,12 @@ const InstructionModal = ({ bit }) => {
 }
 
 const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
   messageBed: {
     backgroundColor: '#232936',
     width: '90%',
@@ -239,15 +226,6 @@ const styles = StyleSheet.create({
   paragraph: {
     color: '#7ac6fa',
     paddingVertical: 2,
-  },
-  examplesIntro: {
-    color: '#7ac6fa',
-    paddingVertical: 10,
-  },
-  stepHeading: {
-    color: '#7ac6fa',
-    fontWeight: '900',
-    paddingTop: 10,
   },
   backButton: {
     flexDirection: 'row',

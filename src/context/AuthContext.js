@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as Updates from 'expo-updates'
 
 import ngrokApi from '../api/ngrok'
 import createDataContext from './createDataContext'
@@ -20,7 +21,13 @@ const authReducer = (state, action) => {
     case 'SIGN_IN':
       return { errorMessage: '', token: action.payload, loading: false }
     case 'SIGN_OUT':
-      return { token: null, errorMessage: '', loading: false }
+      return {
+        ...state,
+        token: null,
+        user: null,
+        errorMessage: '',
+        loading: false,
+      }
     case 'FETCH_USER':
       return { ...state, user: action.payload, loading: false }
     case 'CREATE_USERS_DEVICE':
@@ -49,11 +56,13 @@ const fetchUser = (dispatch) => async () => {
     if (response.data.error) {
       dispatch({ type: 'ADD_ERROR', payload: response.data.error })
       return
+    } else {
+      dispatch({ type: 'FETCH_USER', payload: response.data })
+      return
     }
-    dispatch({ type: 'FETCH_USER', payload: response.data })
-    return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`error!:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -121,7 +130,10 @@ const login =
         password,
       })
       if (response.data.error) {
-        dispatch({ type: 'ADD_ERROR', payload: response.data.error })
+        dispatch({
+          type: 'ADD_ERROR',
+          payload: response.data.error,
+        })
       } else {
         await AsyncStorage.setItem('token', response.data.token)
         dispatch({ type: 'SIGN_IN', payload: response.data.token })
@@ -130,7 +142,7 @@ const login =
     } catch (err) {
       dispatch({
         type: 'ADD_ERROR',
-        payload: err.response.data,
+        payload: response.data.error,
       })
     }
   }
@@ -138,6 +150,11 @@ const login =
 const signout = (dispatch) => async () => {
   await AsyncStorage.removeItem('token')
   dispatch({ type: 'SIGN_OUT' })
+  try {
+    await Updates.reloadAsync() // This will reload your app
+  } catch (e) {
+    console.error('Error restarting the app:', e)
+  }
 }
 
 const forgotPassword =
@@ -159,13 +176,13 @@ const forgotPassword =
   }
 
 // NOTE
-const acceptTermsAndConditions = (dispatch) => async (value, callback) => {
+const acceptTermsAndConditions = (dispatch) => async (value) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/auth/user/term-conditions', {
       accepted: value,
     })
-    // dispatch({ type: 'FETCH_USER', payload: response.data })
+    dispatch({ type: 'FETCH_USER', payload: response.data })
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })

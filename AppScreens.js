@@ -30,6 +30,7 @@ const AppScreens = () => {
   const [nextScreen, setNextScreen] = useState(null)
   const [slideDirection, setSlideDirection] = useState('left')
   const animatedValue = useRef(new Animated.Value(0)).current
+  const [fetchUserCount, setFetchUserCount] = useState(0)
 
   useEffect(() => {
     tryLocalSignin()
@@ -37,10 +38,14 @@ const AppScreens = () => {
   }, [])
 
   useEffect(() => {
-    if (token) {
-      fetchUser()
+    if (!token) {
+      setFetchUserCount(0)
     }
-  }, [token])
+    if (token && fetchUserCount < 1) {
+      fetchUser()
+      setFetchUserCount(fetchUserCount + 1)
+    }
+  }, [token, fetchUserCount])
 
   useEffect(() => {
     if (screenSelected !== currentScreen) {

@@ -1,9 +1,9 @@
-// keys_dev.js
-
 const keys = {
   cloudinary: {
-    uploadImageUrl: 'your-cloudinary-upload-url-here', // Replace this with your actual Cloudinary URL
+    uploadVideoUrl: 'https://api.cloudinary.com/v1_1/cv-cloud/video/upload',
+    uploadPdfUrl: 'https://api.cloudinary.com/v1_1/cv-cloud/raw/upload',
+    uploadImageUrl: 'https://api.cloudinary.com/v1_1/cv-cloud/image/upload',
   },
 }
 
-export { keys }
+exports.keys = keys

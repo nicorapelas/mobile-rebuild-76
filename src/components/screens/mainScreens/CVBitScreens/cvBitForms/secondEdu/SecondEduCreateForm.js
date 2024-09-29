@@ -41,7 +41,8 @@ const SecondEduCreateForm = () => {
 
   const {
     state: { yearPickerProps, yearPickerShow, startYear, endYear },
-    toggleHideNavLinks,
+    setStartYear,
+    setEndYear,
   } = useContext(UniversalContext)
 
   const {
@@ -52,10 +53,6 @@ const SecondEduCreateForm = () => {
   } = useContext(SecondEduContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
-
-  useEffect(() => {
-    if (error) toggleHideNavLinks(false)
-  }, [error])
 
   useEffect(() => {
     if (error) {
@@ -84,6 +81,7 @@ const SecondEduCreateForm = () => {
     }
   }
 
+  // render order 2
   const datesInput = () => {
     if (!datesInputShow) return null
     if (!yearPickerProps) {
@@ -173,6 +171,7 @@ const SecondEduCreateForm = () => {
     }
   }
 
+  // render order 1
   const schoolNameInput = () => {
     if (!schoolNameInputShow) return null
     return (
@@ -265,6 +264,7 @@ const SecondEduCreateForm = () => {
     })
   }
 
+  // render order 3
   const subjectsInput = () => {
     if (!subjectsInputShow) return null
     return (
@@ -383,6 +383,7 @@ const SecondEduCreateForm = () => {
     )
   }
 
+  // render order 4
   const additionalInfoInput = () => {
     if (!additionalInfoInputShow) return null
     return (
@@ -452,6 +453,7 @@ const SecondEduCreateForm = () => {
     )
   }
 
+  // render order 5
   const renderPreview = () => {
     if (!saveButtonShow) return null
     return (

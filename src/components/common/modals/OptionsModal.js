@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { Overlay } from 'react-native-elements'
+import { StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native'
 
 import { Context as UniversalContext } from '../../../context/UniversalContext'
 
@@ -98,27 +97,28 @@ const OptionsModal = ({ bit, incomingValue }) => {
           </View>
         )
       default:
-        null
+        return null
     }
   }
 
-  const modal = () => {
+  const renderModal = () => {
     return (
-      <Overlay
-        isVisible={showModal}
-        windowBackgroundColor="rgba(0, 0, 0, 0.7)"
-        overlayBackgroundColor="rgba(0, 0, 0, 0)"
-        width="95%"
-        height="auto"
+      <Modal
+        transparent={true}
+        visible={showModal}
+        animationType="slide"
+        onRequestClose={() => setShowModal(false)}
       >
-        <View style={styles.modalBed}>{appendOptions()}</View>
-      </Overlay>
+        <View style={styles.modalBackground}>
+          <View style={styles.modalBed}>{appendOptions()}</View>
+        </View>
+      </Modal>
     )
   }
 
   return (
     <>
-      {modal()}
+      {renderModal()}
       <TouchableOpacity
         style={styles.button}
         onPress={() => setShowModal(true)}
@@ -140,8 +140,17 @@ const OptionsModal = ({ bit, incomingValue }) => {
 }
 
 const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
   modalBed: {
     alignItems: 'center',
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
   },
   optionsBed: {
     backgroundColor: '#ffff',

@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Overlay } from 'react-native-elements'
+import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native'
 import {
   MaterialCommunityIcons,
   Octicons,
@@ -351,34 +350,35 @@ const FormHintModal = ({ bit }) => {
 
   const renderModal = () => {
     return (
-      <Overlay
-        isVisible={modalVisible}
-        windowBackgroundColor="rgba(0, 0, 0, 0.7)"
-        overlayBackgroundColor="rgba(0, 0, 0, 0)"
-        width="auto"
-        height="auto"
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.messageBed}>
-          <View style={styles.headingBed}>
+        <View style={styles.modalBackground}>
+          <View style={styles.messageBed}>
+            <View style={styles.headingBed}>
+              {showPhotoSample ? null : (
+                <MaterialCommunityIcons
+                  style={styles.headingIcon}
+                  name="lightbulb-on"
+                />
+              )}
+            </View>
+            {renderHint()}
             {showPhotoSample ? null : (
-              <MaterialCommunityIcons
-                style={styles.headingIcon}
-                name="lightbulb-on"
-              />
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <AntDesign name="closecircle" style={styles.backButtonIcon} />
+                <Text style={styles.backButtonText}>close</Text>
+              </TouchableOpacity>
             )}
           </View>
-          {renderHint()}
-          {showPhotoSample ? null : (
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => setModalVisible(false)}
-            >
-              <AntDesign name="closecircle" style={styles.backButtonIcon} />
-              <Text style={styles.backButtonText}>close</Text>
-            </TouchableOpacity>
-          )}
         </View>
-      </Overlay>
+      </Modal>
     )
   }
 
@@ -473,6 +473,12 @@ const FormHintModal = ({ bit }) => {
 }
 
 const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
   messageBed: {
     backgroundColor: '#232936',
     width: '80%',
@@ -487,10 +493,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingBottom: 5,
   },
-  headingText: {
-    color: '#7ac6fa',
-    fontSize: 28,
-  },
   headingIcon: {
     color: '#7ac6fa',
     fontSize: 30,
@@ -503,6 +505,10 @@ const styles = StyleSheet.create({
   },
   hitBed: {
     paddingBottom: 7,
+  },
+  paragraph: {
+    color: '#7ac6fa',
+    paddingVertical: 2,
   },
   dotHintBed: {
     flexDirection: 'row',
@@ -518,21 +524,8 @@ const styles = StyleSheet.create({
     color: '#7ac6fa',
     fontSize: 14,
   },
-  smileIcon: {
-    color: '#7ac6fa',
-    fontSize: 17,
-    marginLeft: 5,
-  },
   description: {
     color: '#7ac6fa',
-  },
-  paragraph: {
-    color: '#7ac6fa',
-    paddingVertical: 2,
-  },
-  examplesIntro: {
-    color: '#7ac6fa',
-    paddingVertical: 10,
   },
   backButton: {
     flexDirection: 'row',
@@ -554,6 +547,10 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     width: 100,
     alignSelf: 'center',
+  },
+  examplesIntro: {
+    color: '#7ac6fa',
+    paddingVertical: 10,
   },
   hintButtonIcon: {
     color: '#F9B321',

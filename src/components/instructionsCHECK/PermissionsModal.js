@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Overlay } from 'react-native-elements'
+import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native'
 import { Ionicons, AntDesign } from '@expo/vector-icons'
 import { Context as UniversalContext } from '../../context/UniversalContext'
 
@@ -39,30 +38,28 @@ const PermissionsModal = ({ bit }) => {
   const renderModal = () => {
     if (!bit) return null
     return (
-      <Overlay
-        isVisible={permissionsModalShow}
-        windowBackgroundColor="rgba(0, 0, 0, 0.7)"
-        overlayBackgroundColor="rgba(0, 0, 0, 0)"
-        width="auto"
-        height="auto"
+      <Modal
+        transparent={true}
+        visible={permissionsModalShow}
+        animationType="slide"
+        onRequestClose={() => togglePermissionsModal(false)}
       >
-        <View style={styles.messageBed}>
-          <View style={styles.headingBed}>
-            <AntDesign name="infocirlce" style={styles.headingIcon} />
+        <View style={styles.modalBackground}>
+          <View style={styles.messageBed}>
+            <View style={styles.headingBed}>
+              <AntDesign name="infocirlce" style={styles.headingIcon} />
+            </View>
+            <View style={styles.hintListBed}>{renderInstruction()}</View>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => togglePermissionsModal(false)}
+            >
+              <AntDesign style={styles.backButtonIcon} name="closecircle" />
+              <Text style={styles.backButtonText}>close</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.hintListBed}>{renderInstruction()}</View>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => togglePermissionsModal(false)}
-          >
-            <Ionicons
-              style={styles.backButtonIcon}
-              name="close-circle-outline"
-            />
-            <Text style={styles.backButtonText}>close</Text>
-          </TouchableOpacity>
         </View>
-      </Overlay>
+      </Modal>
     )
   }
 
@@ -70,6 +67,12 @@ const PermissionsModal = ({ bit }) => {
 }
 
 const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
   messageBed: {
     backgroundColor: '#232936',
     width: '80%',
@@ -99,53 +102,9 @@ const styles = StyleSheet.create({
   hitBed: {
     paddingBottom: 7,
   },
-  dotHintBed: {
-    flexDirection: 'row',
-    paddingVertical: 2,
-  },
-  dot: {
-    color: '#7ac6fa',
-    fontSize: 13,
-    paddingRight: 7,
-    paddingTop: 4,
-  },
   hintText: {
     color: '#7ac6fa',
     fontSize: 14,
-  },
-  phoneOutlineBody: {
-    borderColor: '#7ac6fa',
-    borderWidth: 1,
-    borderRadius: 3,
-    alignSelf: 'center',
-    height: 40,
-    width: 25,
-    marginVertical: 5,
-  },
-  phoneOutlineButtonBed: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-  },
-  phoneOutlineButton: {
-    borderColor: '#7ac6fa',
-    alignSelf: 'center',
-    borderWidth: 1,
-    borderRadius: 25,
-    height: 5,
-    width: 5,
-    marginBottom: 2,
-  },
-  description: {
-    color: '#7ac6fa',
-  },
-  paragraph: {
-    color: '#7ac6fa',
-    paddingVertical: 2,
-  },
-  examplesIntro: {
-    color: '#7ac6fa',
-    paddingVertical: 10,
   },
   stepHeading: {
     color: '#7ac6fa',
@@ -166,17 +125,6 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: '#F9B321',
     fontSize: 18,
-  },
-  appLink: {
-    borderColor: '#7ac6fa',
-    borderWidth: 1,
-    borderRadius: 5,
-    alignSelf: 'center',
-    marginTop: 20,
-  },
-  appLinkText: {
-    color: '#7ac6fa',
-    padding: 7,
   },
 })
 

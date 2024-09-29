@@ -43,7 +43,6 @@ const SecondEduEditForm = () => {
     state: { yearPickerProps, yearPickerShow, startYear, endYear },
     setStartYear,
     setEndYear,
-    toggleHideNavLinks,
   } = useContext(UniversalContext)
 
   const {
@@ -56,7 +55,9 @@ const SecondEduEditForm = () => {
   const { setCVBitScreenSelected } = useContext(NavContext)
 
   useEffect(() => {
-    if (error) toggleHideNavLinks(false)
+    if (error) {
+      console.log(`ERROR:`, error)
+    }
   }, [error])
 
   useEffect(() => {
@@ -68,6 +69,7 @@ const SecondEduEditForm = () => {
 
   useEffect(() => {
     if (secondEduToEdit) {
+      console.log(`secondEduToEdit:`, secondEduToEdit)
       const { schoolName, startYear, endYear, subjects, additionalInfo } =
         secondEduToEdit
       setSchoolName(schoolName)

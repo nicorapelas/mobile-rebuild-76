@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { AntDesign, Ionicons } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
 import { Video } from 'expo-av'
 
 import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
@@ -55,10 +55,7 @@ const VideoSample = () => {
             style={styles.backButton}
             onPress={() => setVideoDemoShow(false)}
           >
-            <Ionicons
-              style={styles.backButtonIcon}
-              name="close-circle-outline"
-            />
+            <AntDesign style={styles.backButtonIcon} name="closecircle" />
             <Text style={styles.backButtonText}>close</Text>
           </TouchableOpacity>
         </View>
