@@ -45,6 +45,7 @@ const TertEduEditEditForm = ({ incomingCertificationType }) => {
     },
     setStartYear,
     setEndYear,
+    setOptionsModalSelectedOption,
   } = useContext(UniversalContext)
 
   const {
@@ -63,15 +64,16 @@ const TertEduEditEditForm = ({ incomingCertificationType }) => {
         certificationType,
         description,
         instituteName,
-        startYear,
-        endYear,
+        startDate,
+        endDate,
       } = tertEduToEdit
       setAdditionalInfo(additionalInfo)
       setCertificationType(certificationType)
+      setOptionsModalSelectedOption(certificationType)
       setDescription(description)
       setInstituteName(instituteName)
-      setStartYear(startYear)
-      setEndYear(endYear)
+      setStartYear(startDate)
+      setEndYear(endDate)
     }
   }, [tertEduToEdit])
 
@@ -518,14 +520,15 @@ const TertEduEditEditForm = ({ incomingCertificationType }) => {
     setCVBitScreenSelected('tertEdu')
     setStartYear(null)
     setEndYear(null)
+    setOptionsModalSelectedOption(null)
   }
 
   const saveButton = () => {
     if (!saveButtonShow) return null
     const formValues = {
       instituteName,
-      startYear,
-      endYear,
+      startDate: startYear,
+      endDate: endYear,
       certificationType,
       description,
       additionalInfo,

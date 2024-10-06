@@ -61,8 +61,7 @@ const fetchUser = (dispatch) => async () => {
       return
     }
   } catch (error) {
-    console.log(`error!:`, error)
-    // await ngrokApi.post('/error', { error: error })
+    await ngrokApi.post('/error', { error: error })
     return
   }
 }

@@ -42,7 +42,7 @@ const Main = () => {
   } = useContext(UniversalContext)
 
   const {
-    state: { videoUploading },
+    state: { firstImpression, videoUploading },
   } = useContext(FirstImpressionContext)
 
   useEffect(() => {
@@ -73,6 +73,7 @@ const Main = () => {
   }, [bannerAdFullShow])
 
   useEffect(() => {
+    console.log(`CVBitScreenSelected:`, CVBitScreenSelected)
     if (
       CVBitScreenSelected === 'attributeCreate' ||
       CVBitScreenSelected === 'attributeEdit' ||
@@ -81,6 +82,7 @@ const Main = () => {
       CVBitScreenSelected === 'skillCreate' ||
       CVBitScreenSelected === 'skillEdit' ||
       CVBitScreenSelected === 'languageCreate' ||
+      CVBitScreenSelected === 'languageEdit' ||
       CVBitScreenSelected === 'personalInfoCreate' ||
       CVBitScreenSelected === 'personalInfoEdit' ||
       CVBitScreenSelected === 'personalSummaryCreate' ||
@@ -110,7 +112,13 @@ const Main = () => {
     } else {
       setShowHeader(true)
     }
-  }, [CVBitScreenSelected, navTabSelected, imageToViewUrl, videoUploading])
+  }, [
+    CVBitScreenSelected,
+    navTabSelected,
+    imageToViewUrl,
+    videoUploading,
+    firstImpression,
+  ])
 
   const renderHeader = () => {
     if (!showHeader) return null

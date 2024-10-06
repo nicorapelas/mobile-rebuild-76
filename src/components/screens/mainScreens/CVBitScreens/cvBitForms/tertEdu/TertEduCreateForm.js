@@ -43,6 +43,9 @@ const TertEduCreateEditForm = ({ incomingCertificationType }) => {
       startYear,
       endYear,
     },
+    setStartYear,
+    setEndYear,
+    setOptionsModalSelectedOption,
   } = useContext(UniversalContext)
 
   const {
@@ -496,14 +499,15 @@ const TertEduCreateEditForm = ({ incomingCertificationType }) => {
     setCVBitScreenSelected('tertEdu')
     setStartYear(null)
     setEndYear(null)
+    setOptionsModalSelectedOption(null)
   }
 
   const saveButton = () => {
     if (!saveButtonShow) return null
     const formValues = {
       instituteName,
-      startYear,
-      endYear,
+      startDate: startYear,
+      endDate: endYear,
       certificationType,
       description,
       additionalInfo,

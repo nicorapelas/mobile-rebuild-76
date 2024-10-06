@@ -26,7 +26,7 @@ const HeaderCVBit = () => {
       case 'language':
         setLabel('languages')
         break
-      case 'personalInformation':
+      case 'personalInfo':
         setLabel('personal information')
         break
       case 'personalSummary':

@@ -56,12 +56,6 @@ const SecondEduEditForm = () => {
 
   useEffect(() => {
     if (error) {
-      console.log(`ERROR:`, error)
-    }
-  }, [error])
-
-  useEffect(() => {
-    if (error) {
       if (error.schoolName) setSchoolNameInputShow(true)
       if (error.dates) setDatesInputShow(true)
     }
@@ -69,12 +63,11 @@ const SecondEduEditForm = () => {
 
   useEffect(() => {
     if (secondEduToEdit) {
-      console.log(`secondEduToEdit:`, secondEduToEdit)
-      const { schoolName, startYear, endYear, subjects, additionalInfo } =
+      const { schoolName, startDate, endDate, subjects, additionalInfo } =
         secondEduToEdit
       setSchoolName(schoolName)
-      setStartYear(startYear)
-      setEndYear(endYear)
+      setStartYear(startDate)
+      setEndYear(endDate)
       setSubjectsArray(subjects)
       setAdditionalInfo(additionalInfo)
     }

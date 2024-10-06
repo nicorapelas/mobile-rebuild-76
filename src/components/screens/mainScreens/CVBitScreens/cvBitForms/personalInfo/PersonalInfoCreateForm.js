@@ -9,7 +9,6 @@ import {
   Switch,
   Platform,
   ScrollView,
-  Keyboard,
 } from 'react-native'
 import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons'
 import { useKeyboard } from '@react-native-community/hooks'
@@ -469,7 +468,7 @@ const PersonalInfoCreateForm = ({
 
   const handlePressSave = (data) => {
     createPersonalInfo(data)
-    setCVBitScreenSelected('personalInformation')
+    setCVBitScreenSelected('personalInfo')
   }
 
   const saveButton = () => {
@@ -802,7 +801,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 90,
     margin: 5,
-    marginBottom: 20,
     height: 40,
   },
   doneButtonContainer: {

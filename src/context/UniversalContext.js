@@ -90,7 +90,7 @@ const UniversalReducer = (state, action) => {
 }
 
 // Action
-const createStartUpInfo = (dispatch) => async (formValues, callback) => {
+const createStartUpInfo = (dispatch) => async (formValues) => {
   dispatch({ type: 'START_UP_FORM_LOADING' })
   try {
     const response = await ngrokApi.post('/api/start-up', formValues)
@@ -99,7 +99,6 @@ const createStartUpInfo = (dispatch) => async (formValues, callback) => {
       return
     }
     dispatch({ type: 'CREATE_START_UP_INFO', payload: response.data })
-    callback()
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
     return

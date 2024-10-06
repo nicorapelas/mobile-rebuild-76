@@ -11,12 +11,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
-import {
-  MaterialIcons,
-  Ionicons,
-  AntDesign,
-  Octicons,
-} from '@expo/vector-icons'
+import { MaterialIcons, Ionicons, Octicons } from '@expo/vector-icons'
 
 import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
 import RadioProficiencyButton from '../../../../../common/RadioProficiencyButton'
@@ -65,8 +60,11 @@ const LanguageEditForm = () => {
 
   useEffect(() => {
     if (languageToEdit) {
-      const { language } = languageToEdit
+      const { language, read, speak, write } = languageToEdit
       setLanguage(language)
+      setRead(read)
+      setSpeak(speak)
+      setWrite(write)
     }
   }, [languageToEdit])
 
@@ -199,7 +197,11 @@ const LanguageEditForm = () => {
     return (
       <>
         <Text style={styles.heading}>How well do you write in {language}?</Text>
-        <RadioProficiencyButton bit="language" formPart="write" />
+        <RadioProficiencyButton
+          bit="language"
+          formPart="write"
+          incomingProficiency={write}
+        />
         <View style={styles.nextBackButtonsBed}>
           <TouchableOpacity
             style={styles.addButtonContainer}
@@ -254,7 +256,11 @@ const LanguageEditForm = () => {
     return (
       <>
         <Text style={styles.heading}>How well do you read {language}?</Text>
-        <RadioProficiencyButton bit="language" formPart="read" />
+        <RadioProficiencyButton
+          bit="language"
+          formPart="read"
+          incomingProficiency={read}
+        />
         <View style={styles.nextBackButtonsBed}>
           <TouchableOpacity
             style={styles.addButtonContainer}
@@ -309,7 +315,11 @@ const LanguageEditForm = () => {
     return (
       <>
         <Text style={styles.heading}>How well do you speak {language}?</Text>
-        <RadioProficiencyButton bit="language" formPart="speak" />
+        <RadioProficiencyButton
+          bit="language"
+          formPart="speak"
+          incomingProficiency={speak}
+        />
         <View style={styles.nextBackButtonsBed}>
           <TouchableOpacity
             style={styles.addButtonContainer}

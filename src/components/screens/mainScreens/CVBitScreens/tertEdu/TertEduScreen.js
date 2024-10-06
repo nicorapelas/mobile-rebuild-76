@@ -64,12 +64,12 @@ const TertEduScreen = () => {
                     <Text style={styles.text}>{item.instituteName}</Text>
                   </View>
                 )}
-                {!item.startYear ? null : (
+                {!item.startDate ? null : (
                   <View style={styles.contentRow}>
                     <Foundation style={styles.icon} name="calendar" />
                     <Text style={styles.text}>
-                      {item.startYear}
-                      {!item.endYear ? null : ` - ${item.endYear}`}
+                      {item.startDate}
+                      {!item.endDate ? null : ` - ${item.endDate}`}
                     </Text>
                   </View>
                 )}

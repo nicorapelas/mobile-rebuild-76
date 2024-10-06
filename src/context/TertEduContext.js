@@ -99,15 +99,13 @@ const editTertEdu = (dispatch) => async (id, formValues) => {
   }
 }
 
-const deleteTertEdu = (dispatch) => async (id, callback) => {
+const deleteTertEdu = (dispatch) => async (id) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.delete(`/api/tertiary-education/${id}`)
     dispatch({ type: 'DELETE', payload: response.data })
-    callback()
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
   }
 }
 

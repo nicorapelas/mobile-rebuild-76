@@ -54,7 +54,7 @@ const PersonalInfoBitButton = () => {
   }
 
   const handlePress = () => {
-    setCVBitScreenSelected('personalInformation')
+    setCVBitScreenSelected('personalInfo')
   }
 
   return (

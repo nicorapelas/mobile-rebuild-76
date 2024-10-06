@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
-import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons'
+import { MaterialIcons, Ionicons } from '@expo/vector-icons'
 
 import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
 import RadioProficiencyButton from '../../../../../common/RadioProficiencyButton'
@@ -33,6 +33,7 @@ const SkillEditForm = () => {
   } = useContext(SkillContext)
   const {
     state: { proficiency },
+    setProficiency,
   } = useContext(UniversalContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
@@ -43,8 +44,10 @@ const SkillEditForm = () => {
 
   useEffect(() => {
     if (skillToEdit) {
-      const { skill } = skillToEdit
+      console.log(skillToEdit)
+      const { skill, proficiency } = skillToEdit
       setSkill(skill)
+      setProficiency(proficiency)
     }
   }, [skillToEdit])
 
@@ -73,7 +76,7 @@ const SkillEditForm = () => {
     return (
       <>
         <Text style={styles.heading}>How good are you at {skill}?</Text>
-        <RadioProficiencyButton bit="skill" />
+        <RadioProficiencyButton bit="skill" incomingProficiency={proficiency} />
       </>
     )
   }

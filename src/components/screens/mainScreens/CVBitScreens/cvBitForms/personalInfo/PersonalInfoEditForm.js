@@ -422,7 +422,7 @@ const PersonalInfoEditForm = () => {
   const handlePressSave = (data) => {
     const { _id } = personalInfoToEdit
     editPersonalInfo({ id: _id }, data)
-    setCVBitScreenSelected('personalInformation')
+    setCVBitScreenSelected('personalInfo')
   }
 
   const saveButton = () => {
@@ -755,7 +755,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 90,
     margin: 5,
-    marginBottom: 20,
     height: 40,
   },
   doneButtonContainer: {

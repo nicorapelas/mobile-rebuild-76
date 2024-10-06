@@ -78,7 +78,6 @@ const createPersonalSummary = (dispatch) => async (formValues) => {
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
@@ -103,16 +102,14 @@ const editPersonalSummary = (dispatch) => async (data) => {
   }
 }
 
-const deletePersonalSummary = (dispatch) => async (id, callback) => {
+const deletePersonalSummary = (dispatch) => async (id) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.delete(`/api/personal-summary/${id}`)
     dispatch({ type: 'DELETE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }

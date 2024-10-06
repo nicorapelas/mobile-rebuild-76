@@ -32,7 +32,7 @@ const PersonalInfoContext = (state, action) => {
     case 'EDIT':
       return { ...state, personalInfo: action.payload, loading: false }
     case 'DELETE':
-      return _.omit(state, action.payload)
+      return { ...state, personalInfo: action.payload, loading: false }
     case 'SET_DRIVERS_LICENSE':
       return { ...state, driversLicense: action.payload }
     case 'SET_LICENSE_CODE':
@@ -140,16 +140,14 @@ const editPersonalInfo = (dispatch) => async (id, formValues) => {
   }
 }
 
-const deletePersonalInfo = (dispatch) => async (id, callback) => {
+const deletePersonalInfo = (dispatch) => async (id) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.delete(`/api/personal-info/${id}`)
     dispatch({ type: 'DELETE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }

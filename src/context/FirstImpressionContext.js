@@ -85,16 +85,14 @@ const clearUploadSignature = (dispatch) => () => {
   dispatch({ type: 'CLEAR_UPLOAD_SIGNATURE', payload: null })
 }
 
-const createFirstImpression = (dispatch) => async (videoData, callback) => {
+const createFirstImpression = (dispatch) => async (videoData) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.post('/api/first-impression', videoData)
     dispatch({ type: 'CREATE', payload: response.data })
-    callback()
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }

@@ -11,12 +11,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
-import {
-  MaterialIcons,
-  Ionicons,
-  AntDesign,
-  Octicons,
-} from '@expo/vector-icons'
+import { MaterialIcons, Ionicons, Octicons } from '@expo/vector-icons'
 
 import LoaderFullScreen from '../../../../../common/LoaderFullScreen'
 import RadioProficiencyButton from '../../../../../common/RadioProficiencyButton'

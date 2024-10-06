@@ -78,7 +78,6 @@ const createInterest = (dispatch) => async (formValues) => {
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }

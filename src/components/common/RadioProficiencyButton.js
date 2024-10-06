@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
-import { Text } from 'react-native-elements'
 
 import { Context as UniversalContext } from '../../context/UniversalContext'
 

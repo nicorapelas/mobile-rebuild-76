@@ -78,7 +78,6 @@ const createAttribute = (dispatch) => async (formValues) => {
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
@@ -100,7 +99,7 @@ const editAttribute = (dispatch) => async (data) => {
   }
 }
 
-const deleteAttribute = (dispatch) => async (id, callback) => {
+const deleteAttribute = (dispatch) => async (id) => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.delete(`/api/attribute/${id}`)
@@ -108,7 +107,6 @@ const deleteAttribute = (dispatch) => async (id, callback) => {
     return
   } catch (error) {
     await ngrokApi.post('/error', { error: error })
-    callback()
     return
   }
 }
