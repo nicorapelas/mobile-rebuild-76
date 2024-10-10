@@ -37,7 +37,8 @@ const fetchAttributeSample = (dispatch) => async () => {
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchAttributeSample ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -49,7 +50,8 @@ const fetchAttributeStatus = (dispatch) => async () => {
     dispatch({ type: 'FETCH_STATUS', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchAttributeStatus ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -61,7 +63,8 @@ const fetchAttributes = (dispatch) => async () => {
     dispatch({ type: 'FETCH_ALL', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchAttributes ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -77,7 +80,8 @@ const createAttribute = (dispatch) => async (formValues) => {
     dispatch({ type: 'CREATE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`createAttribute ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -94,7 +98,8 @@ const editAttribute = (dispatch) => async (data) => {
     dispatch({ type: 'EDIT', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`editAttribute ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -106,7 +111,8 @@ const deleteAttribute = (dispatch) => async (id) => {
     dispatch({ type: 'DELETE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`deleteAttribute ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }

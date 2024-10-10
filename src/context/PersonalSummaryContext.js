@@ -37,7 +37,8 @@ const fetchPersonalSummarySample = (dispatch) => async () => {
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchPersonalSummarySample ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -49,7 +50,8 @@ const fetchPersonalSummaryStatus = (dispatch) => async () => {
     dispatch({ type: 'FETCH_STATUS', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchPersonalSummaryStatus ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -61,7 +63,8 @@ const fetchPersonalSummary = (dispatch) => async () => {
     dispatch({ type: 'FETCH_ALL', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchPersonalSummary ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -77,7 +80,8 @@ const createPersonalSummary = (dispatch) => async (formValues) => {
     dispatch({ type: 'CREATE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`createPersonalSummary ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -97,7 +101,8 @@ const editPersonalSummary = (dispatch) => async (data) => {
     dispatch({ type: 'EDIT', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`editPersonalSummary ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -109,7 +114,8 @@ const deletePersonalSummary = (dispatch) => async (id) => {
     dispatch({ type: 'DELETE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`deletePersonalSummary ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }

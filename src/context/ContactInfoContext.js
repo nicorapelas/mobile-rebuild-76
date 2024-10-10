@@ -37,7 +37,8 @@ const fetchContactInfoSample = (dispatch) => async () => {
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchContactInfoSample ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -49,7 +50,8 @@ const fetchContactInfoStatus = (dispatch) => async () => {
     dispatch({ type: 'FETCH_STATUS', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchContactInfoStatus ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -61,7 +63,8 @@ const fetchContactInfo = (dispatch) => async () => {
     dispatch({ type: 'FETCH_CONTACT_INFO', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchContactInfo ERROR`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -72,7 +75,8 @@ const fetchContactInfoInBackground = (dispatch) => async () => {
     dispatch({ type: 'FETCH_CONTACT_INFO', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchContactInfoInBackground ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -88,7 +92,8 @@ const createContactInfo = (dispatch) => async (formValues) => {
     dispatch({ type: 'CREATE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`createContactInfo ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -108,7 +113,8 @@ const editContactInfo = (dispatch) => async (id, formValues) => {
     dispatch({ type: 'EDIT', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`editContactInfo ERROR: `, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }

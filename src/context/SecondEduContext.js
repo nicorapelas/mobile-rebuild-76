@@ -37,7 +37,8 @@ const fetchSecondEduSample = (dispatch) => async () => {
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchSecondEduSample ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -49,7 +50,8 @@ const fetchSecondEduStatus = (dispatch) => async () => {
     dispatch({ type: 'FETCH_STATUS', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchSecondEduStatus ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -61,7 +63,8 @@ const fetchSecondEdu = (dispatch) => async () => {
     dispatch({ type: 'FETCH_SECOND_EDU', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchSecondEdu ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -77,7 +80,8 @@ const createSecondEdu = (dispatch) => async (formValues) => {
     dispatch({ type: 'CREATE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`createSecondEdu ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -100,7 +104,8 @@ const editSecondEdu = (dispatch) => async (id, formValues) => {
     dispatch({ type: 'EDIT', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`editSecondEdu ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -112,7 +117,8 @@ const deleteSecondEdu = (dispatch) => async (id) => {
     dispatch({ type: 'DELETE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`deleteSecondEdu ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }

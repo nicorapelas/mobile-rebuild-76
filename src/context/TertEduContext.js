@@ -37,7 +37,9 @@ const fetchTertEduSample = (dispatch) => async () => {
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(` ERROR:`, error)
+
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -48,7 +50,9 @@ const fetchTertEduStatus = (dispatch) => async () => {
     const response = await ngrokApi.get('/api/tertiary-education/status')
     dispatch({ type: 'FETCH_STATUS', payload: response.data })
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(` ERROR:`, error)
+
+    // await ngrokApi.post('/error', { error: error })
   }
 }
 
@@ -58,7 +62,9 @@ const fetchTertEdus = (dispatch) => async () => {
     const response = await ngrokApi.get('/api/tertiary-education')
     dispatch({ type: 'FETCH_TERT_EDUS', payload: response.data })
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(` ERROR:`, error)
+
+    // await ngrokApi.post('/error', { error: error })
   }
 }
 
@@ -72,7 +78,8 @@ const createTertEdu = (dispatch) => async (formValues) => {
     }
     dispatch({ type: 'CREATE', payload: response.data })
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`createTertEdu ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
   }
 }
 
@@ -94,7 +101,8 @@ const editTertEdu = (dispatch) => async (id, formValues) => {
     dispatch({ type: 'EDIT', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`editTertEdu ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -105,7 +113,8 @@ const deleteTertEdu = (dispatch) => async (id) => {
     const response = await ngrokApi.delete(`/api/tertiary-education/${id}`)
     dispatch({ type: 'DELETE', payload: response.data })
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`deleteTertEdu ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
   }
 }
 

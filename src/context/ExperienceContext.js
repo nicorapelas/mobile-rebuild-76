@@ -41,7 +41,8 @@ const fetchExperienceSample = (dispatch) => async () => {
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchExperienceSample ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -53,7 +54,8 @@ const fetchExperienceStatus = (dispatch) => async () => {
     dispatch({ type: 'FETCH_STATUS', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchExperienceStatus ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -65,7 +67,8 @@ const fetchExperiences = (dispatch) => async () => {
     dispatch({ type: 'FETCH_EXPERIENCES', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchExperiences ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -81,7 +84,8 @@ const createExperience = (dispatch) => async (formValues) => {
     dispatch({ type: 'CREATE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`createExperience ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -105,7 +109,8 @@ const editExperience = (dispatch) => async (id, formValues) => {
     dispatch({ type: 'EDIT', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`editExperience ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -117,7 +122,8 @@ const deleteExperience = (dispatch) => async (id) => {
     dispatch({ type: 'DELETE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`deleteExperience ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }

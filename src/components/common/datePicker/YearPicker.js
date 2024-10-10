@@ -13,8 +13,6 @@ import { Context as TertEduContext } from '../../../context/TertEduContext'
 import { Context as EmployHistoryContext } from '../../../context/EmployHistoryContext'
 
 const YearPicker = ({ bit, buttonText }) => {
-  const [condensedYearArray, setCondensedYearArray] = useState([])
-
   const scrollViewRef = useRef(null)
 
   const {
@@ -47,10 +45,13 @@ const YearPicker = ({ bit, buttonText }) => {
     }
   }, [startYear, endYear])
 
+  // Updated to ensure layout completion before scrolling for iOS
   useEffect(() => {
-    if (scrollViewRef.current) {
-      const middleIndex = Math.floor(yearsArray.length / 2)
-      scrollViewRef.current.scrollTo({ y: middleIndex * 70, animated: false })
+    if (yearPickerShow && scrollViewRef.current) {
+      setTimeout(() => {
+        const middleIndex = Math.floor(yearsArray.length / 2)
+        scrollViewRef.current.scrollTo({ y: middleIndex * 70, animated: false })
+      }, 0) // Ensures the layout is ready before scrolling
     }
   }, [yearPickerShow])
 
@@ -63,11 +64,12 @@ const YearPicker = ({ bit, buttonText }) => {
   const CustomPicker = () => {
     return (
       <View style={styles.pickerBed}>
-        <ScrollView ref={scrollViewRef} style={styles.scrollPicker}>
-          {(condensedYearArray.length > 0 && bit === 'endYear'
-            ? condensedYearArray
-            : yearsArray
-          ).map((year) => (
+        <ScrollView
+          key="scrollview-yearpicker"
+          ref={scrollViewRef}
+          style={styles.scrollPicker}
+        >
+          {yearsArray.map((year) => (
             <TouchableOpacity
               key={year}
               style={styles.pickerItem}

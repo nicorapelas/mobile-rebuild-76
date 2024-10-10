@@ -46,7 +46,8 @@ const fetchFirsImpressionStatus = (dispatch) => async () => {
     dispatch({ type: 'FETCH_STATUS', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchFirsImpressionStatus ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -58,7 +59,8 @@ const fetchFirstImpression = (dispatch) => async () => {
     dispatch({ type: 'FETCH', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchFirstImpression ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -76,7 +78,8 @@ const createUploadSignature = (dispatch) => async () => {
     dispatch({ type: 'ADD_UPLOAD_SIGNATURE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(` ERROR: createUploadSignature`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -92,7 +95,8 @@ const createFirstImpression = (dispatch) => async (videoData) => {
     dispatch({ type: 'CREATE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`createFirstImpression ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -107,7 +111,8 @@ const deleteFirstImpression = (dispatch) => async (videoData) => {
     dispatch({ type: 'DELETE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`deleteFirstImpression ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -137,7 +142,8 @@ const fetchDemoVideoUrl = (dispatch) => async () => {
     dispatch({ type: 'FETCH_DEMO_URL', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchDemoVideoUrl ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }

@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
   Platform,
   Keyboard,
+  KeyboardAvoidingView,
 } from 'react-native'
+import { useKeyboard } from '@react-native-community/hooks'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons'
 
 import FormHintModal from '../../../../../common/modals/FormHintModal'
@@ -47,6 +49,8 @@ const ContactInfoEditForm = () => {
   } = useContext(ContactInfoContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
+
+  const keyboard = useKeyboard()
 
   useEffect(() => {
     if (error) toggleHideNavLinks(false)
@@ -453,7 +457,14 @@ const ContactInfoEditForm = () => {
   const renderContent = () => {
     if (loading) return <LoaderFullScreen />
     return (
-      <View View style={styles.bed}>
+      <KeyboardAvoidingView
+        style={
+          Platform.OS === 'ios' && keyboard.keyboardShown === false
+            ? styles.bedIos
+            : styles.bedAndroid
+        }
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         {errorHeading()}
         <ScrollView
           contentContainerStyle={{
@@ -465,7 +476,7 @@ const ContactInfoEditForm = () => {
           {renderPreview()}
           {renderForm()}
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 
@@ -473,10 +484,16 @@ const ContactInfoEditForm = () => {
 }
 
 const styles = StyleSheet.create({
-  bed: {
+  bedIos: {
     backgroundColor: '#232936',
-    flex: 1,
     width: '100%',
+    flex: 1,
+    marginTop: -100,
+  },
+  bedAndroid: {
+    backgroundColor: '#232936',
+    width: '100%',
+    flex: 1,
   },
   inputHeader: {
     color: '#ffff',

@@ -49,7 +49,8 @@ const fetchPersonalInfoSample = (dispatch) => async () => {
     dispatch({ type: 'FETCH_SAMPLE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchPersonalInfoSample ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -61,7 +62,8 @@ const fetchPersonalInfoStatus = (dispatch) => async () => {
     dispatch({ type: 'FETCH_STATUS', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchPersonalInfoStatus ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -73,7 +75,8 @@ const fetchPersonalInfo = (dispatch) => async () => {
     dispatch({ type: 'FETCH_ALL', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchPersonalInfo ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -85,7 +88,8 @@ const fetchViewHeading = (dispatch) => async () => {
     dispatch({ type: 'FETCH_VIEW_HEADING', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchViewHeading ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -99,7 +103,8 @@ const fetchViewHeadingSample = (dispatch) => async () => {
     dispatch({ type: 'FETCH_VIEW_HEADING_SAMPLE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchViewHeadingSample ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -115,7 +120,8 @@ const createPersonalInfo = (dispatch) => async (formValues) => {
     dispatch({ type: 'CREATE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`createPersonalInfo ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -135,7 +141,8 @@ const editPersonalInfo = (dispatch) => async (id, formValues) => {
     dispatch({ type: 'EDIT', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`editPersonalInfo ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -147,7 +154,8 @@ const deletePersonalInfo = (dispatch) => async (id) => {
     dispatch({ type: 'DELETE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`deletePersonalInfo ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }

@@ -71,7 +71,8 @@ const createPhoto = (dispatch) => async (imageData) => {
     dispatch({ type: 'CREATE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`create photo error:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }

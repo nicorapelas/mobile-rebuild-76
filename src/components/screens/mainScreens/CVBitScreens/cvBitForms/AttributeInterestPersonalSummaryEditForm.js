@@ -7,8 +7,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
+import { useKeyboard } from '@react-native-community/hooks'
 
 import FormHintModal from '../../../../common/modals/FormHintModal'
 import FormCancelButton from '../../../../common/FormCancelButton'
@@ -46,6 +48,8 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
   } = useContext(UniversalContext)
 
   const { setCVBitScreenSelected } = useContext(NavContext)
+
+  const keyboard = useKeyboard()
 
   useEffect(() => {
     if (bit) setIncomingBit(bit)
@@ -250,22 +254,35 @@ const AttributeInterestPersonalSummaryEditForm = ({ bit }) => {
   }
 
   return (
-    <View View style={styles.bed}>
+    <KeyboardAvoidingView
+      style={
+        Platform.OS === 'ios' && keyboard.keyboardShown === false
+          ? styles.bedIos
+          : styles.bedAndroid
+      }
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
         keyboardShouldPersistTaps="always"
       >
         {renderForm()}
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
-  bed: {
+  bedIos: {
     backgroundColor: '#232936',
-    flex: 1,
     width: '100%',
+    flex: 1,
+    marginTop: -100,
+  },
+  bedAndroid: {
+    backgroundColor: '#232936',
+    width: '100%',
+    flex: 1,
   },
   formBed: {
     flexDirection: 'column',

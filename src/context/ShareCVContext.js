@@ -29,7 +29,8 @@ const createShareCV = (dispatch) => async (formValues) => {
     dispatch({ type: 'CREATE', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`createShareCV ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }

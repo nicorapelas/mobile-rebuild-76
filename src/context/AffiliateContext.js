@@ -21,7 +21,7 @@ const AffiliateReducer = (state, action) => {
 }
 
 // Actions
-const fetchAffiliateInfo = dispatch => async () => {
+const fetchAffiliateInfo = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/affiliate/info')
@@ -32,17 +32,18 @@ const fetchAffiliateInfo = dispatch => async () => {
     dispatch({ type: 'FETCH_AFFILIATE_INFO', payload: response.data[0] })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchAffiliateInfo ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
 
-const clearErrors = dispatch => async () => {
+const clearErrors = (dispatch) => async () => {
   dispatch({ type: 'CLEAR_ERRORS', payload: null })
   return
 }
 
-const fetchAffiliatesIntros = dispatch => async () => {
+const fetchAffiliatesIntros = (dispatch) => async () => {
   dispatch({ type: 'LOADING' })
   try {
     const response = await ngrokApi.get('/api/affiliate/intros')
@@ -53,7 +54,8 @@ const fetchAffiliatesIntros = dispatch => async () => {
     dispatch({ type: 'FETCH_AFFILIATES_INTROS', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchAffiliatesIntros ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
@@ -63,7 +65,7 @@ export const { Context, Provider } = createDataContext(
   {
     clearErrors,
     fetchAffiliateInfo,
-    fetchAffiliatesIntros
+    fetchAffiliatesIntros,
   },
   // Initial state
   { affiliateInfo: null, affiliateIntros: null, loading: null, error: null }

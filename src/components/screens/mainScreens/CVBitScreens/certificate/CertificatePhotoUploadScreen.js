@@ -227,7 +227,9 @@ const CertificatePhotoUploadScreen = () => {
           {cameraOrGallery()}
           {titleField()}
         </View>
-        <DoneButton text="Cancel" routeName="certificate" />
+        {imageUri !== null ? null : (
+          <DoneButton text="Cancel" routeName="certificate" />
+        )}
       </>
     )
   }

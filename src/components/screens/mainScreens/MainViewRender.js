@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { View, StyleSheet } from 'react-native'
 
 import DashboardScreen from './dashboard/DashboardScreen'
@@ -6,11 +6,20 @@ import ViewCVScreen from './viewCV/ViewCVScreen'
 import ShareCVScreen from './shareCVScreen/ShareCVScreen'
 import BannerAdRender from '../../../advertisements/bannerAdsStrip/BannerAdStripRender'
 import { Context as NavContext } from '../../../context/NavContext'
+import { Context as BurgerMenuContext } from '../../../context/BurgerMenuContext'
 
 const MainViewRender = () => {
   const {
-    state: { navTabSelected },
+    state: { navTabSelected, CVBitScreenSelected },
   } = useContext(NavContext)
+
+  const { setBurgerMenuVisible } = useContext(BurgerMenuContext)
+
+  useEffect(() => {
+    if (CVBitScreenSelected !== '') {
+      setBurgerMenuVisible(false)
+    }
+  }, [CVBitScreenSelected])
 
   const renderContent = () => {
     switch (navTabSelected) {

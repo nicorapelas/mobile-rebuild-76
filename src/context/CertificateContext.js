@@ -38,7 +38,8 @@ const fetchCertificateStatus = (dispatch) => async () => {
     dispatch({ type: 'FETCH_STATUS', payload: response.data })
     return
   } catch (error) {
-    await ngrokApi.post('/error', { error: error })
+    console.log(`fetchCertificateStatus ERROR:`, error)
+    // await ngrokApi.post('/error', { error: error })
     return
   }
 }
