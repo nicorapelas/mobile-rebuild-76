@@ -68,6 +68,19 @@ const LanguageEditForm = () => {
     }
   }, [languageToEdit])
 
+  useEffect(() => {
+    if (writeProficiencyInputShow) setProficiency(write)
+    if (readProficiencyInputShow) setProficiency(read)
+    if (speakProficiencyInputShow) setProficiency(speak)
+  }, [
+    writeProficiencyInputShow,
+    speakProficiencyInputShow,
+    readProficiencyInputShow,
+    write,
+    speak,
+    read,
+  ])
+
   const keyboard = useKeyboard()
 
   const errorHeading = () => {
@@ -383,10 +396,6 @@ const LanguageEditForm = () => {
               <TouchableOpacity
                 style={styles.addButtonContainer}
                 onPress={() => {
-                  setSpeak(null)
-                  setWrite(null)
-                  setRead(null)
-                  setProficiency(null)
                   setLanguageInputShow(true)
                   setSaveButtonShow(false)
                 }}

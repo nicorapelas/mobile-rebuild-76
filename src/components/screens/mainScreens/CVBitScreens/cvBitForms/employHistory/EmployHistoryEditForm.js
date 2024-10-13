@@ -33,7 +33,8 @@ const EmployHistoryEditForm = () => {
   const [current, setCurrent] = useState(false)
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
-  const [initDateDone, setInitDateDone] = useState(false)
+  const [initStartDateDone, setInitStartDateDone] = useState(false)
+  const [initEndDateDone, setInitEndDateDone] = useState(false)
 
   const {
     state: {
@@ -78,18 +79,26 @@ const EmployHistoryEditForm = () => {
   }, [employHistoryToEdit])
 
   useEffect(() => {
-    if (!initDateDone) {
+    if (!initStartDateDone) {
       if (startDate) {
         const [startMonth, startYear] = startDate.split(' ')
-        const [endMonth, endYear] = endDate.split(' ')
         setStartMonth(startMonth)
         setStartYear(startYear)
-        setEndMonth(endMonth)
-        setEndYear(endYear)
-        setInitDateDone(true)
+        setInitStartDateDone(true)
       }
     }
-  }, [initDateDone, startDate, endDate])
+  }, [initStartDateDone, startDate, endDate])
+
+  useEffect(() => {
+    if (!initEndDateDone) {
+      if (endMonth) {
+        const [endMonth, endYear] = endDate.split(' ')
+        setEndMonth(endMonth)
+        setEndYear(endYear)
+        setInitEndDateDone(true)
+      }
+    }
+  }, [initEndDateDone, startDate, endDate])
 
   useEffect(() => {
     if (current) {

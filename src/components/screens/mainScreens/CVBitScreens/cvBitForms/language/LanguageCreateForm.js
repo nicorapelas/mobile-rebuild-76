@@ -64,6 +64,22 @@ const LanguageCreateForm = () => {
     if (error) setLanguageInputShow(true)
   }, [error])
 
+  useEffect(() => {
+    console.log(`write:`, write)
+    console.log('speak:', speak)
+    console.log('read:', read)
+    if (writeProficiencyInputShow) setProficiency(write)
+    if (readProficiencyInputShow) setProficiency(read)
+    if (speakProficiencyInputShow) setProficiency(speak)
+  }, [
+    writeProficiencyInputShow,
+    speakProficiencyInputShow,
+    readProficiencyInputShow,
+    write,
+    speak,
+    read,
+  ])
+
   const keyboard = useKeyboard()
 
   const errorHeading = () => {
@@ -193,7 +209,11 @@ const LanguageCreateForm = () => {
     return (
       <>
         <Text style={styles.heading}>How well do you write in {language}?</Text>
-        <RadioProficiencyButton bit="language" formPart="write" />
+        <RadioProficiencyButton
+          bit="language"
+          formPart="write"
+          incomingProficiency={write}
+        />
         <View style={styles.nextBackButtonsBed}>
           <TouchableOpacity
             style={styles.addButtonContainer}
@@ -248,7 +268,11 @@ const LanguageCreateForm = () => {
     return (
       <>
         <Text style={styles.heading}>How well do you read {language}?</Text>
-        <RadioProficiencyButton bit="language" formPart="read" />
+        <RadioProficiencyButton
+          bit="language"
+          formPart="read"
+          incomingProficiency={read}
+        />
         <View style={styles.nextBackButtonsBed}>
           <TouchableOpacity
             style={styles.addButtonContainer}
@@ -303,7 +327,11 @@ const LanguageCreateForm = () => {
     return (
       <>
         <Text style={styles.heading}>How well do you speak {language}?</Text>
-        <RadioProficiencyButton bit="language" formPart="speak" />
+        <RadioProficiencyButton
+          bit="language"
+          formPart="speak"
+          incomingProficiency={speak}
+        />
         <View style={styles.nextBackButtonsBed}>
           <TouchableOpacity
             style={styles.addButtonContainer}
@@ -367,10 +395,6 @@ const LanguageCreateForm = () => {
               <TouchableOpacity
                 style={styles.addButtonContainer}
                 onPress={() => {
-                  setSpeak(null)
-                  setWrite(null)
-                  setRead(null)
-                  setProficiency(null)
                   setLanguageInputShow(true)
                   setSaveButtonShow(false)
                 }}
